@@ -1,0 +1,16 @@
+{
+	"name": "ExcelToXml",
+	"version": "3.0.1",
+	"main": "index.html",
+	"author": "liuqiang(thor.liu@outlook.com)",
+	"webkit": {
+		"page-cache": false
+		// ,"plugin": true
+	},
+	"window": {
+		"toolbar": false,
+		// "fullscreen": true,
+		"width": 400,
+		"height": 600
+	}
+}
