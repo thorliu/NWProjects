@@ -33,11 +33,7 @@
 
 /*** base ***/
 
-* {
-	margin: 0px;
-	padding: 0px;
-	vertical-align: middle;
-}
+* { margin: 0px; padding: 0px; vertical-align: middle; }
 
 * {
 	font-family: "DINPro", "PingFangSC-Regular", "PingFang SC", "PingHei", "Helvetica Neue", "Helvetica", "STHeitiSC-Light", "Arial", sans-serif, 'Microsoft YaHei', SimSun;
@@ -59,6 +55,9 @@ html, body {
 	user-select: none;
 }
 
+a {
+text-decoration: none;
+}
 
 /*** layout ***/
 
@@ -90,6 +89,8 @@ html, body {
 	left: 0px;
 	top: 0px;
 }
+
+#hidden { display: none; }
 
 .popup-layer {
 	display: table;
@@ -200,20 +201,20 @@ table.layout {
 	color: var(--color-light-0);
 }
 
-#task-list ul li, #config-list ul li {
+#taskList ul li, #configList ul li {
 	display: block;
 	padding: 5px 10px;
 	border-bottom: solid 1px var(--color-light-1);
 	position: relative;
 }
 
-#task-list ul li b, #config-list ul li b {
+#taskList ul li b, #configList ul li b {
 	display: block;
 	line-height: 20px;
 	margin-right: 50px;
 }
 
-#task-list ul li i, #config-list ul li i {
+#taskList ul li i, #configList ul li i {
 	display: block;
 	line-height: 16px;
 	font-style: normal;
@@ -221,7 +222,7 @@ table.layout {
 	margin-right: 50px;
 }
 
-#task-list ul li a, #config-list ul li a {
+#taskList ul li a, #configList ul li a {
 	position: absolute;
 	height: 20px;
 	right: 10px;
@@ -233,11 +234,12 @@ table.layout {
 	padding: 0px 5px;
 }
 
-#task-list ul li a, #config-list ul li a {
+#taskList ul li a, #configList ul li a {
 	background-color: var(--color-blue-1);
+	
 }
 
-#task-list ul li a:hover, #config-list ul li a:hover {
+#taskList ul li a:hover, #configList ul li a:hover {
 	background-color: var(--color-blue-0);
 	color: var(--color-light-0);
 }

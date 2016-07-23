@@ -12,9 +12,7 @@ var N = {
 	app: null,
 	fspath: null,
 
-	onLoad: function () {
-		alert(N.options.get("Test"));
-	},
+	
 
 	// core
 	init: function () {
@@ -23,7 +21,11 @@ var N = {
 
 		//-----
 
-		if (!N.inApp) return;
+		if (!N.inApp)
+		{ 
+			N.options.onLoad();
+			return;
+		}
 
 		N.gui = N.require("nw.gui");
 		N.menubar = new N.gui.Menu({ type: "menubar" });
@@ -34,8 +36,10 @@ var N = {
 
 		//----
 
+		// alert(N.app.dataPath);
+
 		$.queue(document, "N.init", N.options.load);
-		$.queue(document, "N.init", N.onLoad);
+		$.queue(document, "N.init", N.options.onLoad);
 
 		$.dequeue(document, "N.init");
 	},
@@ -89,6 +93,9 @@ var N = {
 //---user options
 N.options = {
 	data: {},
+	onLoad: function () {
+		
+	},
 	load: function () {
 		if (!N.inApp) return;
 		var data = JSON.stringify(N.options.data);
@@ -126,5 +133,32 @@ N.options = {
 		if (!N.inApp) return;
 
 		N.options.save();
+	}
+};
+
+N.dialog = {
+	choose: function(selector, callback, type)
+	{
+		var chooser = $(selector);
+
+		if(type){
+			chooser.attr("accept", type);
+		}
+		chooser.unbind("change");
+		chooser.change(function(e)
+		{
+			var v = $(this).val();
+			callback(v);
+		});
+		chooser.trigger("click");
+	},
+	openFile: function(callback, type) {
+		N.dialog.choose("#dialogOpenFile", callback, type);
+	},
+	saveFile: function(callback, type) {
+		N.dialog.choose("#dialogSaveFile", callback, type);
+	},
+	browseFolder: function(callback) {
+		N.dialog.choose("#dialogBrowseFolder", callback);
 	}
 };

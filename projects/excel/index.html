@@ -37,7 +37,6 @@
   <script src="js/n.js"></script>
   <script src="js/xls2xml.js"></script>
   <script src="js/u.js"></script>
-  <script src="js/solar.js"></script>
 </head>
 
 <body class="disableSelection">
@@ -46,39 +45,8 @@
       <b>Excel To Xml</b> 3.0.0
       <a>Config</a>
     </div>
-    <div id="task-list">
-      <ul>
-        <li>
-          <b>title title title title title title</b>
-          <i>description description description description description description</i>
-          <a>Run</a>
-        </li>
-        <li>
-          <b>title title title title title title</b>
-          <i>description description description description description description</i>
-          <a>Run</a>
-        </li>
-        <li>
-          <b>title title title title title title</b>
-          <i>description description description description description description</i>
-          <a>Run</a>
-        </li>
-        <li>
-          <b>title title title title title title</b>
-          <i>description description description description description description</i>
-          <a>Run</a>
-        </li>
-        <li>
-          <b>title title title title title title</b>
-          <i>description description description description description description</i>
-          <a>Run</a>
-        </li>
-        <li>
-          <b>title title title title title title</b>
-          <i>description description description description description description</i>
-          <a>Run</a>
-        </li>
-      </ul>
+    <div id="taskList">
+      <ul></ul>
     </div>
   </div>
   <div id="config">
@@ -86,40 +54,20 @@
       <i class="button" id="config-ok">OK</i>
       <i class="button" id="config-cancel">Cancel</i>
     </div>
-    <div id="config-list">
-      <ul>
-        <li>
-          <b>label</b>
-          <i>path</i>
-          <a>Set</a>
-        </li>
-        <li>
-          <b>label</b>
-          <i>path</i>
-          <a>Set</a>
-        </li>
-        <li>
-          <b>label</b>
-          <i>path</i>
-          <a>Set</a>
-        </li>
-        <li>
-          <b>label</b>
-          <i>path</i>
-          <a>Set</a>
-        </li>
-      </ul>
+    <div id="configList">
+      <ul></ul>
     </div>
   </div>
   <div id="progress">
     <div class="header">
       task name
     </div>
-    <ul>
-      <li>加载Excel文档 ...<b class="ok">OK</b></li>
-      <li>加载Xml文档 ...<b class="ok">OK</b></li>
-      <li>更新Xml文档 ...<b class="err">ERROR</b></li>
-    </ul>
+    <ul></ul>
+  </div>
+  <div id="hidden">
+    <input id="dialogBrowseFolder" type="file" nwdirectory />
+    <input id="dialogSaveFile" type="file" nwsaveas />
+    <input id="dialogOpenFile" type="file" accept=".txt"/>
   </div>
 </body>
 

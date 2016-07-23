@@ -2,10 +2,20 @@
 * Cancel Task: 			Alt + C
 * Complete Task:		Alt + D
 --------------------------------------------------------
+Common:
+	✔ dialogOpenFile @done
+	✔ dialogSaveFile @done
+	✔ dialogBrowseFolder @done
+Config:
+	✔ Workspace Path @done
+	✔ Project File @done
+	✔ Locals Path @done
 Tasks:
-	Core:
-		✔ Pack for Windows @done
-		✔ Pack for Mac @done
-		✔ App Options @done
-		
-
+	✔ List @done
+	✔ Run @done
+Progress:
+	 ✔ List @done
+	 ☐ Load Excel
+	 ☐ Load Xml
+	 ☐ Modify Xml
+	 ☐ Save Xml
