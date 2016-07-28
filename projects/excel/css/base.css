@@ -1,296 +1,302 @@
 /*** variables ***/
 
 :root {
-	--color-red-0: #FF2A68;
-	--color-red-1: #FFD5E1;
-	--color-green-0: #63DA38;
-	--color-green-1: #E0F7D8;
-	--color-blue-0: #1BADF8;
-	--color-blue-1: #D2EFFE;
-	--color-yellow-0: #FFCC00;
-	--color-yellow-1: #FFF4CD;
-	--color-purple-0: #CC73E1;
-	--color-purple-1: #F5E3F9;
-	--color-white: #fff;
-	--color-dark-0: #000;
-	--color-dark-1: #111;
-	--color-dark-2: #222;
-	--color-dark-3: #333;
-	--color-dark-4: #444;
-	--color-dark-5: #555;
-	--color-dark-6: #666;
-	--color-dark-7: #777;
-	--color-light-0: #fff;
-	--color-light-1: #eee;
-	--color-light-2: #ddd;
-	--color-light-3: #ccc;
-	--color-light-4: #bbb;
-	--color-light-5: #aaa;
-	--color-light-6: #999;
-	--color-light-7: #888;
+    --color-red-0: #FF2A68;
+    --color-red-1: #FFD5E1;
+    --color-green-0: #63DA38;
+    --color-green-1: #E0F7D8;
+    --color-blue-0: #1BADF8;
+    --color-blue-1: #D2EFFE;
+    --color-yellow-0: #FFCC00;
+    --color-yellow-1: #FFF4CD;
+    --color-purple-0: #CC73E1;
+    --color-purple-1: #F5E3F9;
+    --color-white: #fff;
+    --color-dark-0: #000;
+    --color-dark-1: #111;
+    --color-dark-2: #222;
+    --color-dark-3: #333;
+    --color-dark-4: #444;
+    --color-dark-5: #555;
+    --color-dark-6: #666;
+    --color-dark-7: #777;
+    --color-light-0: #fff;
+    --color-light-1: #eee;
+    --color-light-2: #ddd;
+    --color-light-3: #ccc;
+    --color-light-4: #bbb;
+    --color-light-5: #aaa;
+    --color-light-6: #999;
+    --color-light-7: #888;
 }
 
 
 /*** base ***/
 
-* { margin: 0px; padding: 0px; vertical-align: middle; }
+* {
+    margin: 0px;
+    padding: 0px;
+    vertical-align: middle;
+}
 
 * {
-	font-family: "DINPro", "PingFangSC-Regular", "PingFang SC", "PingHei", "Helvetica Neue", "Helvetica", "STHeitiSC-Light", "Arial", sans-serif, 'Microsoft YaHei', SimSun;
-	font-size: 12px;
+    font-family: "DINPro", "PingFangSC-Regular", "PingFang SC", "PingHei", "Helvetica Neue", "Helvetica", "STHeitiSC-Light", "Arial", sans-serif, 'Microsoft YaHei', SimSun;
+    font-size: 12px;
 }
 
 html, body {
-	width: 100%;
-	height: 100%;
-	cursor: default;
+    width: 100%;
+    height: 100%;
+    cursor: default;
 }
 
 .disableSelection {
-	-webkit-touch-callout: none;
-	-webkit-user-select: none;
-	-khtml-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 a {
-text-decoration: none;
+    text-decoration: none;
 }
+
 
 /*** layout ***/
 
 #footer {
-	height: 30px;
-	background-color: var(--color-blue-0);
-	color: var(--color-white);
+    height: 30px;
+    background-color: var(--color-blue-0);
+    color: var(--color-white);
 }
 
 #modules {
-	background-color: var(--color-dark-3);
-	color: var(--color-light-7);
-	width: 60px;
+    background-color: var(--color-dark-3);
+    color: var(--color-light-7);
+    width: 60px;
 }
 
 #main {
-	background-color: var(--color-dark-3);
-	color: var(--color-light-7);
+    background-color: var(--color-dark-3);
+    color: var(--color-light-7);
 }
 
 #outline-panel {
-	height: 60px;
+    height: 60px;
 }
 
 #popup-container {
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	left: 0px;
-	top: 0px;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0px;
+    top: 0px;
 }
 
-#hidden { display: none; }
+#hidden {
+    display: none;
+}
 
 .popup-layer {
-	display: table;
-	width: 100%;
-	height: 100%;
+    display: table;
+    width: 100%;
+    height: 100%;
 }
 
 .popup-content {
-	display: table-cell;
-	text-align: center;
-	vertical-align: middle;
-	color: var(--color-light-7);
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+    color: var(--color-light-7);
 }
 
 .popup-mask {
-	background-color: black;
-	opacity: 0.3;
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	left: 0px;
-	top: 0px;
+    background-color: black;
+    opacity: 0.3;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0px;
+    top: 0px;
 }
 
 .blur {
-	-webkit-filter: blur(10px);
-	/* Chrome, Opera */
-	-moz-filter: blur(10px);
-	-ms-filter: blur(10px);
-	filter: blur(10px);
+    -webkit-filter: blur(10px);
+    /* Chrome, Opera */
+    -moz-filter: blur(10px);
+    -ms-filter: blur(10px);
+    filter: blur(10px);
 }
 
 
 /*** class ***/
 
 table.layout {
-	border: none;
-	border-collapse: collapse;
-	width: 100%;
-	height: 100%;
+    border: none;
+    border-collapse: collapse;
+    width: 100%;
+    height: 100%;
 }
 
 .width0 {
-	width: 0px;
+    width: 0px;
 }
 
 .height0 {
-	height: 0px;
+    height: 0px;
 }
 
 .left {
-	text-align: left;
+    text-align: left;
 }
 
 .right {
-	text-align: right;
+    text-align: right;
 }
 
 .center {
-	text-align: center;
+    text-align: center;
 }
 
 .top {
-	vertical-align: top;
+    vertical-align: top;
 }
 
 .middle {
-	vertical-align: middle;
+    vertical-align: middle;
 }
 
 .bottom {
-	vertical-align: bottom;
+    vertical-align: bottom;
 }
 
 
 /*** layouts ***/
 
 .header {
-	background-color: var(--color-light-1);
-	border-bottom: solid 1px var(--color-light-2);
-	padding: 5px 10px;
-	position: relative;
+    background-color: var(--color-light-1);
+    border-bottom: solid 1px var(--color-light-2);
+    padding: 5px 10px;
+    position: relative;
 }
 
 .header b {
-	font-size: 18px;
-	color: var(--color-blue-0);
+    font-size: 18px;
+    color: var(--color-blue-0);
 }
 
 .header a {
-	position: absolute;
-	height: 20px;
-	right: 10px;
-	top: 50%;
-	margin-top: -10px;
-	text-align: center;
-	line-height: 20px;
-	cursor: pointer;
-	padding: 0px 5px;
+    position: absolute;
+    height: 20px;
+    right: 10px;
+    top: 50%;
+    margin-top: -10px;
+    text-align: center;
+    line-height: 20px;
+    cursor: pointer;
+    padding: 0px 5px;
 }
 
 .header a {
-	background-color: var(--color-light-3);
+    background-color: var(--color-light-3);
 }
 
 .header a:hover {
-	background-color: var(--color-blue-0);
-	color: var(--color-light-0);
+    background-color: var(--color-blue-0);
+    color: var(--color-light-0);
 }
 
 #taskList ul li, #configList ul li {
-	display: block;
-	padding: 5px 10px;
-	border-bottom: solid 1px var(--color-light-1);
-	position: relative;
+    display: block;
+    padding: 5px 10px;
+    border-bottom: solid 1px var(--color-light-1);
+    position: relative;
 }
 
 #taskList ul li b, #configList ul li b {
-	display: block;
-	line-height: 20px;
-	margin-right: 50px;
+    display: block;
+    line-height: 20px;
+    margin-right: 50px;
 }
 
 #taskList ul li i, #configList ul li i {
-	display: block;
-	line-height: 16px;
-	font-style: normal;
-	color: var(--color-dark-7);
-	margin-right: 50px;
+    display: block;
+    line-height: 16px;
+    font-style: normal;
+    color: var(--color-dark-7);
+    margin-right: 50px;
 }
 
 #taskList ul li a, #configList ul li a {
-	position: absolute;
-	height: 20px;
-	right: 10px;
-	top: 50%;
-	margin-top: -10px;
-	line-height: 20px;
-	text-align: center;
-	cursor: pointer;
-	padding: 0px 5px;
+    position: absolute;
+    height: 20px;
+    right: 10px;
+    top: 50%;
+    margin-top: -10px;
+    line-height: 20px;
+    text-align: center;
+    cursor: pointer;
+    padding: 0px 5px;
 }
 
 #taskList ul li a, #configList ul li a {
-	background-color: var(--color-blue-1);
-	
+    background-color: var(--color-blue-1);
 }
 
 #taskList ul li a:hover, #configList ul li a:hover {
-	background-color: var(--color-blue-0);
-	color: var(--color-light-0);
+    background-color: var(--color-blue-0);
+    color: var(--color-light-0);
 }
 
 #progress ul li {
-	display: block;
-	padding: 5px 10px;
-	border-bottom: solid 1px var(--color-light-1);
-	position: relative;
+    display: block;
+    padding: 5px 10px;
+    border-bottom: solid 1px var(--color-light-1);
+    position: relative;
 }
 
 #progress ul li b {
-	position: absolute;
-	right: 10px;
-	top: 50%;
-	height: 20px;
-	margin-top: -10px;
-	line-height: 20px;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    height: 20px;
+    margin-top: -10px;
+    line-height: 20px;
 }
 
 #progress ul li b.ok {
-	color: var(--color-green-0);
+    color: var(--color-green-0);
 }
 
 #progress ul li b.err {
-	color: var(--color-red-0);
+    color: var(--color-red-0);
 }
 
 i.button {
-	background-color: var(--color-light-3);
-	cursor: pointer;
-	font-style: normal;
-	line-height: 20px;
-	display: inline-block;
-	padding: 0px 5px;
+    background-color: var(--color-light-3);
+    cursor: pointer;
+    font-style: normal;
+    line-height: 20px;
+    display: inline-block;
+    padding: 0px 5px;
 }
 
 i.button:hover {
-	background-color: var(--color-blue-0);
-	color: var(--color-light-0);
+    background-color: var(--color-blue-0);
+    color: var(--color-light-0);
 }
 
 
 /*#task { display: none; }*/
 
 #config {
-	display: none;
+    display: none;
 }
 
 #progress {
-	display: none;
+    display: none;
 }
 
 

@@ -3,72 +3,92 @@
 
 <head>
 
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="format-detection" content="telephone=no, email=no" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="format-detection" content="telephone=no, email=no" />
 
-  <title>ExcelToXml</title>
+    <title>ExcelToXml</title>
 
-  <link rel="stylesheet" href="css/base.css" />
-  <!--<link rel="stylesheet" href="css/theme.dark.css" />-->
+    <link rel="stylesheet" href="css/base.css" />
+    <!--<link rel="stylesheet" href="css/theme.dark.css" />-->
 
-  <link rel="stylesheet" href="css/linea-arrows-10.css" />
-  <link rel="stylesheet" href="css/linea-basic-10.css" />
-  <link rel="stylesheet" href="css/linea-basic-elaboration-10.css" />
-  <link rel="stylesheet" href="css/linea-ecommerce-10.css" />
-  <link rel="stylesheet" href="css/linea-music-10.css" />
-  <link rel="stylesheet" href="css/linea-software-10.css" />
-  <link rel="stylesheet" href="css/linea-weather-10.css" />
+    <link rel="stylesheet" href="css/linea-arrows-10.css" />
+    <link rel="stylesheet" href="css/linea-basic-10.css" />
+    <link rel="stylesheet" href="css/linea-basic-elaboration-10.css" />
+    <link rel="stylesheet" href="css/linea-ecommerce-10.css" />
+    <link rel="stylesheet" href="css/linea-music-10.css" />
+    <link rel="stylesheet" href="css/linea-software-10.css" />
+    <link rel="stylesheet" href="css/linea-weather-10.css" />
 
+    <script src="js/jquery.js"></script>
 
-  <script src="js/jquery.js"></script>
+    <script src="node_modeuls/xlsx/dist/xlsx.core.min.js"></script>
 
-  <!--widgets-->
-  <link rel="stylesheet" href="jqwidgets/css/jqx.base.css" />
-  <script src="jqwidgets/js/jqxcore.js"></script>
-  <script src="jqwidgets/js/jqxsplitter.js"></script>
-  <script src="jqwidgets/js/jqxbuttons.js"></script>
-  <script src="jqwidgets/js/jqxscrollbar.js"></script>
-  <script src="jqwidgets/js/jqxpanel.js"></script>
+    <!--widgets-->
+    <link rel="stylesheet" href="jqwidgets/css/jqx.base.css" />
+    <script src="jqwidgets/js/jqxcore.js"></script>
+    <script src="jqwidgets/js/jqxsplitter.js"></script>
+    <script src="jqwidgets/js/jqxbuttons.js"></script>
+    <script src="jqwidgets/js/jqxscrollbar.js"></script>
+    <script src="jqwidgets/js/jqxpanel.js"></script>
 
+    <script src="js/t.js"></script>
+    <script src="js/n.js"></script>
+    <script src="js/xls2xml.js"></script>
+    <script src="js/u.js"></script>
 
-  <script src="js/t.js"></script>
-  <script src="js/n.js"></script>
-  <script src="js/xls2xml.js"></script>
-  <script src="js/u.js"></script>
+    <script>
+        $(document).ready(function()
+        {
+            // var XLSX = require("XLSX");
+            // var workbook = XLSX.readFile('/Users/liuqiang/Documents/temp/test2.xls');
+            
+            // for(var sheetIndex = 0; sheetIndex < workbook.SheetNames.length; sheetIndex ++)
+            // {
+            //     var sheetName = workbook.SheetNames[sheetIndex];
+
+            //     var worksheet = workbook.Sheets[sheetName];
+
+            //     var obj = XLSX.utils.sheet_to_row_object_array(worksheet);
+            //     var str = JSON.stringify(obj);
+            //     alert(str);
+            // }
+            
+        });
+    </script>
 </head>
 
 <body class="disableSelection">
-  <div id="task">
-    <div class="header">
-      <b>Excel To Xml</b> 3.0.0
-      <a>Config</a>
+    <div id="task">
+        <div class="header">
+            <b>Excel To Xml</b> 3.0.0
+            <a>Config</a>
+        </div>
+        <div id="taskList">
+            <ul></ul>
+        </div>
     </div>
-    <div id="taskList">
-      <ul></ul>
+    <div id="config">
+        <div class="header">
+            <i class="button" id="config-ok">OK</i>
+            <i class="button" id="config-cancel">Cancel</i>
+        </div>
+        <div id="configList">
+            <ul></ul>
+        </div>
     </div>
-  </div>
-  <div id="config">
-    <div class="header">
-      <i class="button" id="config-ok">OK</i>
-      <i class="button" id="config-cancel">Cancel</i>
+    <div id="progress">
+        <div class="header">
+            task name
+        </div>
+        <ul></ul>
     </div>
-    <div id="configList">
-      <ul></ul>
+    <div id="hidden">
+        <input id="dialogBrowseFolder" type="file" nwdirectory />
+        <input id="dialogSaveFile" type="file" nwsaveas />
+        <input id="dialogOpenFile" type="file" accept=".txt" />
     </div>
-  </div>
-  <div id="progress">
-    <div class="header">
-      task name
-    </div>
-    <ul></ul>
-  </div>
-  <div id="hidden">
-    <input id="dialogBrowseFolder" type="file" nwdirectory />
-    <input id="dialogSaveFile" type="file" nwsaveas />
-    <input id="dialogOpenFile" type="file" accept=".txt"/>
-  </div>
 </body>
 
 </html>

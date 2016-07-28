@@ -15,7 +15,7 @@ Tasks:
 	✔ Run @done
 Progress:
 	 ✔ List @done
-	 ☐ Load Excel
+	 ✔ Load Excel @done
 	 ☐ Load Xml
 	 ☐ Modify Xml
 	 ☐ Save Xml
