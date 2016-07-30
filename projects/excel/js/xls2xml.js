@@ -215,7 +215,7 @@ var xls2xml = {
             }
             else {
                 try {
-                    var xmlObj = $(data);
+                    var xmlObj = $.parseXml(data);
                     xls2xml.xmlData[xmlName] = xmlObj;
                     xls2xml.setProgressFlag(element, true);
                     
@@ -233,11 +233,81 @@ var xls2xml = {
 
     },
 
+    //进程: 修改XML
     taskHandleModifyXml: function () {
         xls2xml.taskHandleIndex++;
 
-        alert("todo");
+        var element = xls2xml.taskElements[xls2xml.taskHandleIndex];
+        var task = element.currentTask.files[xls2xml.taskInfoIndex];
 
+        var excelName = xls2xml.getPath(task.path);
+        var xmlName = xls2xml.getPath(task.xmlName);
+
+        var excelData = xls2xml.excelData[excelName];
+        var xmlData =  xls2xml.xmlData[xmlName];
+
+
+        //-----
+        var xmlPath = task.xmlPath;
+        xmlPath = xmlPath.replace(/@/g,"");
+        if(xmlPath.length == 0) xmlPath = "*";
+        var xmlDataTargets = $(xmlData).find(xmlPath);
+
+        if(xmlDataTargets.length == 0)
+        {
+            xls2xml.setProgressFlag(element, false);
+        }
+        else
+        {
+
+            //修改xml
+            for(var targetIndex = 0; targetIndex < xmlDataTargets.length; targetIndex ++)
+            {
+                var xmlDataTarget = xmlDataTargets[targetIndex];
+                $(task.xmlNode, xmlDataTarget).remove();
+
+                var tableData = excelData[task.table];
+                if(!tableData) continue;
+
+                for(var row = 0; row < tableData.length; row++)
+                {
+                    var rowData = tableData[row];
+
+                    var strXmlNode = task.xmlNode;
+                    var aryAttrs = new Array();
+
+                    for(var i = 0; i < task.attrs.length; i ++)
+                    {
+                        var attr = task.attrs[i];
+
+                        var attrName = attr.name;
+                        var attrValue = rowData[attr.column];
+                        if(!attrValue) attrValue = "";
+                        attrValue = T.trim(attrValue);
+
+                        if(attrValue.length == 0 && attr.ignempty == "true") continue;
+
+                        aryAttrs.push(T.format("{0}=\"{1}\"", attrName, attrValue));
+                    }
+
+                    strXmlNode = T.format("<{0} {1}/>\n", strXmlNode, aryAttrs.join(" "));
+                    $(xmlDataTarget).appendXml(strXmlNode);
+                }
+            }
+
+            //保存xml
+            var strXml = $(xmlData).xml();
+            strXml = vkbeautify.xml(strXml, "\t");
+
+            N.saveFile("/Users/liuqiang/aoeii/Document/02.Design/02.策略集设计/test.xml", strXml, function(){});
+
+            xls2xml.setProgressFlag(element, true);
+        }
+      
+        // alert(task);
+        // alert(task.attrs);
+
+        //-----
         xls2xml.taskInfoIndex++;
 
         $.dequeue(document, "taskHandleList");

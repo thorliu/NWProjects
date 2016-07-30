@@ -16,21 +16,34 @@ Tasks:
 Progress:
 	 ✔ List @done
 	 ✔ Load Excel @done
-	 ☐ Load Xml
-	 ☐ Modify Xml
+	 ✔ Load Xml @done
+	 ✔ Modify Xml @done
 	 ☐ Save Xml
 
 
+Note:
+	Task:
+		{
+			"key":"skill_base",
+			"path":"{Excels}\\AOE2武将策略集.xls",
+			"block":"屏蔽",
+			"table":"策略集-程序用",
+			"xmlName":"{Client}\\database.local.xml",
+			"xmlPath":"Group[@id='skill_base']",
+			"xmlNode":"Itemspec"
+		}
+	Task.attrs:
+		[{
+			"name":"id",
+			"column":"id",
+			"ignempty":"true"
+		},
+		{
+			"name":"events",
+			"column":"轮次活动",
+			"ignempty":"true"
+		},
+		...]
 
-{
-	"key":"skill_base",
-	"path":"{Excels}\\AOE2武将策略集.xls",
-	"block":"屏蔽",
-	"table":"策略集-程序用",
-	"xmlName":"{Client}\\database.local.xml",
-	"xmlPath":"Group[@id='skill_base']",
-	"xmlNode":"Itemspec"
-}
-
-
+Path:
 /Users/liuqiang/aoeii/Document/02.Design/02.策略集设计/AOE2武将策略集.xls
