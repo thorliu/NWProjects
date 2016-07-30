@@ -16,12 +16,40 @@ var xls2xml = {
 
     //初始化
     init: function () {
-        $("#task .header a").click(xls2xml.openConfig);
+        $("#toConfig").click(xls2xml.openConfig);
+        $("#toJson").click(xls2xml.toJson);
+        $("#toCsv").click(xls2xml.toCsv);
         $("#config-ok").click(xls2xml.onConfigOK);
         $("#config-cancel").click(xls2xml.onConfigCancel);
 
         N.options.onLoad = xls2xml.startup;
         N.init();
+    },
+
+    toJson: function (e) {
+        N.dialog.openFile(function (filename) {
+            if (filename) {
+                N.dialog.saveFile(function (jsonFilename) {
+                    if (jsonFilename) {
+                        alert("from:\n" + filename + "\nto:\n" + jsonFilename);
+                    }
+                }, ".json");
+            }
+        }, ".xls");
+        return false;
+    },
+
+    toCsv: function (e) {
+        N.dialog.openFile(function (filename) {
+            if (filename) {
+                N.dialog.saveFile(function (csvFilename) {
+                    if (csvFilename) {
+                        alert("from:\n" + filename + "\nto:\n" + csvFilename);
+                    }
+                }, ".csv");
+            }
+        }, ".xls");
+        return false;
     },
 
     //启动
@@ -129,6 +157,8 @@ var xls2xml = {
             xls2xml.taskElements.push(element);
         }
 
+        progressList.append($("<li id='fromTaskToHomeRow' style='display: none;'><i id='fromTaskToHome' class='button'>back</i></li>"));
+        $.queue(document, "taskHandleList", xls2xml.showBack);
 
         //准备动作队列
         xls2xml.excelData = new Object();
@@ -136,6 +166,17 @@ var xls2xml = {
         xls2xml.taskInfoIndex = 0;
 
         $.dequeue(document, "taskHandleList");
+    },
+
+    showBack: function () {
+        $("#fromTaskToHomeRow").show();
+        $("#fromTaskToHome").click(xls2xml.fromTaskToHomeClick);
+        $.dequeue(document, "taskHandleList");
+    },
+
+    fromTaskToHomeClick: function () {
+        $("#task").show();
+        $("#progress").hide();
     },
 
     //获取路径
@@ -218,7 +259,7 @@ var xls2xml = {
                     var xmlObj = $.parseXml(data);
                     xls2xml.xmlData[xmlName] = xmlObj;
                     xls2xml.setProgressFlag(element, true);
-                    
+
                 }
                 catch (error) {
                     xls2xml.setProgressFlag(element, false);
@@ -244,51 +285,70 @@ var xls2xml = {
         var xmlName = xls2xml.getPath(task.xmlName);
 
         var excelData = xls2xml.excelData[excelName];
-        var xmlData =  xls2xml.xmlData[xmlName];
+        var xmlData = xls2xml.xmlData[xmlName];
 
 
         //-----
         var xmlPath = task.xmlPath;
-        xmlPath = xmlPath.replace(/@/g,"");
-        if(xmlPath.length == 0) xmlPath = "*";
+        xmlPath = xmlPath.replace(/@/g, "");
+        if (xmlPath.length == 0) xmlPath = "*";
         var xmlDataTargets = $(xmlData).find(xmlPath);
 
-        if(xmlDataTargets.length == 0)
-        {
+        if (xmlDataTargets.length == 0) {
             xls2xml.setProgressFlag(element, false);
         }
-        else
-        {
+        else {
 
             //修改xml
-            for(var targetIndex = 0; targetIndex < xmlDataTargets.length; targetIndex ++)
-            {
+            for (var targetIndex = 0; targetIndex < xmlDataTargets.length; targetIndex++) {
                 var xmlDataTarget = xmlDataTargets[targetIndex];
                 $(task.xmlNode, xmlDataTarget).remove();
 
                 var tableData = excelData[task.table];
-                if(!tableData) continue;
+                if (!tableData) continue;
 
-                for(var row = 0; row < tableData.length; row++)
-                {
+                var blockColumn = task.block;
+                blockColumn = T.trim(blockColumn);
+
+
+                //遍历指定表的每一行
+                for (var row = 0; row < tableData.length; row++) {
                     var rowData = tableData[row];
+
+                    //检查是否需要屏蔽此行
+                    if (blockColumn.length > 0) {
+                        var blockValue = rowData[blockColumn];
+                        if (!blockValue) blockValue = "";
+                        blockValue = T.trim(blockValue).toLowerCase();
+
+                        if (blockValue == "1" || blockValue == "yes" || blockValue == "true" || blockValue == "y" || blockValue == "t") continue;
+                    }
 
                     var strXmlNode = task.xmlNode;
                     var aryAttrs = new Array();
-
-                    for(var i = 0; i < task.attrs.length; i ++)
-                    {
+                    var ignRow = false;
+                    //遍历指定的列
+                    for (var i = 0; i < task.attrs.length; i++) {
                         var attr = task.attrs[i];
 
                         var attrName = attr.name;
                         var attrValue = rowData[attr.column];
-                        if(!attrValue) attrValue = "";
+                        if (!attrValue) attrValue = "";
                         attrValue = T.trim(attrValue);
 
-                        if(attrValue.length == 0 && attr.ignempty == "true") continue;
+                        //如果单元格为空，并且此列允许空白，则不输出此属性
+                        if (attrValue.length == 0 && attr.ignempty == "true") continue;
+
+                        //如果此属性是必需的，但又没填的话，则不输出当前行
+                        if (attrValue.length == 0 && attr.req == "true") {
+                            ignRow = true;
+                            break;
+                        }
 
                         aryAttrs.push(T.format("{0}=\"{1}\"", attrName, attrValue));
                     }
+
+                    if (ignRow) continue;
 
                     strXmlNode = T.format("<{0} {1}/>\n", strXmlNode, aryAttrs.join(" "));
                     $(xmlDataTarget).appendXml(strXmlNode);
@@ -299,14 +359,10 @@ var xls2xml = {
             var strXml = $(xmlData).xml();
             strXml = vkbeautify.xml(strXml, "\t");
 
-            N.saveFile("/Users/liuqiang/aoeii/Document/02.Design/02.策略集设计/test.xml", strXml, function(){});
+            N.saveFile("/Users/liuqiang/aoeii/Document/02.Design/02.策略集设计/test.xml", strXml, function () { });
 
             xls2xml.setProgressFlag(element, true);
         }
-      
-        // alert(task);
-        // alert(task.attrs);
-
         //-----
         xls2xml.taskInfoIndex++;
 
@@ -469,11 +525,13 @@ function TaskAttributeInfo(attributeNode) {
     this.name = attributeNode.attr("name");
     this.column = attributeNode.attr("column");
     this.ignempty = attributeNode.attr("ignempty");
+    this.req = attributeNode.attr("req");
 };
 
 TaskAttributeInfo.prototype.name = "";
 TaskAttributeInfo.prototype.column = "";
 TaskAttributeInfo.prototype.ignempty = "";
+TaskAttributeInfo.prototype.req = "";
 
 TaskAttributeInfo.prototype.toString = function () {
     return JSON.stringify(this);

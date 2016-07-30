@@ -149,6 +149,7 @@ N.dialog = {
         chooser.change(function (e) {
             var v = $(this).val();
             callback(v);
+            $(this).val('');
         });
         chooser.trigger("click");
     },
