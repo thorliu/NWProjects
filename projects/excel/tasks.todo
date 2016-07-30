@@ -19,3 +19,18 @@ Progress:
 	 ☐ Load Xml
 	 ☐ Modify Xml
 	 ☐ Save Xml
+
+
+
+{
+	"key":"skill_base",
+	"path":"{Excels}\\AOE2武将策略集.xls",
+	"block":"屏蔽",
+	"table":"策略集-程序用",
+	"xmlName":"{Client}\\database.local.xml",
+	"xmlPath":"Group[@id='skill_base']",
+	"xmlNode":"Itemspec"
+}
+
+
+/Users/liuqiang/aoeii/Document/02.Design/02.策略集设计/AOE2武将策略集.xls

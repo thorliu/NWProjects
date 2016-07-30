@@ -21,7 +21,13 @@ var T = {
     formatEx: function (template, data) {
         if (!template) return "";
         if (!data) return template;
-        //TODO: 实现formatEx
+        var str = template;
+        for (var k in data) {
+            var v = data[k];
+            var re = new RegExp('\\{' + k + "\\}", 'gm');
+            str = str.replace(re, v);
+        }
+        return str;
     },
 
     htmlEncode: function (str) {

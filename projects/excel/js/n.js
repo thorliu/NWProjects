@@ -36,7 +36,7 @@ var N = {
         N.xlsx = N.require("XLSX");
         //----
 
-        if (N.debug) N.win.get().showDevTools();
+        // if (N.debug) N.win.get().showDevTools();
 
 
 
@@ -166,25 +166,23 @@ N.dialog = {
 
 //---xlsx
 N.xlsxFile = {
-    load: function(filename)
-    {
-        if(N.inApp) return null;
+    load: function (filename) {
 
-        try 
-        {
+        if (!N.inApp) return null;
+
+        try {
             var ret = new Object();
+            var workbook = N.xlsx.readFile(filename);
 
-            var workbook = n.xlsx.readFile(filename);       
-            for(var sheetIndex = 0; sheetIndex < workbook.SheetNames.length; sheetIndex ++)
-            {
+            for (var sheetIndex = 0; sheetIndex < workbook.SheetNames.length; sheetIndex++) {
                 var sheetName = workbook.SheetNames[sheetIndex];
                 var worksheet = workbook.Sheets[sheetName];
-                var obj = XLSX.utils.sheet_to_row_object_array(worksheet);
+                var obj = N.xlsx.utils.sheet_to_row_object_array(worksheet);
 
                 ret[sheetName] = obj;
-            } 
+            }
             return ret;
-        } 
+        }
         catch (error) {
             return null;
         }

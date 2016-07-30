@@ -6,10 +6,16 @@ var xls2xml = {
     taskFiles: [],
     taskLoadIndex: -1,
     tasks: [],
+    taskElements: [],
     excelDatas: {},
 
+    taskHandleIndex: -1,
+    taskInfoIndex: -1,
+    excelData: {},
+    xmlData: {},
+
     //初始化
-    init: function() {
+    init: function () {
         $("#task .header a").click(xls2xml.openConfig);
         $("#config-ok").click(xls2xml.onConfigOK);
         $("#config-cancel").click(xls2xml.onConfigCancel);
@@ -19,18 +25,18 @@ var xls2xml = {
     },
 
     //启动
-    startup: function() {
+    startup: function () {
         xls2xml.loadConfig();
     },
 
     //加载任务
-    loadTasks: function() {
+    loadTasks: function () {
         if (!N.inApp) return;
         var taskPath = N.fspath.join(xls2xml.tasks_xml, "Tasks");
         xls2xml.taskPath = taskPath;
         xls2xml.tasks = [];
-        N.dir(taskPath, function(err, files) {
-            if (err) {} else {
+        N.dir(taskPath, function (err, files) {
+            if (err) { } else {
                 // $.queue(document, "N.init", N.options.load);
                 xls2xml.taskFiles = files;
                 xls2xml.taskLoadIndex = -1;
@@ -44,7 +50,7 @@ var xls2xml = {
     },
 
     //读取任务配置
-    loadTaskFile: function() {
+    loadTaskFile: function () {
         xls2xml.taskLoadIndex++;
         if (!N.inApp) {
             $.dequeue(document, "loadTask");
@@ -55,8 +61,8 @@ var xls2xml = {
         var filePath = N.fspath.join(xls2xml.taskPath, fileName);
         var taskName = fileName.substr(0, fileName.length - 4);
 
-        N.loadFile(filePath, function(err, data) {
-            if (err) {} else {
+        N.loadFile(filePath, function (err, data) {
+            if (err) { } else {
                 var nodeRoot = $(data);
                 var taskInfo = new TaskInfo(taskName, nodeRoot);
                 xls2xml.tasks.push(taskInfo);
@@ -66,7 +72,7 @@ var xls2xml = {
     },
 
     //更新界面显示
-    renderTaskList: function() {
+    renderTaskList: function () {
 
         $("#taskList>UL>LI").remove();
 
@@ -80,7 +86,7 @@ var xls2xml = {
     },
 
     //执行任务
-    runTask: function(taskName) {
+    runTask: function (taskName) {
         $("#task").hide();
         $("#progress").show();
         $("#progress > .header").html(taskName);
@@ -101,22 +107,144 @@ var xls2xml = {
         var progressList = $("#progress > UL");
         var t = "<li id='progress_{1}'>{0}<b class=\"ok\"></b></li>";
         var list = new Array();
+
+
+        xls2xml.taskElements = new Array();
         for (var i = 0; i < currentTask.files.length; i++) {
             var taskInfo = currentTask.files[i];
             list.push(T.format(T.format("加载Excel表: {0} @ {1}", taskInfo.table, taskInfo.path)));
+            $.queue(document, "taskHandleList", xls2xml.taskHandleLoadExcel);
+
             list.push(T.format(T.format("加载Xml文档: {0}", taskInfo.xmlName)));
+            $.queue(document, "taskHandleList", xls2xml.taskHandleLoadXml);
+
             list.push(T.format(T.format("修改Xml文档: {0}", taskInfo.xmlPath)));
+            $.queue(document, "taskHandleList", xls2xml.taskHandleModifyXml);
         }
 
         for (var i = 0; i < list.length; i++) {
-            progressList.append(T.format(t, list[i], i));
+            var element = $(T.format(t, list[i], i));
+            element.currentTask = currentTask;
+            progressList.append(element);
+            xls2xml.taskElements.push(element);
         }
 
-        //TODO: 准备动作队列
+
+        //准备动作队列
+        xls2xml.excelData = new Object();
+        xls2xml.taskHandleIndex = -1;
+        xls2xml.taskInfoIndex = 0;
+
+        $.dequeue(document, "taskHandleList");
+    },
+
+    //获取路径
+    getPath: function (srcPath) {
+        var ret = srcPath;
+
+        for (var k in xls2xml.localFolders) {
+            if (ret.indexOf("{" + k + "}\\") < 0) continue;
+
+            ret = ret.substr(k.length + 3);
+
+            ret = N.fspath.join(xls2xml.localFolders[k], ret);
+        }
+
+        return ret;
+    },
+
+    //设置进度标记
+    setProgressFlag: function (element, noError) {
+        //var t = "<li id='progress_{1}'>{0}<b class=\"ok\"></b></li>";
+        var b = $("B", element);
+
+        if (!noError) {
+            b.attr("class", "err");
+            b.text("ERR");
+        }
+        else {
+            b.attr("class", "ok");
+            b.text("OK");
+        }
+    },
+
+    //进程:加载excel
+    taskHandleLoadExcel: function () {
+        xls2xml.taskHandleIndex++;
+
+        var element = xls2xml.taskElements[xls2xml.taskHandleIndex];
+        var task = element.currentTask.files[xls2xml.taskInfoIndex];
+
+
+        var excelName = xls2xml.getPath(task.path);
+
+        try {
+            var excelFileObject = N.xlsxFile.load(excelName);
+
+            if (excelFileObject) {
+
+                xls2xml.excelData[excelName] = excelFileObject;
+
+                // N.saveFile("/Users/liuqiang/aoeii/Document/02.Design/02.策略集设计/test.json", JSON.stringify(excelFileObject), function(){});
+
+                xls2xml.setProgressFlag(element, true);
+            }
+            else {
+                xls2xml.setProgressFlag(element, false);
+            }
+        }
+        catch (err) {
+            xls2xml.setProgressFlag(element, false);
+        }
+
+        $.dequeue(document, "taskHandleList");
+    },
+
+    //进程: 加载xml
+    taskHandleLoadXml: function () {
+        xls2xml.taskHandleIndex++;
+
+        var element = xls2xml.taskElements[xls2xml.taskHandleIndex];
+        var task = element.currentTask.files[xls2xml.taskInfoIndex];
+
+        var xmlName = xls2xml.getPath(task.xmlName);
+
+        N.loadFile(xmlName, function (err, data) {
+            if (err) {
+                xls2xml.setProgressFlag(element, false);
+            }
+            else {
+                try {
+                    var xmlObj = $(data);
+                    xls2xml.xmlData[xmlName] = xmlObj;
+                    xls2xml.setProgressFlag(element, true);
+                    
+                }
+                catch (error) {
+                    xls2xml.setProgressFlag(element, false);
+                }
+
+            }
+
+
+            $.dequeue(document, "taskHandleList");
+        });
+
+
+    },
+
+    taskHandleModifyXml: function () {
+        xls2xml.taskHandleIndex++;
+
+        alert("todo");
+
+        xls2xml.taskInfoIndex++;
+
+        $.dequeue(document, "taskHandleList");
     },
 
     //加载配置
-    loadConfig: function() {
+    loadConfig: function () {
         if (!N.inApp) {
             // xls2xml.tasks_xml = "/Users/liuqiang/aoeii/Document/02.Design";
             return;
@@ -128,9 +256,9 @@ var xls2xml = {
         xls2xml.localFolders = {};
         xls2xml.localFolderNames = [];
         var filePath = N.fspath.join(xls2xml.tasks_xml, "localFolders.xml");
-        N.loadFile(filePath, function(err, data) {
-            if (err) {} else {
-                $(data).find("appSettings > add").each(function(index, ele) {
+        N.loadFile(filePath, function (err, data) {
+            if (err) { } else {
+                $(data).find("appSettings > add").each(function (index, ele) {
                     var vs = $(ele).attr("value").split("|");
                     for (var i = 0; i < vs.length; i++) {
                         var v = vs[i];
@@ -146,7 +274,7 @@ var xls2xml = {
     },
 
     //打开配置
-    openConfig: function(e) {
+    openConfig: function (e) {
         $("#configList>UL").html("");
 
         xls2xml.addConfigItem("project");
@@ -160,7 +288,7 @@ var xls2xml = {
     },
 
     //添加配置项
-    addConfigItem: function(name) {
+    addConfigItem: function (name) {
         var t = "<li id='_option_{0}'><b>{0}</b><i>{1}</i><a href=\"javascript:xls2xml.browsePath('{0}')\">Set</a></li>";
         var v = N.options.get(name);
         if (!v) v = "";
@@ -170,15 +298,15 @@ var xls2xml = {
     },
 
     //浏览目录
-    browsePath: function(name) {
-        N.dialog.browseFolder(function(path) {
+    browsePath: function (name) {
+        N.dialog.browseFolder(function (path) {
             var selector = "#_option_" + name + ">I";
             $(selector).text(path);
         });
     },
 
     //确认选项
-    onConfigOK: function() {
+    onConfigOK: function () {
         var selector = "#configList>UL>LI";
         var list = $(selector);
 
@@ -198,7 +326,7 @@ var xls2xml = {
     },
 
     //取消选项
-    onConfigCancel: function() {
+    onConfigCancel: function () {
         $("#config").hide();
         $("#task").show();
     }
@@ -218,7 +346,7 @@ function TaskInfo(taskName, nodeRoot) {
 };
 TaskInfo.prototype.name = "";
 TaskInfo.prototype.files = [];
-TaskInfo.prototype.toString = function() {
+TaskInfo.prototype.toString = function () {
     return JSON.stringify(this);
 }
 
@@ -262,7 +390,7 @@ TaskFileInfo.prototype.attrs = [];
 TaskFileInfo.prototype.xmlName = "";
 TaskFileInfo.prototype.xmlPath = "";
 TaskFileInfo.prototype.xmlNode = "";
-TaskFileInfo.prototype.toString = function() {
+TaskFileInfo.prototype.toString = function () {
     return JSON.stringify(this);
 };
 
@@ -277,6 +405,6 @@ TaskAttributeInfo.prototype.name = "";
 TaskAttributeInfo.prototype.column = "";
 TaskAttributeInfo.prototype.ignempty = "";
 
-TaskAttributeInfo.prototype.toString = function() {
+TaskAttributeInfo.prototype.toString = function () {
     return JSON.stringify(this);
 }
