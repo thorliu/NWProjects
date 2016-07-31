@@ -148,8 +148,8 @@ N.dialog = {
         chooser.unbind("change");
         chooser.change(function (e) {
             var v = $(this).val();
-            callback(v);
             $(this).val('');
+            callback(v);
         });
         chooser.trigger("click");
     },
