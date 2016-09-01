@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="format-detection" content="telephone=no, email=no" />
+
+    <title>Log Reader</title>
+
+    <link rel="stylesheet" href="css/base.css" />
+    <!--<link rel="stylesheet" href="css/theme.dark.css" />-->
+
+    <!--<link rel="stylesheet" href="css/linea-arrows-10.css" />
+    <link rel="stylesheet" href="css/linea-basic-10.css" />
+    <link rel="stylesheet" href="css/linea-basic-elaboration-10.css" />
+    <link rel="stylesheet" href="css/linea-ecommerce-10.css" />
+    <link rel="stylesheet" href="css/linea-music-10.css" />
+    <link rel="stylesheet" href="css/linea-software-10.css" />
+    <link rel="stylesheet" href="css/linea-weather-10.css" />-->
+
+    <link rel="stylesheet" href="css/font-awesome.min.css" />
+
+    <script src="js/jquery.js"></script>
+    <script src="js/jquery.xmlext.js"></script>
+
+
+    <!--widgets-->
+    <link rel="stylesheet" href="jqwidgets/css/jqx.base.css" />
+    <script src="jqwidgets/js/jqxcore.js"></script>
+    <script src="jqwidgets/js/jqxsplitter.js"></script>
+    <script src="jqwidgets/js/jqxbuttons.js"></script>
+    <script src="jqwidgets/js/jqxscrollbar.js"></script>
+    <script src="jqwidgets/js/jqxpanel.js"></script>
+
+    <script src="js/t.js"></script>
+    <script src="js/n.js"></script>
+    <script src="js/u.js"></script>
+
+</head>
+
+<body>
+    <div id="outer">
+        <div id="log">
+            <table id="logContent">
+                <tr class="error"><td>1</td><td class="node"><span class="icon-remove-sign"></span></td><td>error</td></tr>
+                <tr class="warning"><td>2</td><td class="node"><span class="icon-exclamation-sign"></span></td><td>warning</td></tr>
+                <tr class="info"><td>3</td><td class="node"><span class="icon-info-sign"></span></td><td>info</td></tr>
+                <tr><td>11</td><td class="node"><span class="icon-question-sign"></span></td><td>question</td></tr>
+                <tr><td>12</td><td class="node"><span class="icon-ok-sign"></span></td><td>ok</td></tr>
+                <tr><td>12</td><td class="node"><span class="icon-circle-arrow-left"></span></td><td>left</td></tr>
+                <tr><td>12</td><td class="node"><span class="icon-circle-arrow-right"></span></td><td>right</td></tr>
+                <tr><td>12</td><td class="node"><span class="icon-circle-arrow-up"></span></td><td>up</td></tr>
+                <tr><td>12</td><td class="node"><span class="icon-circle-arrow-down"></span></td><td>down</td></tr>
+                <tr><td>12</td><td class="node"><span class="icon-edit"></span></td><td>send</td></tr>
+                <tr><td>12</td><td class="node"><span class="icon-share"></span></td><td>push</td></tr>
+                <tr><td>12</td><td class="node"><span class="icon-check"></span></td><td>complete</td></tr>
+                <tr><td>12</td><td class="node"><span class="icon-bookmark"></span></td><td>bookmark</td></tr>
+                <tr><td>12</td><td class="node"><span class="icon-share"></span></td><td>ok</td></tr>
+                <tr><td>12</td><td class="node"><span class="icon-share"></span></td><td>ok</td></tr>
+                <tr><td>13</td><td class="node"></td><td>log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log log </td></tr>
+                <tr><td>100</td><td class="node"></td><td>log</td></tr>
+            </table>
+        </div>
+        <div id="toolbar">
+            <a><span class="icon-folder-open"></span></a>
+        </div>
+        <div id="panel">
+            panel
+        </div>
+    </div>
+
+    <div id="hidden">
+        <input id="dialogBrowseFolder" type="file" nwdirectory />
+        <input id="dialogSaveFile" type="file" nwsaveas />
+        <input id="dialogOpenFile" type="file" accept=".txt" />
+    </div>
+</body>
+
+</html>

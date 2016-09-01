@@ -1,0 +1,55 @@
+* New Task: 			CMD + Enter
+* Cancel Task: 			Alt + C
+* Complete Task:		Alt + D
+--------------------------------------------------------
+Common:
+	✔ dialogOpenFile @done
+	✔ dialogSaveFile @done
+	✔ dialogBrowseFolder @done
+Config:
+	✔ Workspace Path @done
+	✔ Project File @done
+	✔ Locals Path @done
+Tasks:
+	✔ List @done
+	✔ Run @done
+Progress:
+	 ✔ List @done
+	 ✔ Load Excel @done
+	 ✔ Load Xml @done
+	 ✔ Modify Xml @done
+		✔ block （补充支持） @done
+		✔ req （新增支持） @done
+	 ☐ Save Xml
+	 ✔ back to home @done
+Tools:
+	☐ toJson
+	☐ toCsv
+
+
+Note:
+	Task:
+		{
+			"key":"skill_base",
+			"path":"{Excels}\\AOE2武将策略集.xls",
+			"block":"屏蔽",
+			"table":"策略集-程序用",
+			"xmlName":"{Client}\\database.local.xml",
+			"xmlPath":"Group[@id='skill_base']",
+			"xmlNode":"Itemspec"
+		}
+	Task.attrs:
+		[{
+			"name":"id",
+			"column":"id",
+			"ignempty":"true"
+		},
+		{
+			"name":"events",
+			"column":"轮次活动",
+			"ignempty":"true"
+		},
+		...]
+
+Path:
+/Users/liuqiang/aoeii/Document/02.Design/02.策略集设计/AOE2武将策略集.xls
