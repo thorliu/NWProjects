@@ -29,27 +29,7 @@ N_FileSystem.prototype.init = function () {
 	this.electron = N.create("electron");
 };
 
-/*
-	showOpenDialog([browserWindow, ]options[, callback])
-
-	options Object
-	title String
-	defaultPath String
-	buttonLabel String - Custom label for the confirmation button, when left empty the default label will be used.
-	filters Array
-	properties Array - Contains which features the dialog should use, can contain openFile, openDirectory, multiSelections, createDirectory and showHiddenFiles.
-	callback Function (optional)
-
-
-	{
-		filters: [
-			{name: 'Images', extensions: ['jpg', 'png', 'gif']},
-			{name: 'Movies', extensions: ['mkv', 'avi', 'mp4']},
-			{name: 'Custom File Type', extensions: ['as']},
-			{name: 'All Files', extensions: ['*']}
-		]
-	}
-*/
+//目录对话框
 N_FileSystem.prototype.openDirectoryDialog = function (callback) {
 
 	if (N.inApp()) {
@@ -61,6 +41,7 @@ N_FileSystem.prototype.openDirectoryDialog = function (callback) {
 	}
 };
 
+//文件对话框
 N_FileSystem.prototype.openFileDialog = function (types, multiselect, callback) {
 	if (N.inApp()) {
 		const {dialog} = require('electron').remote;
@@ -75,13 +56,49 @@ N_FileSystem.prototype.openFileDialog = function (types, multiselect, callback) 
 	}
 };
 
-N_FileSystem.prototype.readFile = function (filename, encoding, callback) {
+//读取文件
+N_FileSystem.prototype.readFile = function (filename, callback) {
 	if (N.inApp()) {
-		this.fs.readFile(filename, encoding, callback);
+		this.fs.readFile(filename, "utf-8", callback);
 	}
 	else {
 		callback(null, "");
 	}
+};
+
+//写入文件
+N_FileSystem.prototype.writeFile = function (filename, data, callback) {
+	if (N.inApp()) {
+		this.fs.writeFile(filename, data, callback);
+	}
+};
+
+//列举文件
+N_FileSystem.prototype.dir = function (path, callback) {
+	if (N.inApp()) {
+		this.fs.readdir(path, callback);
+	}
+	else {
+		callback(null);
+	}
+};
+
+//检查文件是否存在
+N_FileSystem.prototype.fileStat = function (path) {
+	if (N.inApp()) {
+		return this.fs.statSync(path);
+	}
+	else {
+		return null;
+	}
+};
+
+//删除文件或目录
+N_FileSystem.prototype.delete = function (path, callback) {
+};
+
+//创建目录
+N_FileSystem.prototype.createDirectory = function (path, callback) {
 };
 
 N.FS = new N_FileSystem();
@@ -98,8 +115,8 @@ window.ondrop = function (e) {
 };
 
 ////////////////////////////////////////////////////////////////	TEST
-
-// N.FS.readFile("/Users/liuqiang/NWProjects/projects/excel/js/n.js1","utf8",function(err, data)
+// 读取文件
+// N.FS.readFile("/Users/liuqiang/NWProjects/projects/excel/js/n.txt", function(err, data)
 // {
 // 	if(err)
 // 	{
@@ -107,31 +124,51 @@ window.ondrop = function (e) {
 // 	}
 // 	else
 // 	{
-// 		alert(data);
+// 		console.log(data);
 // 	}
 // });
 
+// 保存文件
+// N.FS.writeFile("/Users/liuqiang/NWProjects/projects/excel/js/n.txt", "def汉字", function(err){
+// 	if(err)
+// 	{
+// 		alert("?");
+// 	}
+// 	else
+// 	{
+// 	}
+// });
 
 //---------------- 	菜单
-// var template = [
-// 	{
-// 		label: 'Edit',
-// 		submenu: [
-// 			{
-// 				label: 'item1',
-// 				click: function () { alert("?"); }
-// 			},
-// 			{
-// 				type: 'separator'
-// 			}
-// 		],
-// 	}
-// ];
+var template = [
+	{
+		label: 'Edit',
+		submenu: [
+			{
+				label: 'item1',
+				click: function () { alert("?"); }
+			},
+			{
+				type: 'separator'
+			}
+		],
+	}
+];
 
-// var remote = require('electron').remote;
-// var Menu = remote.Menu;
-// var menu = Menu.buildFromTemplate(template);
-// Menu.setApplicationMenu(menu);
+var remote = require('electron').remote;
+var Menu = remote.Menu;
+var menu = Menu.buildFromTemplate(template);
+Menu.setApplicationMenu(menu);
+
+//---------------- 文件
+// 文件列表
+// N.FS.dir("/Users/liuqiang/NWProjects/projects/excel/js", function(err, files){
+// 	console.log(files);
+// });
+
+
+//文件信息
+// console.log(N.FS.fileStat("/Users/liuqiang/NWProjects/projects/excel/js"));
 
 //---------------- 对话框
 //目录
@@ -140,8 +177,8 @@ window.ondrop = function (e) {
 // });
 
 //文件-打开
-N.FS.openFileDialog([
-	{ name: "text files", extensions: ["txt"] }
-], true, function (filenames) {
-	console.log(filenames);
-});
+// N.FS.openFileDialog([
+// 	{ name: "text files", extensions: ["txt"] }
+// ], true, function (filenames) {
+// 	console.log(filenames);
+// });
