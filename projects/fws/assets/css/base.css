@@ -2,11 +2,17 @@
 {
     --size-grid: 10px;
     --size-radius: 5px;
+    --size-tooltip: 100px;
+    --size-tooltip-offset: -61px;
+    --size-arrow: 8px;
 
-    --z-popuper: 99999;
+    --z-popuper: 88888;
+    --z-tooltip: 99999;
 
     --color-round-border: #ccc;
     --color-round-fill: #fff;
+    --color-tooltip-bg: #999;
+    --color-tooltip-fg: #fff;
 }
 * { font-family: "Helvetica Neue"; }
 
@@ -74,9 +80,9 @@ h6 { font-size: 1.4rem; }
 .media>div { display: table-cell; vertical-align: top; }
 
 .round { font-size: 0rem; }
-.round>.round-item { border: solid 1px var(--color-round-border); font-size: 1rem; padding: calc(var(--size-grid) * 1); min-width: calc(var(--size-grid) * 2); text-align: center;  background-color: var(--color-round-fill); }
+.round>.round-item { border: solid 1px var(--color-round-border); font-size: 1rem; padding: calc(var(--size-grid) * 1); min-width: calc(var(--size-grid) * 2); text-align: center;  background-color: var(--color-round-fill); position: relative; }
 .round>.round-item:first-child { border: solid 1px var(--color-round-border); }
-.round.horizontal>.round-item { display: inline-block; border-left: 0px;  }
+.round.horizontal>.round-item { display: inline-block; border-left: 0px; }
 .round.horizontal>.round-item:first-child { border-bottom-left-radius: var(--size-radius); border-top-left-radius: var(--size-radius); border-left:  solid 1px var(--color-round-border); }
 .round.horizontal>.round-item:last-child { border-top-right-radius: var(--size-radius); border-bottom-right-radius: var(--size-radius); }
 .round.vertically>.round-item { display: block; border-top: 0px; }
@@ -89,3 +95,25 @@ hr { margin: var(--size-grid) 0px; display: block; height: 1px; background-color
 .dropdown-popuper { position: absolute; display: none; z-index: var(--z-popuper); border-radius: var(--size-radius); border: solid 1px var(--color-round-border); background-color:  var(--color-round-fill); }
 .dropdown.open > .dropdown-popuper { display: block; }
 .dropdown-popuper > li { list-style: none; display: block; padding: var(--size-grid); }
+
+.tabs { font-size: 0rem; }
+.tabs>li { display: inline-block; list-style: none; padding: var(--size-grid); font-size: 1rem; }
+.tabs>li.selected { border: solid 1px var(--color-round-border); border-radius: var(--size-radius); background-color: var(--color-round-fill);  }
+.tabs-pages>li { display: none; list-style: none; }
+.tabs-pages>li.selected { display: block; }
+
+.arrow { display: block; position: absolute; width: 0px; height: 0px; }
+.arrow.left { border-top: var(--size-arrow) solid transparent; border-bottom: var(--size-arrow) solid transparent; border-right:  var(--size-arrow) solid var(--color-round-border); }
+.arrow.right { border-top: var(--size-arrow) solid transparent; border-bottom: var(--size-arrow) solid transparent; border-left:  var(--size-arrow) solid var(--color-round-border); }
+.arrow.up { border-left: var(--size-arrow) solid transparent; border-right: var(--size-arrow) solid transparent; border-bottom:  var(--size-arrow) solid var(--color-round-border); }
+.arrow.down { border-left: var(--size-arrow) solid transparent; border-right: var(--size-arrow) solid transparent; border-top:  var(--size-arrow) solid var(--color-round-border);}
+
+.tooltip { position: absolute; width: var(--size-tooltip);  border: solid 1px var(--color-tooltip-bg); background-color: var(--color-tooltip-bg); color: var(--color-tooltip-fg); border-radius: var(--size-radius); padding: var(--size-grid); z-index: var(--z-tooltip); max-width: 300px; }
+.tooltip.up { top: 100%; left: 50%; margin-left: var(--size-tooltip-offset);}
+.tooltip.down { bottom: 100%; left: 50%; margin-left: var(--size-tooltip-offset);}
+.tooltip.left { right: 100%; top: 0%; }
+.tooltip.right { left: 100%; top: 0%; }
+.tooltip>.arrow.up { left: calc(50% - var(--size-arrow)); top: calc(0px - var(--size-arrow)); border-bottom-color: var(--color-tooltip-bg); }
+.tooltip>.arrow.down { left: calc(50% - var(--size-arrow)); bottom: calc(0px - var(--size-arrow)); border-top-color: var(--color-tooltip-bg); }
+.tooltip>.arrow.left { top: calc(var(--size-arrow) + 2); left: calc(0px - var(--size-arrow)); border-right-color: var(--color-tooltip-bg); }
+.tooltip>.arrow.right { top: calc(var(--size-arrow) + 2); right: calc(0px - var(--size-arrow)); border-left-color: var(--color-tooltip-bg); }
