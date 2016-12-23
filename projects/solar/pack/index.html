@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8" />
+		<title>Hello World!</title>
+
+		<link rel="stylesheet" href="assets/base/css/base.css" />
+
+		<script>
+
+			var src = "english;?1234343422";
+			var md5 = require("crypto").createHash("md5");
+			md5.update(src);
+			var sign =  md5.digest("hex").toLowerCase();
+			console.log(sign);
+
+
+   
+			// var net = require('net');
+
+			// var server = net.createServer();
+			// var lastClient = null;
+
+			// server.on('connection', function(client) {
+			// 	console.log('connection', client.remoteAddress, client.remotePort);
+			// 	lastClient = client;
+			// 	client.on('data', function(data) {
+			// 		console.log("data", data);
+			// 		client.write("收到!" + new Date().getTime());
+			// 	}); 
+			// 	client.on("end", function(data){
+			// 		console.log("end");
+			// 	});
+			// });
+
+			// server.listen(4001);
+		</script>
+
+	</head>
+
+	<body>
+		socket test
+	</body>
+
+</html>

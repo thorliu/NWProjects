@@ -1,0 +1,1 @@
+./node_modules/.bin/asar pack . app.asar
