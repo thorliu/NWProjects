@@ -3,44 +3,252 @@
 
 	<head>
 		<meta charset="UTF-8" />
-		<title>Hello World!</title>
+		<title>Solar</title>
 
-		<link rel="stylesheet" href="assets/base/css/base.css" />
+		<link rel="stylesheet" href="res/common/css/common.css" />
+		<link rel="stylesheet" href="res/common/css/icons.css" />
+
+		<script src="res/common/js/jquery.min.js"></script>
+		<script src="res/common/js/jquery.easing.js"></script>
+
+		<script src="res/iscroll/js/iscroll-probe.min.js"></script>
 
 		<script>
+			function updatePosition() {
+				// console.log(this);
+			};
 
-			var src = "english;?1234343422";
-			var md5 = require("crypto").createHash("md5");
-			md5.update(src);
-			var sign =  md5.digest("hex").toLowerCase();
-			console.log(sign);
+			$(document).ready(function () {
+				var myScroll = new IScroll('#iScrollContent', {
+					probeType: 3,
+					click: true,
+					mouseWheel: true,
+					bounce: false,
+					scrollbars: true,
+					interactiveScrollbars: true,
+					fadeScrollbars: true
+				});
 
-
-   
-			// var net = require('net');
-
-			// var server = net.createServer();
-			// var lastClient = null;
-
-			// server.on('connection', function(client) {
-			// 	console.log('connection', client.remoteAddress, client.remotePort);
-			// 	lastClient = client;
-			// 	client.on('data', function(data) {
-			// 		console.log("data", data);
-			// 		client.write("收到!" + new Date().getTime());
-			// 	}); 
-			// 	client.on("end", function(data){
-			// 		console.log("end");
-			// 	});
-			// });
-
-			// server.listen(4001);
+				myScroll.on('scroll', updatePosition);
+				myScroll.on('scrollEnd', updatePosition);
+			});
 		</script>
+</head>
 
-	</head>
-
-	<body>
-		socket test
-	</body>
+<body>
+	<!---->
+	<table class="layout">
+		<tbody>
+			<tr>
+				<td id="layoutModules">
+					<ul>
+						<li><span class="icon-files"></span></li>
+						<li><span class="icon-pictures"></span></li>
+						<li><span class="icon-clapboard-play"></span></li>
+						<li><span class="icon-tape2"></span></li>
+						<li><span class="icon-bookmark"></span></li>
+						<li><span class="icon-cog"></span></li>
+					</ul>
+				</td>
+				<td id="layoutOutline" class="filter-v">
+					<div class="iScroll">
+						<div id="iScrollContent" class="iScroll-content">
+							<ul class="tree">
+								<li>
+									<h1>node</h1>
+									<ul>
+										<li>
+											<h1>node</h1>
+											<ul>
+												<li class="expanded">
+													<h1>node</h1>
+													<ul>
+														<li>
+															<h1>node</h1>
+															<ul></ul>
+														</li>
+														<li>
+															<h1>node</h1>
+															<ul></ul>
+														</li>
+														<li>
+															<h1>node</h1>
+															<ul></ul>
+														</li>
+														<li>
+															<h1>node</h1>
+															<ul></ul>
+														</li>
+														<li>
+															<h1>node</h1>
+															<ul></ul>
+														</li>
+														<li>
+															<h1>node</h1>
+															<ul></ul>
+														</li>
+														<li>
+															<h1>node</h1>
+															<ul></ul>
+														</li>
+														<li>
+															<h1>node</h1>
+															<ul></ul>
+														</li>
+														<li>
+															<h1>node</h1>
+															<ul></ul>
+														</li>
+														<li>
+															<h1>node</h1>
+															<ul></ul>
+														</li>
+														<li>
+															<h1>node</h1>
+															<ul></ul>
+														</li>
+														<li>
+															<h1>node</h1>
+															<ul></ul>
+														</li>
+														<li>
+															<h1>node</h1>
+															<ul></ul>
+														</li>
+														<li>
+															<h1>node</h1>
+															<ul></ul>
+														</li>
+														<li>
+															<h1>node</h1>
+															<ul></ul>
+														</li>
+														<li>
+															<h1>node</h1>
+															<ul></ul>
+														</li>
+														<li>
+															<h1>node</h1>
+															<ul></ul>
+														</li>
+														<li>
+															<h1>node</h1>
+															<ul></ul>
+														</li>
+														<li>
+															<h1>node</h1>
+															<ul></ul>
+														</li>
+														<li>
+															<h1>node</h1>
+															<ul></ul>
+														</li>
+														<li>
+															<h1>node</h1>
+															<ul></ul>
+														</li>
+														<li>
+															<h1>node</h1>
+															<ul></ul>
+														</li>
+														<li>
+															<h1>node</h1>
+															<ul></ul>
+														</li>
+														<li>
+															<h1>node</h1>
+															<ul></ul>
+														</li>
+														<li>
+															<h1>node</h1>
+															<ul></ul>
+														</li>
+														<li>
+															<h1>node</h1>
+															<ul></ul>
+														</li>
+														<li>
+															<h1>node</h1>
+															<ul></ul>
+														</li>
+														<li>
+															<h1>node</h1>
+															<ul></ul>
+														</li>
+														<li>
+															<h1>node</h1>
+															<ul></ul>
+														</li>
+														<li>
+															<h1>node</h1>
+															<ul></ul>
+														</li>
+														<li>
+															<h1>node</h1>
+															<ul></ul>
+														</li>
+														<li>
+															<h1>node</h1>
+															<ul></ul>
+														</li>
+														<li>
+															<h1>node</h1>
+															<ul></ul>
+														</li>
+														<li>
+															<h1>node</h1>
+															<ul></ul>
+														</li>
+														<li>
+															<h1>node</h1>
+															<ul></ul>
+														</li>
+														<li>
+															<h1>node</h1>
+															<ul></ul>
+														</li>
+														<li>
+															<h1>node</h1>
+															<ul></ul>
+														</li>
+														<li>
+															<h1>node</h1>
+															<ul></ul>
+														</li>
+														<li>
+															<h1>node</h1>
+															<ul></ul>
+														</li>
+														<li>
+															<h1>node</h1>
+															<ul></ul>
+														</li>
+														<li>
+															<h1>node</h1>
+															<ul></ul>
+														</li>
+														<li>
+															<h1>node</h1>
+															<ul></ul>
+														</li>
+													</ul>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</td>
+				<td id="layoutContent">C</td>
+			</tr>
+			<tr>
+				<td id="layoutStatus" colspan="3">status</td>
+			</tr>
+		</tbody>
+	</table>
+	<!---->
+</body>
 
 </html>
