@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs",
+    "noImplicitAny": true,
+    "removeComments": true,
+    "preserveConstEnums": true,
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "noEmitOnError": true,
+    "pretty": true,
+    "jsx": "react",
+    "sourceMap": true,
+    "outDir": "../bin"
+  }
+}

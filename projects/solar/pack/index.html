@@ -14,24 +14,25 @@
 		<script src="res/iscroll/js/iscroll-probe.min.js"></script>
 
 		<script>
-			function updatePosition() {
-				// console.log(this);
-			};
+		
+			// function updatePosition() {
+			// 	// console.log(this);
+			// };
 
-			$(document).ready(function () {
-				var myScroll = new IScroll('#iScrollContent', {
-					probeType: 3,
-					click: true,
-					mouseWheel: true,
-					bounce: false,
-					scrollbars: true,
-					interactiveScrollbars: true,
-					fadeScrollbars: true
-				});
+			// $(document).ready(function () {
+			// 	var myScroll = new IScroll('#iScrollContent', {
+			// 		probeType: 3,
+			// 		click: true,
+			// 		mouseWheel: true,
+			// 		bounce: false,
+			// 		scrollbars: true,
+			// 		interactiveScrollbars: true,
+			// 		fadeScrollbars: true
+			// 	});
 
-				myScroll.on('scroll', updatePosition);
-				myScroll.on('scrollEnd', updatePosition);
-			});
+			// 	myScroll.on('scroll', updatePosition);
+			// 	myScroll.on('scrollEnd', updatePosition);
+			// });
 		</script>
 </head>
 
@@ -51,197 +52,43 @@
 					</ul>
 				</td>
 				<td id="layoutOutline" class="filter-v">
-					<div class="iScroll">
-						<div id="iScrollContent" class="iScroll-content">
-							<ul class="tree">
-								<li>
-									<h1>node</h1>
-									<ul>
-										<li>
-											<h1>node</h1>
-											<ul>
-												<li class="expanded">
-													<h1>node</h1>
-													<ul>
-														<li>
-															<h1>node</h1>
-															<ul></ul>
-														</li>
-														<li>
-															<h1>node</h1>
-															<ul></ul>
-														</li>
-														<li>
-															<h1>node</h1>
-															<ul></ul>
-														</li>
-														<li>
-															<h1>node</h1>
-															<ul></ul>
-														</li>
-														<li>
-															<h1>node</h1>
-															<ul></ul>
-														</li>
-														<li>
-															<h1>node</h1>
-															<ul></ul>
-														</li>
-														<li>
-															<h1>node</h1>
-															<ul></ul>
-														</li>
-														<li>
-															<h1>node</h1>
-															<ul></ul>
-														</li>
-														<li>
-															<h1>node</h1>
-															<ul></ul>
-														</li>
-														<li>
-															<h1>node</h1>
-															<ul></ul>
-														</li>
-														<li>
-															<h1>node</h1>
-															<ul></ul>
-														</li>
-														<li>
-															<h1>node</h1>
-															<ul></ul>
-														</li>
-														<li>
-															<h1>node</h1>
-															<ul></ul>
-														</li>
-														<li>
-															<h1>node</h1>
-															<ul></ul>
-														</li>
-														<li>
-															<h1>node</h1>
-															<ul></ul>
-														</li>
-														<li>
-															<h1>node</h1>
-															<ul></ul>
-														</li>
-														<li>
-															<h1>node</h1>
-															<ul></ul>
-														</li>
-														<li>
-															<h1>node</h1>
-															<ul></ul>
-														</li>
-														<li>
-															<h1>node</h1>
-															<ul></ul>
-														</li>
-														<li>
-															<h1>node</h1>
-															<ul></ul>
-														</li>
-														<li>
-															<h1>node</h1>
-															<ul></ul>
-														</li>
-														<li>
-															<h1>node</h1>
-															<ul></ul>
-														</li>
-														<li>
-															<h1>node</h1>
-															<ul></ul>
-														</li>
-														<li>
-															<h1>node</h1>
-															<ul></ul>
-														</li>
-														<li>
-															<h1>node</h1>
-															<ul></ul>
-														</li>
-														<li>
-															<h1>node</h1>
-															<ul></ul>
-														</li>
-														<li>
-															<h1>node</h1>
-															<ul></ul>
-														</li>
-														<li>
-															<h1>node</h1>
-															<ul></ul>
-														</li>
-														<li>
-															<h1>node</h1>
-															<ul></ul>
-														</li>
-														<li>
-															<h1>node</h1>
-															<ul></ul>
-														</li>
-														<li>
-															<h1>node</h1>
-															<ul></ul>
-														</li>
-														<li>
-															<h1>node</h1>
-															<ul></ul>
-														</li>
-														<li>
-															<h1>node</h1>
-															<ul></ul>
-														</li>
-														<li>
-															<h1>node</h1>
-															<ul></ul>
-														</li>
-														<li>
-															<h1>node</h1>
-															<ul></ul>
-														</li>
-														<li>
-															<h1>node</h1>
-															<ul></ul>
-														</li>
-														<li>
-															<h1>node</h1>
-															<ul></ul>
-														</li>
-														<li>
-															<h1>node</h1>
-															<ul></ul>
-														</li>
-														<li>
-															<h1>node</h1>
-															<ul></ul>
-														</li>
-														<li>
-															<h1>node</h1>
-															<ul></ul>
-														</li>
-														<li>
-															<h1>node</h1>
-															<ul></ul>
-														</li>
-														<li>
-															<h1>node</h1>
-															<ul></ul>
-														</li>
-													</ul>
+					<table class="layout">
+						<tbody>
+							<tr>
+								<td class="toolbar">toolbar</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="iScroll">
+										<div id="iScrollContent" class="iScroll-content">
+											<ul class="tree">
+												<li>
+													<h1>outline</h1>
+													<ul></ul>
 												</li>
 											</ul>
-										</li>
-									</ul>
-								</li>
-							</ul>
-						</div>
-					</div>
+										</div>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+
 				</td>
-				<td id="layoutContent">C</td>
+				<td id="layoutContent">
+					<table class="layout">
+						<tbody>
+							<tr>
+								<td class="toolbar">toolbar</td>
+							</tr>
+							<tr>
+								<td>
+									Content
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</td>
 			</tr>
 			<tr>
 				<td id="layoutStatus" colspan="3">status</td>
