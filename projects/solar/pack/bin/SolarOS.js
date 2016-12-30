@@ -15,13 +15,41 @@ var SolarOS;
         };
         FileSystem.stat = function (path) {
             if (FileSystem.FS) {
-                return FileSystem.FS.statSync(path);
+                try {
+                    return FileSystem.FS.statSync(path);
+                }
+                catch (err) {
+                    return null;
+                }
             }
             return null;
         };
         FileSystem.deleteFile = function (path) {
             if (FileSystem.FS) {
-                FileSystem.FS.unlinkSync(path);
+                try {
+                    FileSystem.FS.unlinkSync(path);
+                }
+                catch (err) { }
+            }
+        };
+        FileSystem.deleteDirectory = function (path) {
+            if (FileSystem.FS) { }
+            else
+                return;
+            var files = new Array();
+            if (FileSystem.FS.existsSync(path)) {
+                files = FileSystem.FS.readdirSync(path);
+                for (var i = 0; i < files.length; i++) {
+                    var file = files[i];
+                    var curPath = FileSystem.getJoinPath(path, file);
+                    if (FileSystem.FS.statSync(curPath).isDirectory()) {
+                        FileSystem.deleteDirectory(curPath);
+                    }
+                    else {
+                        FileSystem.FS.unlinkSync(curPath);
+                    }
+                }
+                FileSystem.FS.rmdirSync(path);
             }
         };
         FileSystem.loadFile = function (path, callback, encoding) {
@@ -45,6 +73,36 @@ var SolarOS;
             else {
                 callback(true);
             }
+        };
+        FileSystem.getDirectory = function (path) {
+            if (FileSystem.PATH) {
+                return FileSystem.PATH.dirname(path);
+            }
+            return null;
+        };
+        FileSystem.getFilename = function (path) {
+            if (FileSystem.PATH) {
+                return FileSystem.PATH.basename(path);
+            }
+            return null;
+        };
+        FileSystem.getFileType = function (path) {
+            if (FileSystem.PATH) {
+                return FileSystem.PATH.extname(path);
+            }
+            return null;
+        };
+        FileSystem.getJoinPath = function (aPath, bPath) {
+            if (FileSystem.PATH) {
+                return FileSystem.PATH.join(aPath, bPath);
+            }
+            return null;
+        };
+        FileSystem.getResolvePath = function (aPath, bPath) {
+            if (FileSystem.PATH) {
+                return FileSystem.PATH.resolve(aPath, bPath);
+            }
+            return null;
         };
         return FileSystem;
     }());
