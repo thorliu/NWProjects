@@ -1,7 +1,12 @@
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 var SolarCore;
 (function (SolarCore) {
-    class FileHandler {
-        constructor(fType, fName, loadMethod, saveMethod, importMethod, exportMethod) {
+    var FileHandler = (function () {
+        function FileHandler(fType, fName, loadMethod, saveMethod, importMethod, exportMethod) {
             this._type = fType;
             this._name = fName;
             this._load = loadMethod;
@@ -9,50 +14,95 @@ var SolarCore;
             this._import = importMethod;
             this._export = exportMethod;
         }
-        get type() { return this._type; }
-        get name() { return this._name; }
-        get load() { return this._load; }
-        get save() { return this._save; }
-        get import() { return this._import; }
-        get export() { return this._export; }
-    }
+        Object.defineProperty(FileHandler.prototype, "type", {
+            get: function () { return this._type; },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(FileHandler.prototype, "name", {
+            get: function () { return this._name; },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(FileHandler.prototype, "load", {
+            get: function () { return this._load; },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(FileHandler.prototype, "save", {
+            get: function () { return this._save; },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(FileHandler.prototype, "import", {
+            get: function () { return this._import; },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(FileHandler.prototype, "export", {
+            get: function () { return this._export; },
+            enumerable: true,
+            configurable: true
+        });
+        return FileHandler;
+    }());
     SolarCore.FileHandler = FileHandler;
-    class ModuleAbstract {
-        constructor(modKey, modName) {
+    var ModuleAbstract = (function () {
+        function ModuleAbstract(modKey, modName) {
             this._key = modKey;
             this._name = modName;
             this.onInit();
         }
-        onInit() { }
-        onEnter() { }
-        onLeave() { }
-        get name() { return this._name; }
-        get key() { return this._key; }
-    }
+        ModuleAbstract.prototype.onInit = function () { };
+        ModuleAbstract.prototype.onEnter = function () { };
+        ModuleAbstract.prototype.onLeave = function () { };
+        Object.defineProperty(ModuleAbstract.prototype, "name", {
+            get: function () { return this._name; },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(ModuleAbstract.prototype, "key", {
+            get: function () { return this._key; },
+            enumerable: true,
+            configurable: true
+        });
+        return ModuleAbstract;
+    }());
     SolarCore.ModuleAbstract = ModuleAbstract;
-    class ModuleFileAbstract extends ModuleAbstract {
-        constructor(modKey, modName) {
-            super(modKey, modName);
+    var ModuleFileAbstract = (function (_super) {
+        __extends(ModuleFileAbstract, _super);
+        function ModuleFileAbstract(modKey, modName) {
+            return _super.call(this, modKey, modName) || this;
         }
-    }
+        return ModuleFileAbstract;
+    }(ModuleAbstract));
     SolarCore.ModuleFileAbstract = ModuleFileAbstract;
-    class SolarEditor {
-        constructor() {
+    var SolarEditor = (function () {
+        function SolarEditor() {
             this._modules = new Array();
         }
-        static get current() {
-            if (SolarEditor._current) { }
-            else {
-                SolarEditor._current = new SolarEditor();
-            }
-            return SolarEditor._current;
-        }
-        startup(window) {
-        }
-        get modules() {
-            return this._modules;
-        }
-    }
+        Object.defineProperty(SolarEditor, "current", {
+            get: function () {
+                if (SolarEditor._current) { }
+                else {
+                    SolarEditor._current = new SolarEditor();
+                }
+                return SolarEditor._current;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        SolarEditor.prototype.startup = function (window) {
+        };
+        Object.defineProperty(SolarEditor.prototype, "modules", {
+            get: function () {
+                return this._modules;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return SolarEditor;
+    }());
     SolarCore.SolarEditor = SolarEditor;
 })(SolarCore || (SolarCore = {}));
 //# sourceMappingURL=SolarCore.js.map
