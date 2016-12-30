@@ -98,9 +98,24 @@ var SolarOS;
             }
             return null;
         };
-        FileSystem.getResolvePath = function (aPath, bPath) {
+        FileSystem.getRefPath = function (aPath, bPath) {
+            var a = aPath.split(/[\\\/]/g);
+            var b = bPath.split(/[\\\/]/g);
+            var c = new Array();
+            var check = true;
+            for (var i = 0; i < b.length; i++) {
+                var bItem = b[i];
+                var aItem = null;
+                if (i < a.length)
+                    aItem = a[i];
+                if (aItem != bItem)
+                    check = false;
+                if (check)
+                    continue;
+                c.push(bItem);
+            }
             if (FileSystem.PATH) {
-                return FileSystem.PATH.resolve(aPath, bPath);
+                return FileSystem.PATH.join.apply(null, c);
             }
             return null;
         };

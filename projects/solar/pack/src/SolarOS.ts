@@ -3,7 +3,7 @@
  * @Author: thor.liu 
  * @Date: 2016-12-30 11:44:21 
  * @Last Modified by: thor.liu
- * @Last Modified time: 2016-12-30 15:19:26
+ * @Last Modified time: 2016-12-30 15:31:31
  */
 module SolarOS {
 
@@ -13,7 +13,7 @@ module SolarOS {
 	export class FileSystem {
 		static FS: any;
 		static PATH: any;
-		
+
 		/*
 		 * TODO: copy
 		 * TODO: move
@@ -175,7 +175,29 @@ module SolarOS {
 		 * @param bPath 路径b
 		 */
 		static getRefPath(aPath: string, bPath: string): string {
-			
+			var a = aPath.split(/[\\\/]/g);
+			var b = bPath.split(/[\\\/]/g);
+
+			var c = new Array();
+			var check = true;
+
+			for (var i = 0; i < b.length; i++) {
+				var bItem = b[i];
+				var aItem = null;
+				if (i < a.length) aItem = a[i];
+
+				// if (aItem) { } else check = false;
+				if (aItem != bItem) check = false;
+
+				if (check) continue;
+
+				c.push(bItem);
+			}
+
+			if (FileSystem.PATH) {
+				return FileSystem.PATH.join.apply(null, c);
+			}
+
 			return null;
 		}
 	}
