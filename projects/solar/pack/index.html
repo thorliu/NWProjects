@@ -8,6 +8,8 @@
 		<link rel="stylesheet" href="res/common/css/common.css" />
 		<link rel="stylesheet" href="res/common/css/icons.css" />
 
+		<script src="bin/SolarOS.js"></script>
+		<script src="bin/SolarCore.js"></script>
 		<script src="bin/SolarUI.js"></script>
 		<script src="res/common/js/jquery.min.js"></script>
 		<!--<script src="res/common/js/jquery.easing.js"></script>-->
@@ -16,8 +18,40 @@
 
 		<script>
 
+			SolarOS.FileSystem.FS = require("fs");
+			SolarOS.FileSystem.PATH = require("path");
+
+
+			//保存文件
+			// SolarOS.FileSystem.saveFile("/Users/liuqiang/p9/bakup/test.txt", "汉字abc", function (err) {
+			// 	console.log("saveFile", err);
+			// }, "utf8");
+
+			//加载文件
+			// SolarOS.FileSystem.loadFile("/Users/liuqiang/p9/bakup/test.txt", function (err, data) {
+			// 	console.log("loadFile", err, data);
+			// }, "utf8");
+
+			//删除文件
+			// SolarOS.FileSystem.deleteFile("/Users/liuqiang/p9/bakup/test.txt");
+
+			//创建目录
+			// SolarOS.FileSystem.createDirectory("/Users/liuqiang/p9/bakup/temp");
+
+			//列举目录和文件
+			// SolarOS.FileSystem.list("/Users/liuqiang/p9/bakup/", function (err, files) {
+			// 	console.log("list", err, files);
+			// });
+
+			//信息
+			var stat = SolarOS.FileSystem.stat("/Users/liuqiang/p9/bakup/test.txt");
+			console.log("stat", stat);
+
+			//-------------------
+
+
 			// console.log(SolarUI);
-		
+
 			// function updatePosition() {
 			// 	// console.log(this);
 			// };
