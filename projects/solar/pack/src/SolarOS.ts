@@ -3,7 +3,7 @@
  * @Author: thor.liu 
  * @Date: 2016-12-30 11:44:21 
  * @Last Modified by: thor.liu
- * @Last Modified time: 2016-12-30 15:31:31
+ * @Last Modified time: 2016-12-31 11:36:37
  */
 module SolarOS {
 
@@ -14,11 +14,76 @@ module SolarOS {
 		static FS: any;
 		static PATH: any;
 
-		/*
-		 * TODO: copy
-		 * TODO: move
-		 * TODO: rename
+		/**
+		 * 复制文件或者目录
+		 * @param path1 原路径
+		 * @param path2 新路径
 		 */
+		static copy(path1: string, path2: string): void {
+			if (FileSystem.FS) { } else return;
+			if (FileSystem.FS.existsSync(path1)) {
+				if (FileSystem.FS.statSync(path1).isDirectory()) {
+					FileSystem.copyDirectory(path1, path2);
+				}
+				else {
+					FileSystem.copyFile(path1, path2);
+				}
+			}
+		}
+
+		/**
+		 * 复制文件
+		 * @param path1 原路径
+		 * @param path2 新路径
+		 */
+		static copyFile(path1: string, path2: string): void {
+			if (FileSystem.FS) {
+				try {
+					FileSystem.FS.createReadStream(path1).pipe(FileSystem.FS.createWriteStream(path2));
+				} catch (err) {
+				}
+			}
+		}
+
+		/**
+		 * 复制目录
+		 * @param path1 原路径
+		 * @param path2 新路径
+		 */
+		static copyDirectory(path1: string, path2: string): void {
+			if (FileSystem.FS) { } else return;
+			FileSystem.createDirectory(path2);
+			var files = new Array();
+			if (FileSystem.FS.existsSync(path1)) {
+				files = FileSystem.FS.readdirSync(path1);
+				for (var i = 0; i < files.length; i++) {
+					var file = files[i];
+					var curPath = FileSystem.getJoinPath(path1, file);
+					var dstPath = FileSystem.getJoinPath(path2, file);
+					if (FileSystem.FS.statSync(curPath).isDirectory()) {
+						FileSystem.copyDirectory(curPath, dstPath);
+					}
+					else {
+						FileSystem.copyFile(curPath, dstPath);
+					}
+				}
+			}
+		}
+
+		/**
+		 * 移动/改名
+		 * @param path1 原路径
+		 * @param path2 新路径
+		 */
+		static move(path1: string, path2: string): void {
+			if (FileSystem.FS) {
+				try {
+					FileSystem.FS.renameSync(path1, path2);
+				}
+				catch (err) {
+				}
+			}
+		}
 
 		/**
 		 * 创建目录
@@ -53,6 +118,22 @@ module SolarOS {
 				}
 			}
 			return null;
+		}
+
+		/**
+		 * 删除文件或者目录
+		 * @param path 路径
+		 */
+		static del(path: string): void {
+			if (FileSystem.FS) { } else return;
+			if (FileSystem.FS.existsSync(path)) {
+				if (FileSystem.FS.statSync(path).isDirectory()) {
+					FileSystem.deleteDirectory(path);
+				}
+				else {
+					FileSystem.deleteFile(path);
+				}
+			}
 		}
 
 		/**

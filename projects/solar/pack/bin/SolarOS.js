@@ -3,6 +3,58 @@ var SolarOS;
     var FileSystem = (function () {
         function FileSystem() {
         }
+        FileSystem.copy = function (path1, path2) {
+            if (FileSystem.FS) { }
+            else
+                return;
+            if (FileSystem.FS.existsSync(path1)) {
+                if (FileSystem.FS.statSync(path1).isDirectory()) {
+                    FileSystem.copyDirectory(path1, path2);
+                }
+                else {
+                    FileSystem.copyFile(path1, path2);
+                }
+            }
+        };
+        FileSystem.copyFile = function (path1, path2) {
+            if (FileSystem.FS) {
+                try {
+                    FileSystem.FS.createReadStream(path1).pipe(FileSystem.FS.createWriteStream(path2));
+                }
+                catch (err) {
+                }
+            }
+        };
+        FileSystem.copyDirectory = function (path1, path2) {
+            if (FileSystem.FS) { }
+            else
+                return;
+            FileSystem.createDirectory(path2);
+            var files = new Array();
+            if (FileSystem.FS.existsSync(path1)) {
+                files = FileSystem.FS.readdirSync(path1);
+                for (var i = 0; i < files.length; i++) {
+                    var file = files[i];
+                    var curPath = FileSystem.getJoinPath(path1, file);
+                    var dstPath = FileSystem.getJoinPath(path2, file);
+                    if (FileSystem.FS.statSync(curPath).isDirectory()) {
+                        FileSystem.copyDirectory(curPath, dstPath);
+                    }
+                    else {
+                        FileSystem.copyFile(curPath, dstPath);
+                    }
+                }
+            }
+        };
+        FileSystem.move = function (path1, path2) {
+            if (FileSystem.FS) {
+                try {
+                    FileSystem.FS.renameSync(path1, path2);
+                }
+                catch (err) {
+                }
+            }
+        };
         FileSystem.createDirectory = function (path) {
             if (FileSystem.FS) {
                 FileSystem.FS.mkdirSync(path);
@@ -23,6 +75,19 @@ var SolarOS;
                 }
             }
             return null;
+        };
+        FileSystem.del = function (path) {
+            if (FileSystem.FS) { }
+            else
+                return;
+            if (FileSystem.FS.existsSync(path)) {
+                if (FileSystem.FS.statSync(path).isDirectory()) {
+                    FileSystem.deleteDirectory(path);
+                }
+                else {
+                    FileSystem.deleteFile(path);
+                }
+            }
         };
         FileSystem.deleteFile = function (path) {
             if (FileSystem.FS) {

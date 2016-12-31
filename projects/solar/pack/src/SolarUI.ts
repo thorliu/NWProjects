@@ -3,13 +3,14 @@
  * @Author: thor.liu 
  * @Date: 2016-12-29 16:56:37 
  * @Last Modified by: thor.liu
- * @Last Modified time: 2016-12-29 20:05:38
+ * @Last Modified time: 2016-12-30 17:38:35
  */
 module SolarUI {
 
 	///委托过程
 	export class DelegateHandler {
 		constructor() {
+
 		}
 
 		public handler: Function;
