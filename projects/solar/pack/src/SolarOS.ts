@@ -3,7 +3,7 @@
  * @Author: thor.liu 
  * @Date: 2016-12-30 11:44:21 
  * @Last Modified by: thor.liu
- * @Last Modified time: 2016-12-31 11:36:37
+ * @Last Modified time: 2016-12-31 13:02:43
  */
 module SolarOS {
 
@@ -280,6 +280,151 @@ module SolarOS {
 			}
 
 			return null;
+		}
+	}
+
+	/**
+	 * 消息框图标类型
+	 */
+	export class MessageBoxIcons {
+		static None: string = "none";
+		static Info: string = "info";
+		static Error: string = "error";
+		static Question: string = "question";
+		static Warning: string = "warning";
+	}
+
+	/**
+	 * 界面交互
+	 */
+	export class UI {
+		static ELECTRON: any;
+		static DIALOG: any;
+
+		/**
+		 * 对话框: 打开文件
+		 */
+		static showOpenFile(filters: any, callback: Function): void {
+			filters = [
+				{ name: "json files", extensions: ["json"] }		//['*']
+			];
+
+			/*
+				options Object
+				- title String (optional)
+				- defaultPath String (optional)
+				- buttonLabel String (optional) - Custom label for the confirmation button, when left empty the default label will be used.
+				- filters FileFilter[] (optional)
+				- properties String[] - (optional) - Contains which features the dialog should use, can contain openFile, openDirectory, multiSelections, createDirectory and showHiddenFiles.
+			*/
+			if (UI.DIALOG) {
+				UI.DIALOG.showOpenDialog({
+					properties: ["openFile"],		//['openFile', 'openDirectory', 'multiSelections', 'createDirectory', 'showHiddenFiles']
+					filters: filters
+				}, callback);
+
+				return;
+			}
+			callback(null);
+		}
+
+		/**
+		 * 对话框: 保存文件
+		 */
+		static showSaveFile(filters: any, callback: Function): void {
+			filters = [
+				{ name: "json files", extensions: ["json"] }		//['*']
+			];
+
+			/*
+				options Object
+				- title String (optional)
+				- defaultPath String (optional)
+				- buttonLabel String (optional) - Custom label for the confirmation button, when left empty the default label will be used.
+				- filters FileFilter[] (optional)
+			*/
+			if (UI.DIALOG) {
+				UI.DIALOG.showSaveDialog({
+					filters: filters
+				}, callback);
+
+				return;
+			}
+
+			callback(null);
+		}
+
+		/**
+		 * 对话框: 错误
+		 */
+		static showErrorBox(title: string, content: string): void {
+			if (UI.DIALOG) {
+				UI.DIALOG.showErrorBox(title, content);
+			}
+		}
+
+		/**
+		 * 弹出消息框
+		 * @param title 标题
+		 * @param content 内容
+		 * @param icon 图标 (参考SolarOS.MessageBoxIcons)
+		 * @param buttons 按钮文本的数组
+		 * @param defaultButtonIndex 默认按钮索引
+		 * @param cancelButtonIndex 取消按钮索引
+		 * @param callback 回调方法
+		 */
+		static showMessageBox(title: string, content: string, icon: string, buttons: Array<string>, defaultButtonIndex: number, cancelButtonIndex: number, callback: Function): void {
+
+			if (UI.DIALOG) {
+				UI.DIALOG.showMessageBox({
+					title: title,
+					message: content,
+					type: icon,
+					buttons: buttons,
+					defaultId: defaultButtonIndex,
+					cancelId: cancelButtonIndex
+				}, callback);
+			}
+		}
+
+		/**
+		 * 弹出一个<确定>框
+		 * @param title 标题
+		 * @param content 内容
+		 * @param callback 回调方法
+		 */
+		static showInfoBox(title: string, content: string, callback: Function): void {
+			UI.showMessageBox(title, content, MessageBoxIcons.Info, ["OK"], 0, 0, callback);
+		}
+
+		/**
+		 * 弹出一个<确定><取消>框
+		 * @param title 标题
+		 * @param content 内容
+		 * @param callback 回调方法
+		 */
+		static showInfoBox_OK_CANCEL(title: string, content: string, callback: Function): void {
+			UI.showMessageBox(title, content, MessageBoxIcons.Info, ["OK", "Cancel"], 0, 1, callback);
+		}
+
+		/**
+		 * 弹出一个<是><否>框
+		 * @param title 标题
+		 * @param content 内容
+		 * @param callback 回调方法
+		 */
+		static showInfoBox_YES_NO(title: string, content: string, callback: Function): void {
+			UI.showMessageBox(title, content, MessageBoxIcons.Info, ["Yes", "No"], 0, 1, callback);
+		}
+
+		/**
+		 * 弹出一个<是><否><取消>确定框
+		 * @param title 标题
+		 * @param content 内容
+		 * @param callback 回调方法
+		 */
+		static showInfoBox_YES_NO_CANCEL(title: string, content: string, callback: Function): void {
+			UI.showMessageBox(title, content, MessageBoxIcons.Info, ["Yes", "No", "Cancel"], 0, 2, callback);
 		}
 	}
 }

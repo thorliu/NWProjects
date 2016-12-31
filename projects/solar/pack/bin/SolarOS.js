@@ -187,5 +187,76 @@ var SolarOS;
         return FileSystem;
     }());
     SolarOS.FileSystem = FileSystem;
+    var MessageBoxIcons = (function () {
+        function MessageBoxIcons() {
+        }
+        return MessageBoxIcons;
+    }());
+    MessageBoxIcons.None = "none";
+    MessageBoxIcons.Info = "info";
+    MessageBoxIcons.Error = "error";
+    MessageBoxIcons.Question = "question";
+    MessageBoxIcons.Warning = "warning";
+    SolarOS.MessageBoxIcons = MessageBoxIcons;
+    var UI = (function () {
+        function UI() {
+        }
+        UI.showOpenFile = function (filters, callback) {
+            filters = [
+                { name: "json files", extensions: ["json"] }
+            ];
+            if (UI.DIALOG) {
+                UI.DIALOG.showOpenDialog({
+                    properties: ["openFile"],
+                    filters: filters
+                }, callback);
+                return;
+            }
+            callback(null);
+        };
+        UI.showSaveFile = function (filters, callback) {
+            filters = [
+                { name: "json files", extensions: ["json"] }
+            ];
+            if (UI.DIALOG) {
+                UI.DIALOG.showSaveDialog({
+                    filters: filters
+                }, callback);
+                return;
+            }
+            callback(null);
+        };
+        UI.showErrorBox = function (title, content) {
+            if (UI.DIALOG) {
+                UI.DIALOG.showErrorBox(title, content);
+            }
+        };
+        UI.showMessageBox = function (title, content, icon, buttons, defaultButtonIndex, cancelButtonIndex, callback) {
+            if (UI.DIALOG) {
+                UI.DIALOG.showMessageBox({
+                    title: title,
+                    message: content,
+                    type: icon,
+                    buttons: buttons,
+                    defaultId: defaultButtonIndex,
+                    cancelId: cancelButtonIndex
+                }, callback);
+            }
+        };
+        UI.showInfoBox = function (title, content, callback) {
+            UI.showMessageBox(title, content, MessageBoxIcons.Info, ["OK"], 0, 0, callback);
+        };
+        UI.showInfoBox_OK_CANCEL = function (title, content, callback) {
+            UI.showMessageBox(title, content, MessageBoxIcons.Info, ["OK", "Cancel"], 0, 1, callback);
+        };
+        UI.showInfoBox_YES_NO = function (title, content, callback) {
+            UI.showMessageBox(title, content, MessageBoxIcons.Info, ["Yes", "No"], 0, 1, callback);
+        };
+        UI.showInfoBox_YES_NO_CANCEL = function (title, content, callback) {
+            UI.showMessageBox(title, content, MessageBoxIcons.Info, ["Yes", "No", "Cancel"], 0, 2, callback);
+        };
+        return UI;
+    }());
+    SolarOS.UI = UI;
 })(SolarOS || (SolarOS = {}));
 //# sourceMappingURL=SolarOS.js.map
