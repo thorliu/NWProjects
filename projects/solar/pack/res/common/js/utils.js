@@ -7,6 +7,27 @@ T.getQuery = function (name) {
 	return decodeURI(result[1]);
 };
 
+T.getQueryData = function () {
+	var queryString = document.location.search + "";
+	queryString = queryString.trim().replace(/^\?/g, "");
+	var items = queryString.split("&");
+	var ret = new Object();
+
+	for (var i = 0; i < items.length; i++) {
+		var item = items[i];
+		var itemAry = item.split("=");
+		if (itemAry.length == 2) {
+			var k = itemAry[0].urlDecode().trim();
+			var v = itemAry[1].urlDecode().trim();
+			if (k.length > 0) {
+				ret[k] = v;
+			}
+		}
+	}
+
+	return ret;
+};
+
 T.getDataValue = function (data, key) {
 	if (data) { } else return null;
 	var ks = key.split(".");
