@@ -5,6 +5,24 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 var SolarCore;
 (function (SolarCore) {
+    var CommandType;
+    (function (CommandType) {
+        CommandType[CommandType["None"] = 0] = "None";
+        CommandType[CommandType["Label"] = 1] = "Label";
+        CommandType[CommandType["Button"] = 2] = "Button";
+    })(CommandType = SolarCore.CommandType || (SolarCore.CommandType = {}));
+    var Command = (function () {
+        function Command(cKey, cName, cIcon, cType, cData) {
+            this.children = new Array();
+            this.key = cKey;
+            this.name = cName;
+            this.icon = cIcon;
+            this.data = cData;
+            this.type = cType;
+        }
+        return Command;
+    }());
+    SolarCore.Command = Command;
     var FileHandler = (function () {
         function FileHandler(fType, fName, loadMethod, saveMethod, importMethod, exportMethod) {
             this._type = fType;

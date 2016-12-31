@@ -105,7 +105,7 @@ var SolarUI;
         };
         Delegate.execute = function (name, args) {
             SolarUI.Delegate.init();
-            console.log(name, args);
+            console.log("SolarUI.Delegate.execute:", name, args);
             if (SolarUI.Delegate.handlers[name]) {
                 var ary = SolarUI.Delegate.handlers[name];
                 for (var i = 0; i < ary.length; i++) {

@@ -3,11 +3,12 @@
  * @Author: thor.liu 
  * @Date: 2016-12-31 14:52:33 
  * @Last Modified by: thor.liu
- * @Last Modified time: 2016-12-31 19:39:21
+ * @Last Modified time: 2016-12-31 22:23:14
  */
 
 const SolarEditorUI = {};
 
+//------------------------------------------------------------------- Modules
 
 ///切换模块时
 SolarEditorUI.switchModule = function (target) {
@@ -52,6 +53,60 @@ SolarEditorUI.setupModules = function () {
 	items.click(SolarEditorUI.onModuleClick);
 };
 
+//------------------------------------------------------------------- Factory
 
+SolarEditorUI.createCommand = function (command) {
+	switch (command.type) {
+		///<label data-key="{}">{name}</label>
+		case SolarCore.CommandType.Label:
+			return "<label cmd-key='{key}'>{name}</label>".formatData(command);
 
-//-------------------------------------------------------------------
+		case SolarCore.CommandType.Button:
+			return "<button cmd-key='{key}'><span class='icon-{icon}'></span></button>".formatData(command);
+	}
+
+	return "";
+};
+
+SolarEditorUI.onCommandClick = function (e) {
+	var target = $(e.currentTarget);
+	var dataKey = target.attr("cmd-key");
+	console.log("SolarEditorUI.onCommandClick", dataKey);
+};
+
+//------------------------------------------------------------------- Status
+
+/*
+	[
+		{ key, name, icon, type }
+	]
+ */
+SolarEditorUI.setupStatus = function () {
+};
+
+//------------------------------------------------------------------- Outline
+
+SolarEditorUI.setupOutline = function () {
+};
+
+//------------------------------------------------------------------- Content
+
+SolarEditorUI.setupContent = function () {
+};
+
+//------------------------------------------------------------------- Toolbar
+
+SolarEditorUI.setupToolbar = function (selector, commands) {
+	var toolbar = $(selector);
+	toolbar.empty();
+
+	for (var i = 0; i < commands.length; i++) {
+		var cmd = commands[i];
+		var html = SolarEditorUI.createCommand(cmd).trim();
+
+		if (html.length == 0) continue;
+		toolbar.append(html);
+	}
+
+	$(">*", toolbar).click(SolarEditorUI.onCommandClick);
+};

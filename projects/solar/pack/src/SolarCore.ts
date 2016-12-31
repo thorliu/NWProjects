@@ -3,7 +3,7 @@
  * @Author: thor.liu 
  * @Date: 2016-12-29 16:12:29 
  * @Last Modified by: thor.liu
- * @Last Modified time: 2016-12-31 19:39:44
+ * @Last Modified time: 2016-12-31 21:37:45
  */
 module SolarCore {
 
@@ -26,6 +26,46 @@ module SolarCore {
 		 * @returns 数据
 		 */
 		read(path: string, extra: any): any;
+	}
+
+	// --------------------------------------------------------------
+
+	/**
+	 * 指令类型
+	 */
+	export enum CommandType {
+		None = 0,
+		Label,
+		Button
+	}
+
+	/**
+	 * 表示指令的数据
+	 */
+	export class Command {
+		/**
+		 * 构造
+		 * @param cKey 标识
+		 * @param cName 名称
+		 * @param cIcon 图标
+		 * @param cType 类型
+		 * @param cData 数据
+		 */
+		constructor(cKey: string, cName: string, cIcon: string, cType: CommandType, cData: any) {
+			this.children = new Array<Command>();
+			this.key = cKey;
+			this.name = cName;
+			this.icon = cIcon;
+			this.data = cData;
+			this.type = cType;
+		}
+
+		public key: string;
+		public icon: string;
+		public name: string;
+		public data: any;
+		public type: CommandType;
+		public children: Array<Command>;
 	}
 
 	// --------------------------------------------------------------
