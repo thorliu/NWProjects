@@ -3,7 +3,7 @@
  * @Author: thor.liu 
  * @Date: 2016-12-29 16:12:29 
  * @Last Modified by: thor.liu
- * @Last Modified time: 2016-12-29 16:56:53
+ * @Last Modified time: 2016-12-31 19:39:44
  */
 module SolarCore {
 
@@ -81,10 +81,12 @@ module SolarCore {
 		 * 构造
 		 * @param modKey 模块标识
 		 * @param modName 模块名称
+		 * @param modIcon 模块图标
 		 */
-		constructor(modKey: string, modName: string) {
+		constructor(modKey: string, modName: string, modIcon: string) {
 			this._key = modKey;
 			this._name = modName;
+			this._icon = modIcon;
 
 			this.onInit();
 		}
@@ -115,6 +117,12 @@ module SolarCore {
 		 */
 		public get key(): string { return this._key; }
 		private _key: string;
+
+		/**
+		 * 获取模块图标
+		 */
+		public get icon(): string { return this._icon; }
+		private _icon: string;
 	}
 
 	/**
@@ -126,8 +134,8 @@ module SolarCore {
 		 * @param modKey 模块标识
 		 * @param modName 模块名称
 		 */
-		constructor(modKey: string, modName: string) {
-			super(modKey, modName);
+		constructor(modKey: string, modName: string, modIcon: string) {
+			super(modKey, modName, modIcon);
 		}
 	}
 
@@ -144,6 +152,9 @@ module SolarCore {
 		static get current(): SolarEditor {
 			if (SolarEditor._current) { } else {
 				SolarEditor._current = new SolarEditor();
+
+				SolarUI.Delegate.add("onModuleClick", SolarEditor.current.onModuleClick, SolarEditor._current);
+
 			}
 			return SolarEditor._current;
 		}
@@ -156,9 +167,10 @@ module SolarCore {
 		}
 
 		/**
-		 * 启动
+		 * 点击切换模块时
 		 */
-		public startup(window: any): void {
+		public onModuleClick(key: string) {
+			console.log("SolarEditor::onModuleClick", key);
 		}
 
 		/**
@@ -168,5 +180,13 @@ module SolarCore {
 			return this._modules;
 		}
 		private _modules: Array<ModuleAbstract>;
+
+		/**
+		 * 获取当前模块
+		 */
+		public get currentModule(): ModuleAbstract {
+			return this._currentModule;
+		}
+		private _currentModule: ModuleAbstract;
 	}
 }

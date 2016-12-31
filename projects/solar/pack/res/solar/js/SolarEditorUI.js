@@ -3,7 +3,7 @@
  * @Author: thor.liu 
  * @Date: 2016-12-31 14:52:33 
  * @Last Modified by: thor.liu
- * @Last Modified time: 2016-12-31 16:08:53
+ * @Last Modified time: 2016-12-31 19:39:21
  */
 
 const SolarEditorUI = {};
@@ -19,7 +19,8 @@ SolarEditorUI.switchModule = function (target) {
 SolarEditorUI.onModuleClick = function (e) {
 	var target = e.currentTarget;
 	SolarEditorUI.switchModule(target);
-	console.log("SolarEditorUI.onModuleClick", target);
+	var key = $(target).attr("data-key");
+	SolarUI.Delegate.execute("onModuleClick", [key]);
 	return false;
 };
 
@@ -42,11 +43,13 @@ SolarEditorUI.setupModules = function () {
 
 	for (var i = 0; i < list.length; i++) {
 		var mod = list[i];
-		var modItem = "<li><span class='icon-cog'></span></li>";
+		var modItem = "<li data-key='" + mod.key + "' data-title='" + mod.name + "'><span class='icon-" + mod.icon + "'></span></li>";
 		inst.append(modItem);
 	}
 	$("#layoutModules").show();
-	$("#layoutModules>ul>li").click(SolarEditorUI.onModuleClick);
+	var items = $("#layoutModules>ul>li");
+	SolarEditorUI.switchModule(items[0]);
+	items.click(SolarEditorUI.onModuleClick);
 };
 
 

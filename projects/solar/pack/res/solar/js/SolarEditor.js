@@ -3,7 +3,7 @@
  * @Author: thor.liu 
  * @Date: 2016-12-31 14:46:17 
  * @Last Modified by: thor.liu
- * @Last Modified time: 2016-12-31 16:07:12
+ * @Last Modified time: 2016-12-31 19:18:29
  */
 
 const SolarEditorSettings = {};
@@ -26,7 +26,7 @@ SolarEditorSettings.initModules = function () {
 	for(var i = 0; i < 5; i ++)
 	{
 		//测试
-		var moduleTest = new SolarCore.ModuleFileAbstract("test", "测试");
+		var moduleTest = new SolarCore.ModuleFileAbstract("test", "测试", "bookmark");
 		SolarCore.SolarEditor.current.modules.push(moduleTest);
 	}
 };

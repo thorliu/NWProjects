@@ -48,9 +48,10 @@ var SolarCore;
     }());
     SolarCore.FileHandler = FileHandler;
     var ModuleAbstract = (function () {
-        function ModuleAbstract(modKey, modName) {
+        function ModuleAbstract(modKey, modName, modIcon) {
             this._key = modKey;
             this._name = modName;
+            this._icon = modIcon;
             this.onInit();
         }
         ModuleAbstract.prototype.onInit = function () { };
@@ -66,13 +67,18 @@ var SolarCore;
             enumerable: true,
             configurable: true
         });
+        Object.defineProperty(ModuleAbstract.prototype, "icon", {
+            get: function () { return this._icon; },
+            enumerable: true,
+            configurable: true
+        });
         return ModuleAbstract;
     }());
     SolarCore.ModuleAbstract = ModuleAbstract;
     var ModuleFileAbstract = (function (_super) {
         __extends(ModuleFileAbstract, _super);
-        function ModuleFileAbstract(modKey, modName) {
-            return _super.call(this, modKey, modName) || this;
+        function ModuleFileAbstract(modKey, modName, modIcon) {
+            return _super.call(this, modKey, modName, modIcon) || this;
         }
         return ModuleFileAbstract;
     }(ModuleAbstract));
@@ -86,17 +92,26 @@ var SolarCore;
                 if (SolarEditor._current) { }
                 else {
                     SolarEditor._current = new SolarEditor();
+                    SolarUI.Delegate.add("onModuleClick", SolarEditor.current.onModuleClick, SolarEditor._current);
                 }
                 return SolarEditor._current;
             },
             enumerable: true,
             configurable: true
         });
-        SolarEditor.prototype.startup = function (window) {
+        SolarEditor.prototype.onModuleClick = function (key) {
+            console.log("SolarEditor::onModuleClick", key);
         };
         Object.defineProperty(SolarEditor.prototype, "modules", {
             get: function () {
                 return this._modules;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(SolarEditor.prototype, "currentModule", {
+            get: function () {
+                return this._currentModule;
             },
             enumerable: true,
             configurable: true

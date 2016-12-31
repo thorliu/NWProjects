@@ -10,16 +10,18 @@ var SolarUI;
         function Delegate() {
         }
         Delegate.init = function () {
-            if (Delegate.inited)
+            if (SolarUI.Delegate.inited)
                 return;
-            Delegate.inited = true;
-            Delegate.handlers = new Object();
+            SolarUI.Delegate.inited = true;
+            SolarUI.Delegate.handlers = new Object();
         };
         Delegate.add = function (name, handler, thisObject) {
-            Delegate.init();
-            if (Delegate.handlers[name]) {
+            SolarUI.Delegate.init();
+            console.log("Delegate::add", name);
+            var ary = null;
+            if (SolarUI.Delegate.handlers[name]) {
                 var exists = false;
-                var ary = Delegate.handlers[name];
+                ary = SolarUI.Delegate.handlers[name];
                 for (var i = 0; i < ary.length; i++) {
                     var e = ary[i];
                     if (e.handler == handler && e.thisObject == thisObject) {
@@ -27,18 +29,23 @@ var SolarUI;
                         break;
                     }
                 }
-                if (!exists) {
-                    var item = new DelegateHandler();
-                    item.handler = handler;
-                    item.thisObject = thisObject;
-                    ary.push(item);
-                }
+                if (exists)
+                    return;
             }
+            else {
+                ary = new Array();
+                SolarUI.Delegate.handlers[name] = ary;
+            }
+            var item = new DelegateHandler();
+            item.handler = handler;
+            item.thisObject = thisObject;
+            ary.push(item);
+            console.log("Delegate::add push", name);
         };
         Delegate.remove = function (name, handler, thisObject) {
-            Delegate.init();
-            if (Delegate.handlers[name]) {
-                var ary = Delegate.handlers[name];
+            SolarUI.Delegate.init();
+            if (SolarUI.Delegate.handlers[name]) {
+                var ary = SolarUI.Delegate.handlers[name];
                 for (var i = ary.length - 1; i >= 0; i--) {
                     var e = ary[i];
                     if (e.handler == handler && e.thisObject == thisObject) {
@@ -49,18 +56,18 @@ var SolarUI;
             }
         };
         Delegate.removeByName = function (name) {
-            Delegate.init();
-            if (Delegate.handlers[name]) {
-                delete Delegate.handlers[name];
+            SolarUI.Delegate.init();
+            if (SolarUI.Delegate.handlers[name]) {
+                delete SolarUI.Delegate.handlers[name];
             }
         };
         Delegate.removeByHandler = function (handler) {
-            Delegate.init();
-            var names = Object.keys(Delegate.handlers);
+            SolarUI.Delegate.init();
+            var names = Object.keys(SolarUI.Delegate.handlers);
             for (var j = 0; j < names.length; j++) {
                 var name = names[j];
-                if (Delegate.handlers[name]) {
-                    var ary = Delegate.handlers[name];
+                if (SolarUI.Delegate.handlers[name]) {
+                    var ary = SolarUI.Delegate.handlers[name];
                     for (var i = ary.length - 1; i >= 0; i--) {
                         var e = ary[i];
                         if (e.handler == handler) {
@@ -71,12 +78,12 @@ var SolarUI;
             }
         };
         Delegate.removeByThis = function (thisObject) {
-            Delegate.init();
-            var names = Object.keys(Delegate.handlers);
+            SolarUI.Delegate.init();
+            var names = Object.keys(SolarUI.Delegate.handlers);
             for (var j = 0; j < names.length; j++) {
                 var name = names[j];
-                if (Delegate.handlers[name]) {
-                    var ary = Delegate.handlers[name];
+                if (SolarUI.Delegate.handlers[name]) {
+                    var ary = SolarUI.Delegate.handlers[name];
                     for (var i = ary.length - 1; i >= 0; i--) {
                         var e = ary[i];
                         if (e.thisObject == thisObject) {
@@ -87,21 +94,22 @@ var SolarUI;
             }
         };
         Delegate.removeAll = function () {
-            Delegate.init();
-            var names = Object.keys(Delegate.handlers);
+            SolarUI.Delegate.init();
+            var names = Object.keys(SolarUI.Delegate.handlers);
             for (var j = 0; j < names.length; j++) {
                 var name = names[j];
-                if (Delegate.handlers[name]) {
-                    delete Delegate.handlers[name];
+                if (SolarUI.Delegate.handlers[name]) {
+                    delete SolarUI.Delegate.handlers[name];
                 }
             }
         };
         Delegate.execute = function (name, args) {
-            Delegate.init();
-            if (Delegate.handlers[name]) {
-                var ary = Delegate.handlers[name];
+            SolarUI.Delegate.init();
+            console.log(name, args);
+            if (SolarUI.Delegate.handlers[name]) {
+                var ary = SolarUI.Delegate.handlers[name];
                 for (var i = 0; i < ary.length; i++) {
-                    var handler = Delegate.handlers[name];
+                    var handler = ary[i];
                     handler.handler.apply(handler.thisObject, args);
                 }
             }

@@ -3,7 +3,7 @@
  * @Author: thor.liu 
  * @Date: 2016-12-30 11:44:21 
  * @Last Modified by: thor.liu
- * @Last Modified time: 2016-12-31 13:02:43
+ * @Last Modified time: 2016-12-31 18:02:27
  */
 module SolarOS {
 
@@ -97,12 +97,18 @@ module SolarOS {
 		/**
 		 * 列举目录和文件
 		 * @param path 路径
-		 * @param callback 回调(err, files)
 		 */
-		static list(path: string, callback: Function): void {
+		static list(path: string, callback: Function): Array<string> {
 			if (FileSystem.FS) {
-				FileSystem.FS.readdir(path, callback);
+				var ret = FileSystem.FS.readdirSync(path);
+
+				for (var i = 0; i < ret.length; i++) {
+					ret[i] = FileSystem.getJoinPath(path, ret[i]);
+				}
+
+				return ret;
 			}
+			return [];
 		}
 
 		/**

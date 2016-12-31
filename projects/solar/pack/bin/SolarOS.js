@@ -62,8 +62,13 @@ var SolarOS;
         };
         FileSystem.list = function (path, callback) {
             if (FileSystem.FS) {
-                FileSystem.FS.readdir(path, callback);
+                var ret = FileSystem.FS.readdirSync(path);
+                for (var i = 0; i < ret.length; i++) {
+                    ret[i] = FileSystem.getJoinPath(path, ret[i]);
+                }
+                return ret;
             }
+            return [];
         };
         FileSystem.stat = function (path) {
             if (FileSystem.FS) {

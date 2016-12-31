@@ -3,7 +3,7 @@
  * @Author: thor.liu 
  * @Date: 2016-12-29 16:56:37 
  * @Last Modified by: thor.liu
- * @Last Modified time: 2016-12-30 17:38:35
+ * @Last Modified time: 2016-12-31 20:32:04
  */
 module SolarUI {
 
@@ -24,23 +24,27 @@ module SolarUI {
 
 		static handlers: any;
 		static inited: boolean;
+
 		/**
 		 * 初始化
 		 */
 		static init(): void {
-			if (Delegate.inited) return;
-			Delegate.inited = true;
-			Delegate.handlers = new Object();
+			if (SolarUI.Delegate.inited) return;
+			SolarUI.Delegate.inited = true;
+			SolarUI.Delegate.handlers = new Object();
 		}
 		/**
 		 * 添加一个委托侦听
 		 */
 		static add(name: string, handler: Function, thisObject: any): void {
-			Delegate.init();
+			SolarUI.Delegate.init();
 
-			if (Delegate.handlers[name]) {
+			console.log("Delegate::add", name);
+
+			var ary = null;
+			if (SolarUI.Delegate.handlers[name]) {
 				var exists = false;
-				var ary = Delegate.handlers[name];
+				ary = SolarUI.Delegate.handlers[name];
 				for (var i = 0; i < ary.length; i++) {
 					var e: DelegateHandler = ary[i];
 					if (e.handler == handler && e.thisObject == thisObject) {
@@ -48,22 +52,27 @@ module SolarUI {
 						break;
 					}
 				}
-				if (!exists) {
-					var item: DelegateHandler = new DelegateHandler();
-					item.handler = handler;
-					item.thisObject = thisObject;
-					ary.push(item);
-				}
+				if (exists) return;
 			}
+			else {
+				ary = new Array();
+				SolarUI.Delegate.handlers[name] = ary;
+			}
+
+			var item: DelegateHandler = new DelegateHandler();
+			item.handler = handler;
+			item.thisObject = thisObject;
+			ary.push(item);
+			console.log("Delegate::add push", name);
 		}
 
 		/**
 		 * 移除一个委托侦听
 		 */
 		static remove(name: string, handler: Function, thisObject: any): void {
-			Delegate.init();
-			if (Delegate.handlers[name]) {
-				var ary = Delegate.handlers[name];
+			SolarUI.Delegate.init();
+			if (SolarUI.Delegate.handlers[name]) {
+				var ary = SolarUI.Delegate.handlers[name];
 				for (var i = ary.length - 1; i >= 0; i--) {
 					var e: DelegateHandler = ary[i];
 					if (e.handler == handler && e.thisObject == thisObject) {
@@ -78,9 +87,9 @@ module SolarUI {
 		 * 移除指定名称的委托侦听
 		 */
 		static removeByName(name: string): void {
-			Delegate.init();
-			if (Delegate.handlers[name]) {
-				delete Delegate.handlers[name];
+			SolarUI.Delegate.init();
+			if (SolarUI.Delegate.handlers[name]) {
+				delete SolarUI.Delegate.handlers[name];
 			}
 		}
 
@@ -88,12 +97,12 @@ module SolarUI {
 		 * 移除指定函数的委托侦听
 		 */
 		static removeByHandler(handler: Function): void {
-			Delegate.init();
-			var names = Object.keys(Delegate.handlers);
+			SolarUI.Delegate.init();
+			var names = Object.keys(SolarUI.Delegate.handlers);
 			for (var j = 0; j < names.length; j++) {
 				var name = names[j];
-				if (Delegate.handlers[name]) {
-					var ary = Delegate.handlers[name];
+				if (SolarUI.Delegate.handlers[name]) {
+					var ary = SolarUI.Delegate.handlers[name];
 					for (var i = ary.length - 1; i >= 0; i--) {
 						var e: DelegateHandler = ary[i];
 						if (e.handler == handler) {
@@ -108,12 +117,12 @@ module SolarUI {
 		 * 移除指定对象的委托侦听
 		 */
 		static removeByThis(thisObject: any): void {
-			Delegate.init();
-			var names = Object.keys(Delegate.handlers);
+			SolarUI.Delegate.init();
+			var names = Object.keys(SolarUI.Delegate.handlers);
 			for (var j = 0; j < names.length; j++) {
 				var name = names[j];
-				if (Delegate.handlers[name]) {
-					var ary = Delegate.handlers[name];
+				if (SolarUI.Delegate.handlers[name]) {
+					var ary = SolarUI.Delegate.handlers[name];
 					for (var i = ary.length - 1; i >= 0; i--) {
 						var e: DelegateHandler = ary[i];
 						if (e.thisObject == thisObject) {
@@ -128,12 +137,12 @@ module SolarUI {
 		 * 移除所有的委托侦听
 		 */
 		static removeAll(): void {
-			Delegate.init();
-			var names = Object.keys(Delegate.handlers);
+			SolarUI.Delegate.init();
+			var names = Object.keys(SolarUI.Delegate.handlers);
 			for (var j = 0; j < names.length; j++) {
 				var name = names[j];
-				if (Delegate.handlers[name]) {
-					delete Delegate.handlers[name];
+				if (SolarUI.Delegate.handlers[name]) {
+					delete SolarUI.Delegate.handlers[name];
 				}
 			}
 		}
@@ -142,11 +151,12 @@ module SolarUI {
 		 * 执行委托侦听方法
 		 */
 		static execute(name: string, args: any): void {
-			Delegate.init();
-			if (Delegate.handlers[name]) {
-				var ary = Delegate.handlers[name];
+			SolarUI.Delegate.init();
+			console.log("SolarUI.Delegate.execute:", name, args);
+			if (SolarUI.Delegate.handlers[name]) {
+				var ary = SolarUI.Delegate.handlers[name];
 				for (var i = 0; i < ary.length; i++) {
-					var handler: DelegateHandler = Delegate.handlers[name];
+					var handler: DelegateHandler = ary[i];
 					handler.handler.apply(handler.thisObject, args);
 				}
 			}
