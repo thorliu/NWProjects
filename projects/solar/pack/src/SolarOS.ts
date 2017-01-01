@@ -3,7 +3,7 @@
  * @Author: thor.liu 
  * @Date: 2016-12-30 11:44:21 
  * @Last Modified by: thor.liu
- * @Last Modified time: 2016-12-31 18:02:27
+ * @Last Modified time: 2017-01-01 12:05:05
  */
 module SolarOS {
 
@@ -13,6 +13,7 @@ module SolarOS {
 	export class FileSystem {
 		static FS: any;
 		static PATH: any;
+		static APP: any;
 
 		/**
 		 * 复制文件或者目录
@@ -90,7 +91,9 @@ module SolarOS {
 		 */
 		static createDirectory(path: string): void {
 			if (FileSystem.FS) {
-				FileSystem.FS.mkdirSync(path);
+				try {
+					FileSystem.FS.mkdirSync(path);
+				} catch (err) { }
 			}
 		}
 
@@ -195,6 +198,18 @@ module SolarOS {
 		}
 
 		/**
+		 * 立即加载文件
+		 */
+		static loadFileNow(path: string, encoding: string): any {
+			try {
+				return FileSystem.FS.readFileSync(path, encoding);
+			}
+			catch (err) {
+				return null;
+			}
+		}
+
+		/**
 		 * 保存文件
 		 * @param path 路径
 		 * @param data 内容
@@ -204,10 +219,22 @@ module SolarOS {
 		static saveFile(path: string, data: string, callback: Function, encoding: string): void {
 			if (FileSystem.FS) {
 				if (encoding) { } else encoding = "utf8";
-				FileSystem.FS.writeFile(path, data, callback);
+				FileSystem.FS.writeFile(path, data, encoding, callback);
 			}
 			else {
 				callback(true);		//error
+			}
+		}
+
+		/**
+		 * 立即保存文件
+		 */
+		static saveFileNow(path: string, data: string, encoding: string): void {
+			try {
+				if (encoding) { } else encoding = "utf8";
+				FileSystem.FS.writeFileSync(path, data, encoding);
+			}
+			catch (err) {
 			}
 		}
 
@@ -286,6 +313,222 @@ module SolarOS {
 			}
 
 			return null;
+		}
+
+		/**
+		 * 获取程序路径
+		 */
+		static getAppPath(): string {
+			if (FileSystem.APP) {
+				return FileSystem.APP.getAppPath();
+			}
+			return null;
+		}
+
+		/**
+		 * 获取用户主目录
+		 */
+		static getHomePath(): string {
+			if (FileSystem.APP) return FileSystem.APP.getPath("home"); else return null;
+		}
+
+		/**
+		 * 获取程序数据目录
+		 */
+		static getAppDataPath(): string {
+			if (FileSystem.APP) return FileSystem.APP.getPath("appData"); else return null;
+		}
+
+		/**
+		 * 获取用户数据目录
+		 */
+		static getUserDataPath(): string {
+			if (FileSystem.APP) return FileSystem.APP.getPath("userData"); else return null;
+		}
+
+		/**
+		 * 获取临时目录
+		 */
+		static getTempPath(): string {
+			if (FileSystem.APP) return FileSystem.APP.getPath("temp"); else return null;
+		}
+
+		/**
+		 * 获取执行文件目录
+		 */
+		static getExePath(): string {
+			if (FileSystem.APP) return FileSystem.APP.getPath("exe"); else return null;
+		}
+
+		/**
+		 * 获取模块目录
+		 */
+		static getModulePath(): string {
+			if (FileSystem.APP) return FileSystem.APP.getPath("module"); else return null;
+		}
+
+		/**
+		 * 获取桌面目录
+		 */
+		static getDesktopPath(): string {
+			if (FileSystem.APP) return FileSystem.APP.getPath("desktop"); else return null;
+		}
+
+		/**
+		 * 获取文档目录
+		 */
+		static getDocumentsPath(): string {
+			if (FileSystem.APP) return FileSystem.APP.getPath("documents"); else return null;
+		}
+
+		/**
+		 * 获取下载目录
+		 */
+		static getDownloadPath(): string {
+			if (FileSystem.APP) return FileSystem.APP.getPath("downloads"); else return null;
+		}
+
+		/**
+		 * 获取音乐目录
+		 */
+		static getMusicPath(): string {
+			if (FileSystem.APP) return FileSystem.APP.getPath("music"); else return null;
+		}
+
+		/**
+		 * 获取图片目录
+		 */
+		static getPicturePath(): string {
+			if (FileSystem.APP) return FileSystem.APP.getPath("pictures"); else return null;
+		}
+
+		/**
+		 * 获取视频目录
+		 */
+		static getVideoPath(): string {
+			if (FileSystem.APP) return FileSystem.APP.getPath("videos"); else return null;
+		}
+	}
+
+	/**
+	 * 应用程序功能
+	 */
+	export class Application {
+		///获取程序名称
+		static getName(): string {
+			if (FileSystem.APP) {
+				return FileSystem.APP.getName();
+			}
+			return null;
+		}
+		///获取程序版本号
+		static getVersion(): string {
+			if (FileSystem.APP) {
+				return FileSystem.APP.getVersion();
+			}
+			return null;
+		}
+		static getLocale(): string {
+			if (FileSystem.APP) {
+				return FileSystem.APP.getLocale();
+			}
+			return null;
+		}
+		static addRecentDocument(path: string): void {
+			if (FileSystem.APP) {
+				FileSystem.APP.addRecentDocument(path);
+			}
+		}
+		static clearRecentDocuments(): void {
+			if (FileSystem.APP) {
+				FileSystem.APP.clearRecentDocuments();
+			}
+		}
+	}
+
+	/**
+	 * 用户数据
+	 */
+	export class UserData {
+		static data: any;
+		static inited: boolean;
+		/**
+		 * 初始化
+		 */
+		static init(): void {
+			if (SolarOS.UserData.inited) return;
+			SolarOS.UserData.inited = true;
+			SolarOS.UserData.data = new Object();
+		}
+
+		/**
+		 * 获取配置文件路径
+		 */
+		static getFilePath(): string {
+			var basePath = FileSystem.getDocumentsPath();
+			var folderName = Application.getName();
+			var fileName = "UserData.json";
+
+			if (basePath && folderName && fileName) {
+				var ret = FileSystem.getJoinPath(basePath, folderName);
+				ret = FileSystem.getJoinPath(ret, fileName);
+				return ret;
+			}
+
+			return null;
+		}
+
+		/**
+		 * 加载配置文件
+		 */
+		static load(): void {
+			SolarOS.UserData.init();
+			try {
+				var jsonStr = FileSystem.loadFileNow(UserData.getFilePath(), null);
+				SolarOS.UserData.data = JSON.parse(jsonStr);
+			}
+			catch (err) {
+			}
+		}
+
+		/**
+		 * 保存配置文件
+		 */
+		static save(): void {
+			SolarOS.UserData.init();
+			try {
+				var userDataPath = UserData.getFilePath();
+				var userDataFolderPath = FileSystem.getDirectory(userDataPath);
+				FileSystem.createDirectory(userDataFolderPath);
+				var jsonStr = JSON.stringify(SolarOS.UserData.data);
+				FileSystem.saveFileNow(UserData.getFilePath(), jsonStr, null);
+			}
+			catch (err) {
+			}
+		}
+
+		/**
+		 * 获取配置数据
+		 */
+		static getValue(key: string, def: any): any {
+			SolarOS.UserData.init();
+
+			if (SolarOS.UserData.data) {
+				if (SolarOS.UserData.data[key]) {
+					return SolarOS.UserData.data[key];
+				}
+			}
+
+			return def;
+		}
+
+		/**
+		 * 设置配置数据
+		 */
+		static setValue(key: string, value: any): void {
+			SolarOS.UserData.init();
+
+			SolarOS.UserData.data[key] = value;
 		}
 	}
 

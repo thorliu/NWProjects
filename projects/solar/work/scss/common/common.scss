@@ -119,7 +119,7 @@ table.layout {
 		background-color: transparent;
 		color: $color-toolbar-fg;
 		vertical-align: middle;
-
+		outline: none;
 		span[class^='icon-'] { font-size: 16px; }
 	}
 	button:hover{
@@ -134,6 +134,7 @@ table.layout {
 		display: inline-block; font-size: 1rem; text-decoration: none; height: 30px; line-height: 30px; position: relative; vertical-align: middle;
 		padding: 0px 24px; color: $color-toolbar-fg;
 		border-left: solid 1px $color-ctrl-light-gray;
+		cursor:default;
 	}
 	>a:first-child { border-left: none; }
 	>a.selected {

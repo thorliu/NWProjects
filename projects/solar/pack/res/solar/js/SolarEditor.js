@@ -3,7 +3,7 @@
  * @Author: thor.liu 
  * @Date: 2016-12-31 14:46:17 
  * @Last Modified by: thor.liu
- * @Last Modified time: 2016-12-31 22:08:06
+ * @Last Modified time: 2017-01-01 11:10:29
  */
 
 const SolarEditorSettings = {};
@@ -14,9 +14,11 @@ SolarEditorSettings.initNodeJS = function () {
 
 		SolarOS.UI.ELECTRON = require("electron");
 		SolarOS.UI.DIALOG = require("electron").remote.dialog;
+		
 
 		SolarOS.FileSystem.FS = require("fs");
 		SolarOS.FileSystem.PATH = require("path");
+		SolarOS.FileSystem.APP = require("electron").remote.app;
 	}
 };
 

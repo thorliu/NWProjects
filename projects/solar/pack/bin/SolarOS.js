@@ -57,7 +57,10 @@ var SolarOS;
         };
         FileSystem.createDirectory = function (path) {
             if (FileSystem.FS) {
-                FileSystem.FS.mkdirSync(path);
+                try {
+                    FileSystem.FS.mkdirSync(path);
+                }
+                catch (err) { }
             }
         };
         FileSystem.list = function (path, callback) {
@@ -133,15 +136,33 @@ var SolarOS;
                 callback(true, null);
             }
         };
+        FileSystem.loadFileNow = function (path, encoding) {
+            try {
+                return FileSystem.FS.readFileSync(path, encoding);
+            }
+            catch (err) {
+                return null;
+            }
+        };
         FileSystem.saveFile = function (path, data, callback, encoding) {
             if (FileSystem.FS) {
                 if (encoding) { }
                 else
                     encoding = "utf8";
-                FileSystem.FS.writeFile(path, data, callback);
+                FileSystem.FS.writeFile(path, data, encoding, callback);
             }
             else {
                 callback(true);
+            }
+        };
+        FileSystem.saveFileNow = function (path, data, encoding) {
+            try {
+                if (encoding) { }
+                else
+                    encoding = "utf8";
+                FileSystem.FS.writeFileSync(path, data, encoding);
+            }
+            catch (err) {
             }
         };
         FileSystem.getDirectory = function (path) {
@@ -189,9 +210,178 @@ var SolarOS;
             }
             return null;
         };
+        FileSystem.getAppPath = function () {
+            if (FileSystem.APP) {
+                return FileSystem.APP.getAppPath();
+            }
+            return null;
+        };
+        FileSystem.getHomePath = function () {
+            if (FileSystem.APP)
+                return FileSystem.APP.getPath("home");
+            else
+                return null;
+        };
+        FileSystem.getAppDataPath = function () {
+            if (FileSystem.APP)
+                return FileSystem.APP.getPath("appData");
+            else
+                return null;
+        };
+        FileSystem.getUserDataPath = function () {
+            if (FileSystem.APP)
+                return FileSystem.APP.getPath("userData");
+            else
+                return null;
+        };
+        FileSystem.getTempPath = function () {
+            if (FileSystem.APP)
+                return FileSystem.APP.getPath("temp");
+            else
+                return null;
+        };
+        FileSystem.getExePath = function () {
+            if (FileSystem.APP)
+                return FileSystem.APP.getPath("exe");
+            else
+                return null;
+        };
+        FileSystem.getModulePath = function () {
+            if (FileSystem.APP)
+                return FileSystem.APP.getPath("module");
+            else
+                return null;
+        };
+        FileSystem.getDesktopPath = function () {
+            if (FileSystem.APP)
+                return FileSystem.APP.getPath("desktop");
+            else
+                return null;
+        };
+        FileSystem.getDocumentsPath = function () {
+            if (FileSystem.APP)
+                return FileSystem.APP.getPath("documents");
+            else
+                return null;
+        };
+        FileSystem.getDownloadPath = function () {
+            if (FileSystem.APP)
+                return FileSystem.APP.getPath("downloads");
+            else
+                return null;
+        };
+        FileSystem.getMusicPath = function () {
+            if (FileSystem.APP)
+                return FileSystem.APP.getPath("music");
+            else
+                return null;
+        };
+        FileSystem.getPicturePath = function () {
+            if (FileSystem.APP)
+                return FileSystem.APP.getPath("pictures");
+            else
+                return null;
+        };
+        FileSystem.getVideoPath = function () {
+            if (FileSystem.APP)
+                return FileSystem.APP.getPath("videos");
+            else
+                return null;
+        };
         return FileSystem;
     }());
     SolarOS.FileSystem = FileSystem;
+    var Application = (function () {
+        function Application() {
+        }
+        Application.getName = function () {
+            if (FileSystem.APP) {
+                return FileSystem.APP.getName();
+            }
+            return null;
+        };
+        Application.getVersion = function () {
+            if (FileSystem.APP) {
+                return FileSystem.APP.getVersion();
+            }
+            return null;
+        };
+        Application.getLocale = function () {
+            if (FileSystem.APP) {
+                return FileSystem.APP.getLocale();
+            }
+            return null;
+        };
+        Application.addRecentDocument = function (path) {
+            if (FileSystem.APP) {
+                FileSystem.APP.addRecentDocument(path);
+            }
+        };
+        Application.clearRecentDocuments = function () {
+            if (FileSystem.APP) {
+                FileSystem.APP.clearRecentDocuments();
+            }
+        };
+        return Application;
+    }());
+    SolarOS.Application = Application;
+    var UserData = (function () {
+        function UserData() {
+        }
+        UserData.init = function () {
+            if (SolarOS.UserData.inited)
+                return;
+            SolarOS.UserData.inited = true;
+            SolarOS.UserData.data = new Object();
+        };
+        UserData.getFilePath = function () {
+            var basePath = FileSystem.getDocumentsPath();
+            var folderName = Application.getName();
+            var fileName = "UserData.json";
+            if (basePath && folderName && fileName) {
+                var ret = FileSystem.getJoinPath(basePath, folderName);
+                ret = FileSystem.getJoinPath(ret, fileName);
+                return ret;
+            }
+            return null;
+        };
+        UserData.load = function () {
+            SolarOS.UserData.init();
+            try {
+                var jsonStr = FileSystem.loadFileNow(UserData.getFilePath(), null);
+                SolarOS.UserData.data = JSON.parse(jsonStr);
+            }
+            catch (err) {
+            }
+        };
+        UserData.save = function () {
+            SolarOS.UserData.init();
+            try {
+                var userDataPath = UserData.getFilePath();
+                var userDataFolderPath = FileSystem.getDirectory(userDataPath);
+                FileSystem.createDirectory(userDataFolderPath);
+                var jsonStr = JSON.stringify(SolarOS.UserData.data);
+                FileSystem.saveFileNow(UserData.getFilePath(), jsonStr, null);
+            }
+            catch (err) {
+            }
+        };
+        UserData.getValue = function (key, def) {
+            SolarOS.UserData.init();
+            if (SolarOS.UserData.data) {
+                if (SolarOS.UserData.data[key]) {
+                    return SolarOS.UserData.data[key];
+                }
+            }
+            return def;
+        };
+        UserData.setValue = function (key, value) {
+            SolarOS.UserData.init();
+            SolarOS.UserData.data[key] = value;
+        };
+        return UserData;
+    }());
+    SolarOS.UserData = UserData;
     var MessageBoxIcons = (function () {
         function MessageBoxIcons() {
         }
