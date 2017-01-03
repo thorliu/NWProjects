@@ -3,7 +3,7 @@
  * @Author: thor.liu 
  * @Date: 2016-12-31 14:52:33 
  * @Last Modified by: thor.liu
- * @Last Modified time: 2016-12-31 22:23:14
+ * @Last Modified time: 2017-01-01 15:53:19
  */
 
 const SolarEditorUI = {};
@@ -73,6 +73,74 @@ SolarEditorUI.onCommandClick = function (e) {
 	var dataKey = target.attr("cmd-key");
 	console.log("SolarEditorUI.onCommandClick", dataKey);
 };
+
+//------------------------------------------------------------------- Menu
+
+SolarEditorUI.createMenu = function(commands){
+	var ret = new SolarOS.UI.MENU();
+
+	for(var i  = 0; i < commands.length;i ++)
+	{
+		var command = commands[i];
+		switch(command.type){
+			case SolarCore.CommandType.Separator:
+			{
+
+			}
+				break;
+		}
+	}
+
+	return ret;
+};
+
+// SolarEditorUI.buildMenuTemplate = function (command) {
+// 	var ret = new Object();
+// 	switch (command.type) {
+// 		//分隔线
+// 		case SolarCore.CommandType.Separator:
+// 			ret.type = "separator";
+// 			break;
+// 		case SolarCore.CommandType.Button:
+// 			ret.label = command.name;
+// 			if (command.role) ret.role = command.role;
+// 			if (command.accelerator) ret.accelerator = command.accelerator;
+// 			if (command.children && command.children.length > 0) {
+// 				ret.submenu = new Array();
+// 				for (var i = 0; i < command.children.length; i++) {
+// 					var cmd = command.children[i];
+// 					var item = SolarEditorUI.buildMenuTemplate(cmd);
+// 					ret.submenu.push(item);
+// 				}
+// 			}
+// 			break;
+
+// 		default:
+// 			return null;
+// 	}
+
+// 	return ret;
+// };
+
+
+SolarEditorUI.setupMenuBar = function (commands) {
+	SolarOS.UI.setMenuBar(commands);
+
+	// var template = new Array();
+	// for (var i = 0; i < commands.length; i++) {
+	// 	var command = commands[i];
+	// 	var item = SolarEditorUI.buildMenuTemplate(command);
+	// 	if (item) template.push(item);
+	// }
+	// console.log("menu[1]", SolarOS.UI.MENU);
+	// console.log("menu[2]", SolarOS.UI.MENU.buildMenuTemplate);
+	// console.log("menu[3]", SolarOS.UI.MENU.setApplicationMenu);
+
+	// const menu = SolarOS.UI.MENU.buildMenuTemplate(template);
+	// console.log("menu[4]", menu);
+	// SolarOS.UI.MENU.setApplicationMenu(menu);
+};
+
 
 //------------------------------------------------------------------- Status
 

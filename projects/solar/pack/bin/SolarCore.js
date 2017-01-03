@@ -10,15 +10,19 @@ var SolarCore;
         CommandType[CommandType["None"] = 0] = "None";
         CommandType[CommandType["Label"] = 1] = "Label";
         CommandType[CommandType["Button"] = 2] = "Button";
+        CommandType[CommandType["Separator"] = 3] = "Separator";
     })(CommandType = SolarCore.CommandType || (SolarCore.CommandType = {}));
     var Command = (function () {
-        function Command(cKey, cName, cIcon, cType, cData) {
+        function Command(cKey, cName, cIcon, cType, cData, cHandler, cRole, cAccelerator, cChildren) {
             this.children = new Array();
             this.key = cKey;
             this.name = cName;
             this.icon = cIcon;
             this.data = cData;
             this.type = cType;
+            this.handler = cHandler;
+            this.role = cRole;
+            this.children = cChildren;
         }
         return Command;
     }());

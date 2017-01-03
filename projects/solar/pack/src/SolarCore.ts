@@ -3,7 +3,7 @@
  * @Author: thor.liu 
  * @Date: 2016-12-29 16:12:29 
  * @Last Modified by: thor.liu
- * @Last Modified time: 2016-12-31 21:37:45
+ * @Last Modified time: 2017-01-01 13:10:16
  */
 module SolarCore {
 
@@ -36,7 +36,8 @@ module SolarCore {
 	export enum CommandType {
 		None = 0,
 		Label,
-		Button
+		Button,
+		Separator
 	}
 
 	/**
@@ -50,14 +51,21 @@ module SolarCore {
 		 * @param cIcon 图标
 		 * @param cType 类型
 		 * @param cData 数据
+		 * @param cHandler 回调函数
+		 * @param cRole 规则
+		 * @param cAccelerator 快捷键
+		 * @param cChildren 子级
 		 */
-		constructor(cKey: string, cName: string, cIcon: string, cType: CommandType, cData: any) {
+		constructor(cKey: string, cName: string, cIcon: string, cType: CommandType, cData: any, cHandler:Function, cRole:string, cAccelerator:string, cChildren:Array<Command>) {
 			this.children = new Array<Command>();
 			this.key = cKey;
 			this.name = cName;
 			this.icon = cIcon;
 			this.data = cData;
 			this.type = cType;
+			this.handler = cHandler;
+			this.role = cRole;
+			this.children = cChildren;
 		}
 
 		public key: string;
@@ -65,7 +73,10 @@ module SolarCore {
 		public name: string;
 		public data: any;
 		public type: CommandType;
+		public handler: Function;
 		public children: Array<Command>;
+		public role:string;
+		public accelerator:string;
 	}
 
 	// --------------------------------------------------------------

@@ -450,6 +450,18 @@ var SolarOS;
         UI.showInfoBox_YES_NO_CANCEL = function (title, content, callback) {
             UI.showMessageBox(title, content, MessageBoxIcons.Info, ["Yes", "No", "Cancel"], 0, 2, callback);
         };
+        UI.createMenuFromTemplate = function (template) {
+            if (SolarOS.UI.MENU) {
+                return SolarOS.UI.MENU.buildFromTemplate(template);
+            }
+            return null;
+        };
+        UI.setMenuBar = function (commands) {
+            var menu = SolarOS.UI.createMenuFromTemplate(commands);
+            if (menu && SolarOS.UI.MENU) {
+                SolarOS.UI.MENU.setApplicationMenu(menu);
+            }
+        };
         return UI;
     }());
     SolarOS.UI = UI;

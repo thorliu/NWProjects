@@ -3,7 +3,7 @@
  * @Author: thor.liu 
  * @Date: 2016-12-30 11:44:21 
  * @Last Modified by: thor.liu
- * @Last Modified time: 2017-01-01 12:05:05
+ * @Last Modified time: 2017-01-01 15:36:05
  */
 module SolarOS {
 
@@ -549,6 +549,8 @@ module SolarOS {
 	export class UI {
 		static ELECTRON: any;
 		static DIALOG: any;
+		static MENU: any;
+		static MENU_ITEM: any;
 
 		/**
 		 * 对话框: 打开文件
@@ -674,6 +676,29 @@ module SolarOS {
 		 */
 		static showInfoBox_YES_NO_CANCEL(title: string, content: string, callback: Function): void {
 			UI.showMessageBox(title, content, MessageBoxIcons.Info, ["Yes", "No", "Cancel"], 0, 2, callback);
+		}
+
+		/**
+		 * 从模板创建菜单
+		 */
+		static createMenuFromTemplate(template:any):any {
+			if(SolarOS.UI.MENU)
+			{
+				return SolarOS.UI.MENU.buildFromTemplate(template);
+			}
+
+			return null;
+		}
+
+		/**
+		 * 设置菜单条
+		 */
+		static setMenuBar(commands:any):void {
+			var menu = SolarOS.UI.createMenuFromTemplate(commands);
+			if(menu && SolarOS.UI.MENU)
+			{
+				SolarOS.UI.MENU.setApplicationMenu(menu);
+			}
 		}
 	}
 }

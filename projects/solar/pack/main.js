@@ -1,5 +1,6 @@
 const electron = require('electron');
 const {app} = electron;
+const {Menu} = electron;
 const {BrowserWindow} = electron;
 let win;
 function createWindow() {
