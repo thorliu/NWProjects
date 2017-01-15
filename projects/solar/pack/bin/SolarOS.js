@@ -1,14 +1,78 @@
 var SolarOS;
 (function (SolarOS) {
+    var NodeCore = (function () {
+        function NodeCore() {
+            this._FS = require("fs");
+            this._PATH = require("path");
+            this._APP = require("electron").remote.app;
+            this._ELECTRON = require("electron");
+            this._DIALOG = require("electron").remote.dialog;
+            this._MENU = require("electron").remote.Menu;
+            this._MENU_ITEM = require("electron").remote.MenuItem;
+            this._jQuery = require("jQuery");
+        }
+        Object.defineProperty(NodeCore, "instance", {
+            get: function () {
+                if (!NodeCore._instance)
+                    NodeCore._instance = new SolarOS.NodeCore();
+                return NodeCore._instance;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(NodeCore.prototype, "FS", {
+            get: function () { return this._FS; },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(NodeCore.prototype, "PATH", {
+            get: function () { return this._PATH; },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(NodeCore.prototype, "APP", {
+            get: function () { return this._APP; },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(NodeCore.prototype, "ELECTRON", {
+            get: function () { return this._ELECTRON; },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(NodeCore.prototype, "DIALOG", {
+            get: function () { return this._DIALOG; },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(NodeCore.prototype, "MENU", {
+            get: function () { return this._MENU; },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(NodeCore.prototype, "MENU_ITEM", {
+            get: function () { return this._MENU_ITEM; },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(NodeCore.prototype, "JQuery", {
+            get: function () { return this._jQuery; },
+            enumerable: true,
+            configurable: true
+        });
+        return NodeCore;
+    }());
+    NodeCore._instance = null;
+    SolarOS.NodeCore = NodeCore;
     var FileSystem = (function () {
         function FileSystem() {
         }
         FileSystem.copy = function (path1, path2) {
-            if (FileSystem.FS) { }
+            if (NodeCore.instance.FS) { }
             else
                 return;
-            if (FileSystem.FS.existsSync(path1)) {
-                if (FileSystem.FS.statSync(path1).isDirectory()) {
+            if (NodeCore.instance.FS.existsSync(path1)) {
+                if (NodeCore.instance.FS.statSync(path1).isDirectory()) {
                     FileSystem.copyDirectory(path1, path2);
                 }
                 else {
@@ -17,27 +81,27 @@ var SolarOS;
             }
         };
         FileSystem.copyFile = function (path1, path2) {
-            if (FileSystem.FS) {
+            if (NodeCore.instance.FS) {
                 try {
-                    FileSystem.FS.createReadStream(path1).pipe(FileSystem.FS.createWriteStream(path2));
+                    NodeCore.instance.FS.createReadStream(path1).pipe(NodeCore.instance.FS.createWriteStream(path2));
                 }
                 catch (err) {
                 }
             }
         };
         FileSystem.copyDirectory = function (path1, path2) {
-            if (FileSystem.FS) { }
+            if (NodeCore.instance.FS) { }
             else
                 return;
             FileSystem.createDirectory(path2);
             var files = new Array();
-            if (FileSystem.FS.existsSync(path1)) {
-                files = FileSystem.FS.readdirSync(path1);
+            if (NodeCore.instance.FS.existsSync(path1)) {
+                files = NodeCore.instance.FS.readdirSync(path1);
                 for (var i = 0; i < files.length; i++) {
                     var file = files[i];
                     var curPath = FileSystem.getJoinPath(path1, file);
                     var dstPath = FileSystem.getJoinPath(path2, file);
-                    if (FileSystem.FS.statSync(curPath).isDirectory()) {
+                    if (NodeCore.instance.FS.statSync(curPath).isDirectory()) {
                         FileSystem.copyDirectory(curPath, dstPath);
                     }
                     else {
@@ -47,25 +111,25 @@ var SolarOS;
             }
         };
         FileSystem.move = function (path1, path2) {
-            if (FileSystem.FS) {
+            if (NodeCore.instance.FS) {
                 try {
-                    FileSystem.FS.renameSync(path1, path2);
+                    NodeCore.instance.FS.renameSync(path1, path2);
                 }
                 catch (err) {
                 }
             }
         };
         FileSystem.createDirectory = function (path) {
-            if (FileSystem.FS) {
+            if (NodeCore.instance.FS) {
                 try {
-                    FileSystem.FS.mkdirSync(path);
+                    NodeCore.instance.FS.mkdirSync(path);
                 }
                 catch (err) { }
             }
         };
         FileSystem.list = function (path, callback) {
-            if (FileSystem.FS) {
-                var ret = FileSystem.FS.readdirSync(path);
+            if (NodeCore.instance.FS) {
+                var ret = NodeCore.instance.FS.readdirSync(path);
                 for (var i = 0; i < ret.length; i++) {
                     ret[i] = FileSystem.getJoinPath(path, ret[i]);
                 }
@@ -74,9 +138,9 @@ var SolarOS;
             return [];
         };
         FileSystem.stat = function (path) {
-            if (FileSystem.FS) {
+            if (NodeCore.instance.FS) {
                 try {
-                    return FileSystem.FS.statSync(path);
+                    return NodeCore.instance.FS.statSync(path);
                 }
                 catch (err) {
                     return null;
@@ -85,11 +149,11 @@ var SolarOS;
             return null;
         };
         FileSystem.del = function (path) {
-            if (FileSystem.FS) { }
+            if (NodeCore.instance.FS) { }
             else
                 return;
-            if (FileSystem.FS.existsSync(path)) {
-                if (FileSystem.FS.statSync(path).isDirectory()) {
+            if (NodeCore.instance.FS.existsSync(path)) {
+                if (NodeCore.instance.FS.statSync(path).isDirectory()) {
                     FileSystem.deleteDirectory(path);
                 }
                 else {
@@ -98,39 +162,39 @@ var SolarOS;
             }
         };
         FileSystem.deleteFile = function (path) {
-            if (FileSystem.FS) {
+            if (NodeCore.instance.FS) {
                 try {
-                    FileSystem.FS.unlinkSync(path);
+                    NodeCore.instance.FS.unlinkSync(path);
                 }
                 catch (err) { }
             }
         };
         FileSystem.deleteDirectory = function (path) {
-            if (FileSystem.FS) { }
+            if (NodeCore.instance.FS) { }
             else
                 return;
             var files = new Array();
-            if (FileSystem.FS.existsSync(path)) {
-                files = FileSystem.FS.readdirSync(path);
+            if (NodeCore.instance.FS.existsSync(path)) {
+                files = NodeCore.instance.FS.readdirSync(path);
                 for (var i = 0; i < files.length; i++) {
                     var file = files[i];
                     var curPath = FileSystem.getJoinPath(path, file);
-                    if (FileSystem.FS.statSync(curPath).isDirectory()) {
+                    if (NodeCore.instance.FS.statSync(curPath).isDirectory()) {
                         FileSystem.deleteDirectory(curPath);
                     }
                     else {
-                        FileSystem.FS.unlinkSync(curPath);
+                        NodeCore.instance.FS.unlinkSync(curPath);
                     }
                 }
-                FileSystem.FS.rmdirSync(path);
+                NodeCore.instance.FS.rmdirSync(path);
             }
         };
         FileSystem.loadFile = function (path, callback, encoding) {
-            if (FileSystem.FS) {
+            if (NodeCore.instance.FS) {
                 if (encoding) { }
                 else
                     encoding = "utf8";
-                FileSystem.FS.readFile(path, encoding, callback);
+                NodeCore.instance.FS.readFile(path, encoding, callback);
             }
             else {
                 callback(true, null);
@@ -138,18 +202,18 @@ var SolarOS;
         };
         FileSystem.loadFileNow = function (path, encoding) {
             try {
-                return FileSystem.FS.readFileSync(path, encoding);
+                return NodeCore.instance.FS.readFileSync(path, encoding);
             }
             catch (err) {
                 return null;
             }
         };
         FileSystem.saveFile = function (path, data, callback, encoding) {
-            if (FileSystem.FS) {
+            if (NodeCore.instance.FS) {
                 if (encoding) { }
                 else
                     encoding = "utf8";
-                FileSystem.FS.writeFile(path, data, encoding, callback);
+                NodeCore.instance.FS.writeFile(path, data, encoding, callback);
             }
             else {
                 callback(true);
@@ -160,32 +224,32 @@ var SolarOS;
                 if (encoding) { }
                 else
                     encoding = "utf8";
-                FileSystem.FS.writeFileSync(path, data, encoding);
+                NodeCore.instance.FS.writeFileSync(path, data, encoding);
             }
             catch (err) {
             }
         };
         FileSystem.getDirectory = function (path) {
-            if (FileSystem.PATH) {
-                return FileSystem.PATH.dirname(path);
+            if (NodeCore.instance.PATH) {
+                return NodeCore.instance.PATH.dirname(path);
             }
             return null;
         };
         FileSystem.getFilename = function (path) {
-            if (FileSystem.PATH) {
-                return FileSystem.PATH.basename(path);
+            if (NodeCore.instance.PATH) {
+                return NodeCore.instance.PATH.basename(path);
             }
             return null;
         };
         FileSystem.getFileType = function (path) {
-            if (FileSystem.PATH) {
-                return FileSystem.PATH.extname(path);
+            if (NodeCore.instance.PATH) {
+                return NodeCore.instance.PATH.extname(path);
             }
             return null;
         };
         FileSystem.getJoinPath = function (aPath, bPath) {
-            if (FileSystem.PATH) {
-                return FileSystem.PATH.join(aPath, bPath);
+            if (NodeCore.instance.PATH) {
+                return NodeCore.instance.PATH.join(aPath, bPath);
             }
             return null;
         };
@@ -205,86 +269,86 @@ var SolarOS;
                     continue;
                 c.push(bItem);
             }
-            if (FileSystem.PATH) {
-                return FileSystem.PATH.join.apply(null, c);
+            if (NodeCore.instance.PATH) {
+                return NodeCore.instance.PATH.join.apply(null, c);
             }
             return null;
         };
         FileSystem.getAppPath = function () {
-            if (FileSystem.APP) {
-                return FileSystem.APP.getAppPath();
+            if (NodeCore.instance.APP) {
+                return NodeCore.instance.APP.getAppPath();
             }
             return null;
         };
         FileSystem.getHomePath = function () {
-            if (FileSystem.APP)
-                return FileSystem.APP.getPath("home");
+            if (NodeCore.instance.APP)
+                return NodeCore.instance.APP.getPath("home");
             else
                 return null;
         };
         FileSystem.getAppDataPath = function () {
-            if (FileSystem.APP)
-                return FileSystem.APP.getPath("appData");
+            if (NodeCore.instance.APP)
+                return NodeCore.instance.APP.getPath("appData");
             else
                 return null;
         };
         FileSystem.getUserDataPath = function () {
-            if (FileSystem.APP)
-                return FileSystem.APP.getPath("userData");
+            if (NodeCore.instance.APP)
+                return NodeCore.instance.APP.getPath("userData");
             else
                 return null;
         };
         FileSystem.getTempPath = function () {
-            if (FileSystem.APP)
-                return FileSystem.APP.getPath("temp");
+            if (NodeCore.instance.APP)
+                return NodeCore.instance.APP.getPath("temp");
             else
                 return null;
         };
         FileSystem.getExePath = function () {
-            if (FileSystem.APP)
-                return FileSystem.APP.getPath("exe");
+            if (NodeCore.instance.APP)
+                return NodeCore.instance.APP.getPath("exe");
             else
                 return null;
         };
         FileSystem.getModulePath = function () {
-            if (FileSystem.APP)
-                return FileSystem.APP.getPath("module");
+            if (NodeCore.instance.APP)
+                return NodeCore.instance.APP.getPath("module");
             else
                 return null;
         };
         FileSystem.getDesktopPath = function () {
-            if (FileSystem.APP)
-                return FileSystem.APP.getPath("desktop");
+            if (NodeCore.instance.APP)
+                return NodeCore.instance.APP.getPath("desktop");
             else
                 return null;
         };
         FileSystem.getDocumentsPath = function () {
-            if (FileSystem.APP)
-                return FileSystem.APP.getPath("documents");
+            if (NodeCore.instance.APP)
+                return NodeCore.instance.APP.getPath("documents");
             else
                 return null;
         };
         FileSystem.getDownloadPath = function () {
-            if (FileSystem.APP)
-                return FileSystem.APP.getPath("downloads");
+            if (NodeCore.instance.APP)
+                return NodeCore.instance.APP.getPath("downloads");
             else
                 return null;
         };
         FileSystem.getMusicPath = function () {
-            if (FileSystem.APP)
-                return FileSystem.APP.getPath("music");
+            if (NodeCore.instance.APP)
+                return NodeCore.instance.APP.getPath("music");
             else
                 return null;
         };
         FileSystem.getPicturePath = function () {
-            if (FileSystem.APP)
-                return FileSystem.APP.getPath("pictures");
+            if (NodeCore.instance.APP)
+                return NodeCore.instance.APP.getPath("pictures");
             else
                 return null;
         };
         FileSystem.getVideoPath = function () {
-            if (FileSystem.APP)
-                return FileSystem.APP.getPath("videos");
+            if (NodeCore.instance.APP)
+                return NodeCore.instance.APP.getPath("videos");
             else
                 return null;
         };
@@ -295,31 +359,31 @@ var SolarOS;
         function Application() {
         }
         Application.getName = function () {
-            if (FileSystem.APP) {
-                return FileSystem.APP.getName();
+            if (NodeCore.instance.APP) {
+                return NodeCore.instance.APP.getName();
             }
             return null;
         };
         Application.getVersion = function () {
-            if (FileSystem.APP) {
-                return FileSystem.APP.getVersion();
+            if (NodeCore.instance.APP) {
+                return NodeCore.instance.APP.getVersion();
             }
             return null;
         };
         Application.getLocale = function () {
-            if (FileSystem.APP) {
-                return FileSystem.APP.getLocale();
+            if (NodeCore.instance.APP) {
+                return NodeCore.instance.APP.getLocale();
             }
             return null;
         };
         Application.addRecentDocument = function (path) {
-            if (FileSystem.APP) {
-                FileSystem.APP.addRecentDocument(path);
+            if (NodeCore.instance.APP) {
+                NodeCore.instance.APP.addRecentDocument(path);
             }
         };
         Application.clearRecentDocuments = function () {
-            if (FileSystem.APP) {
-                FileSystem.APP.clearRecentDocuments();
+            if (NodeCore.instance.APP) {
+                NodeCore.instance.APP.clearRecentDocuments();
             }
         };
         return Application;
@@ -400,8 +464,8 @@ var SolarOS;
             filters = [
                 { name: "json files", extensions: ["json"] }
             ];
-            if (UI.DIALOG) {
-                UI.DIALOG.showOpenDialog({
+            if (NodeCore.instance.DIALOG) {
+                NodeCore.instance.DIALOG.showOpenDialog({
                     properties: ["openFile"],
                     filters: filters
                 }, callback);
@@ -413,8 +477,8 @@ var SolarOS;
             filters = [
                 { name: "json files", extensions: ["json"] }
             ];
-            if (UI.DIALOG) {
-                UI.DIALOG.showSaveDialog({
+            if (NodeCore.instance.DIALOG) {
+                NodeCore.instance.DIALOG.showSaveDialog({
                     filters: filters
                 }, callback);
                 return;
@@ -422,13 +486,13 @@ var SolarOS;
             callback(null);
         };
         UI.showErrorBox = function (title, content) {
-            if (UI.DIALOG) {
-                UI.DIALOG.showErrorBox(title, content);
+            if (NodeCore.instance.DIALOG) {
+                NodeCore.instance.DIALOG.showErrorBox(title, content);
             }
         };
         UI.showMessageBox = function (title, content, icon, buttons, defaultButtonIndex, cancelButtonIndex, callback) {
-            if (UI.DIALOG) {
-                UI.DIALOG.showMessageBox({
+            if (NodeCore.instance.DIALOG) {
+                NodeCore.instance.DIALOG.showMessageBox({
                     title: title,
                     message: content,
                     type: icon,
@@ -449,18 +513,6 @@ var SolarOS;
         };
         UI.showInfoBox_YES_NO_CANCEL = function (title, content, callback) {
             UI.showMessageBox(title, content, MessageBoxIcons.Info, ["Yes", "No", "Cancel"], 0, 2, callback);
-        };
-        UI.createMenuFromTemplate = function (template) {
-            if (SolarOS.UI.MENU) {
-                return SolarOS.UI.MENU.buildFromTemplate(template);
-            }
-            return null;
-        };
-        UI.setMenuBar = function (commands) {
-            var menu = SolarOS.UI.createMenuFromTemplate(commands);
-            if (menu && SolarOS.UI.MENU) {
-                SolarOS.UI.MENU.setApplicationMenu(menu);
-            }
         };
         return UI;
     }());
