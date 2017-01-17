@@ -3,7 +3,7 @@
  * @Author: thor.liu 
  * @Date: 2017-01-15 18:26:25 
  * @Last Modified by: thor.liu
- * @Last Modified time: 2017-01-15 19:10:54
+ * @Last Modified time: 2017-01-15 22:22:23
  */
 
 /// <reference path="../typings/index.d.ts" />

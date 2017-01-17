@@ -3,7 +3,7 @@
  * @Author: thor.liu 
  * @Date: 2017-01-15 17:00:59 
  * @Last Modified by: thor.liu
- * @Last Modified time: 2017-01-15 18:38:27
+ * @Last Modified time: 2017-01-15 22:36:42
  */
 
 /// <reference path="../typings/index.d.ts" />
@@ -738,5 +738,25 @@ module SolarOS
 		static showInfoBox_YES_NO_CANCEL(title: string, content: string, callback: Function): void {
 			UI.showMessageBox(title, content, MessageBoxIcons.Info, ["Yes", "No", "Cancel"], 0, 2, callback);
 		}
+
+		/**
+		 * 安装菜单
+		 */
+		static setupMenuBar(...args):void{
+			var template = null;
+			if(args.length == 0)
+			{
+				var folder = SolarOS.FileSystem.getAppPath();
+				var file = "mods/menus.json";
+				var filePath = SolarOS.FileSystem.getJoinPath(folder, file);
+				var fileData = SolarOS.FileSystem.loadFileNow(filePath,"utf8");
+				template = JSON.parse(fileData);
+			}
+			else template = args[0];
+
+			template = SolarOS.NodeCore.instance.MENU.buildFromTemplate(template);
+			if(template) SolarOS.NodeCore.instance.MENU.setApplicationMenu(template);
+		}
+
 	}
 }

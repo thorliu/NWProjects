@@ -81,7 +81,7 @@ module Utils
 		/**
 		 * 格式化参数
 		 */
-		static format(src: string): string
+		static format(src: string, ...args): string
 		{
 			var str = src + "";
 			for (var i = 1; i < arguments.length; i++)

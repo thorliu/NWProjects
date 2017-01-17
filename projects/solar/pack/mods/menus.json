@@ -1,0 +1,13 @@
+[
+	{
+		"label": "Edit",
+		"submenu": [
+			{
+				"label": "item1"
+			},
+			{
+				"type": "separator"
+			}
+		]
+	}
+]
