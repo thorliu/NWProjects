@@ -1,14 +1,14 @@
 var SolarEditor;
 (function (SolarEditor) {
-    class JsonDataFileHandlers {
-        constructor() {
+    var JsonDataFileHandlers = (function () {
+        function JsonDataFileHandlers() {
         }
-        write(data, path) {
+        JsonDataFileHandlers.prototype.write = function (data, path) {
             var jsonData = JSON.stringify(data);
             SolarOS.FileSystem.saveFileNow(path, jsonData, null);
             return true;
-        }
-        read(path) {
+        };
+        JsonDataFileHandlers.prototype.read = function (path) {
             var jsonData = SolarOS.FileSystem.loadFileNow(path, null);
             try {
                 return JSON.parse(jsonData);
@@ -16,32 +16,43 @@ var SolarEditor;
             catch (err) {
             }
             return null;
-        }
-    }
+        };
+        return JsonDataFileHandlers;
+    }());
     SolarEditor.JsonDataFileHandlers = JsonDataFileHandlers;
-    class Module {
-        constructor() {
+    var Module = (function () {
+        function Module() {
         }
-    }
+        return Module;
+    }());
     SolarEditor.Module = Module;
-    class Modules {
-        constructor() {
+    var Modules = (function () {
+        function Modules() {
             this._mods = new Array();
         }
-        static get instance() {
-            if (!SolarEditor.Modules._instance) {
-                SolarEditor.Modules._instance = new SolarEditor.Modules();
-            }
-            return SolarEditor.Modules._instance;
-        }
-        loadMods() {
-        }
-        startup() {
-        }
-        get mods() {
-            return this._mods;
-        }
-    }
+        Object.defineProperty(Modules, "instance", {
+            get: function () {
+                if (!SolarEditor.Modules._instance) {
+                    SolarEditor.Modules._instance = new SolarEditor.Modules();
+                }
+                return SolarEditor.Modules._instance;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Modules.prototype.loadMods = function () {
+        };
+        Modules.prototype.startup = function () {
+        };
+        Object.defineProperty(Modules.prototype, "mods", {
+            get: function () {
+                return this._mods;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return Modules;
+    }());
     SolarEditor.Modules = Modules;
 })(SolarEditor || (SolarEditor = {}));
 //# sourceMappingURL=SolarEditor.js.map

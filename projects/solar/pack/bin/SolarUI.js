@@ -1,15 +1,20 @@
-const $ = require("jQuery");
+var $ = require("jQuery");
 var SolarUI;
 (function (SolarUI) {
-    class SolarEditorUI {
-        constructor() {
+    var SolarEditorUI = (function () {
+        function SolarEditorUI() {
         }
-        static get instance() {
-            if (!SolarUI.SolarEditorUI._instance)
-                SolarUI.SolarEditorUI._instance = new SolarUI.SolarEditorUI();
-            return SolarUI.SolarEditorUI._instance;
-        }
-    }
+        Object.defineProperty(SolarEditorUI, "instance", {
+            get: function () {
+                if (!SolarUI.SolarEditorUI._instance)
+                    SolarUI.SolarEditorUI._instance = new SolarUI.SolarEditorUI();
+                return SolarUI.SolarEditorUI._instance;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return SolarEditorUI;
+    }());
     SolarUI.SolarEditorUI = SolarEditorUI;
 })(SolarUI || (SolarUI = {}));
 //# sourceMappingURL=SolarUI.js.map

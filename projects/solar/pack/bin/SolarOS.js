@@ -1,7 +1,7 @@
 var SolarOS;
 (function (SolarOS) {
-    class NodeCore {
-        constructor() {
+    var NodeCore = (function () {
+        function NodeCore() {
             this._FS = require("fs");
             this._PATH = require("path");
             this._APP = require("electron").remote.app;
@@ -11,24 +11,63 @@ var SolarOS;
             this._MENU_ITEM = require("electron").remote.MenuItem;
             this._jQuery = require("jQuery");
         }
-        static get instance() {
-            if (!NodeCore._instance)
-                NodeCore._instance = new SolarOS.NodeCore();
-            return NodeCore._instance;
-        }
-        get FS() { return this._FS; }
-        get PATH() { return this._PATH; }
-        get APP() { return this._APP; }
-        get ELECTRON() { return this._ELECTRON; }
-        get DIALOG() { return this._DIALOG; }
-        get MENU() { return this._MENU; }
-        get MENU_ITEM() { return this._MENU_ITEM; }
-        get JQuery() { return this._jQuery; }
-    }
+        Object.defineProperty(NodeCore, "instance", {
+            get: function () {
+                if (!NodeCore._instance)
+                    NodeCore._instance = new SolarOS.NodeCore();
+                return NodeCore._instance;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(NodeCore.prototype, "FS", {
+            get: function () { return this._FS; },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(NodeCore.prototype, "PATH", {
+            get: function () { return this._PATH; },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(NodeCore.prototype, "APP", {
+            get: function () { return this._APP; },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(NodeCore.prototype, "ELECTRON", {
+            get: function () { return this._ELECTRON; },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(NodeCore.prototype, "DIALOG", {
+            get: function () { return this._DIALOG; },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(NodeCore.prototype, "MENU", {
+            get: function () { return this._MENU; },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(NodeCore.prototype, "MENU_ITEM", {
+            get: function () { return this._MENU_ITEM; },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(NodeCore.prototype, "JQuery", {
+            get: function () { return this._jQuery; },
+            enumerable: true,
+            configurable: true
+        });
+        return NodeCore;
+    }());
     NodeCore._instance = null;
     SolarOS.NodeCore = NodeCore;
-    class FileSystem {
-        static copy(path1, path2) {
+    var FileSystem = (function () {
+        function FileSystem() {
+        }
+        FileSystem.copy = function (path1, path2) {
             if (NodeCore.instance.FS) { }
             else
                 return;
@@ -40,8 +79,8 @@ var SolarOS;
                     FileSystem.copyFile(path1, path2);
                 }
             }
-        }
-        static copyFile(path1, path2) {
+        };
+        FileSystem.copyFile = function (path1, path2) {
             if (NodeCore.instance.FS) {
                 try {
                     NodeCore.instance.FS.createReadStream(path1).pipe(NodeCore.instance.FS.createWriteStream(path2));
@@ -49,8 +88,8 @@ var SolarOS;
                 catch (err) {
                 }
             }
-        }
-        static copyDirectory(path1, path2) {
+        };
+        FileSystem.copyDirectory = function (path1, path2) {
             if (NodeCore.instance.FS) { }
             else
                 return;
@@ -70,8 +109,8 @@ var SolarOS;
                     }
                 }
             }
-        }
-        static move(path1, path2) {
+        };
+        FileSystem.move = function (path1, path2) {
             if (NodeCore.instance.FS) {
                 try {
                     NodeCore.instance.FS.renameSync(path1, path2);
@@ -79,16 +118,16 @@ var SolarOS;
                 catch (err) {
                 }
             }
-        }
-        static createDirectory(path) {
+        };
+        FileSystem.createDirectory = function (path) {
             if (NodeCore.instance.FS) {
                 try {
                     NodeCore.instance.FS.mkdirSync(path);
                 }
                 catch (err) { }
             }
-        }
-        static list(path, callback) {
+        };
+        FileSystem.list = function (path, callback) {
             if (NodeCore.instance.FS) {
                 var ret = NodeCore.instance.FS.readdirSync(path);
                 for (var i = 0; i < ret.length; i++) {
@@ -97,8 +136,8 @@ var SolarOS;
                 return ret;
             }
             return [];
-        }
-        static stat(path) {
+        };
+        FileSystem.stat = function (path) {
             if (NodeCore.instance.FS) {
                 try {
                     return NodeCore.instance.FS.statSync(path);
@@ -108,8 +147,8 @@ var SolarOS;
                 }
             }
             return null;
-        }
-        static del(path) {
+        };
+        FileSystem.del = function (path) {
             if (NodeCore.instance.FS) { }
             else
                 return;
@@ -121,16 +160,16 @@ var SolarOS;
                     FileSystem.deleteFile(path);
                 }
             }
-        }
-        static deleteFile(path) {
+        };
+        FileSystem.deleteFile = function (path) {
             if (NodeCore.instance.FS) {
                 try {
                     NodeCore.instance.FS.unlinkSync(path);
                 }
                 catch (err) { }
             }
-        }
-        static deleteDirectory(path) {
+        };
+        FileSystem.deleteDirectory = function (path) {
             if (NodeCore.instance.FS) { }
             else
                 return;
@@ -149,8 +188,8 @@ var SolarOS;
                 }
                 NodeCore.instance.FS.rmdirSync(path);
             }
-        }
-        static loadFile(path, callback, encoding) {
+        };
+        FileSystem.loadFile = function (path, callback, encoding) {
             if (NodeCore.instance.FS) {
                 if (encoding) { }
                 else
@@ -160,16 +199,16 @@ var SolarOS;
             else {
                 callback(true, null);
             }
-        }
-        static loadFileNow(path, encoding) {
+        };
+        FileSystem.loadFileNow = function (path, encoding) {
             try {
                 return NodeCore.instance.FS.readFileSync(path, encoding);
             }
             catch (err) {
                 return null;
             }
-        }
-        static saveFile(path, data, callback, encoding) {
+        };
+        FileSystem.saveFile = function (path, data, callback, encoding) {
             if (NodeCore.instance.FS) {
                 if (encoding) { }
                 else
@@ -179,8 +218,8 @@ var SolarOS;
             else {
                 callback(true);
             }
-        }
-        static saveFileNow(path, data, encoding) {
+        };
+        FileSystem.saveFileNow = function (path, data, encoding) {
             try {
                 if (encoding) { }
                 else
@@ -189,32 +228,32 @@ var SolarOS;
             }
             catch (err) {
             }
-        }
-        static getDirectory(path) {
+        };
+        FileSystem.getDirectory = function (path) {
             if (NodeCore.instance.PATH) {
                 return NodeCore.instance.PATH.dirname(path);
             }
             return null;
-        }
-        static getFilename(path) {
+        };
+        FileSystem.getFilename = function (path) {
             if (NodeCore.instance.PATH) {
                 return NodeCore.instance.PATH.basename(path);
             }
             return null;
-        }
-        static getFileType(path) {
+        };
+        FileSystem.getFileType = function (path) {
             if (NodeCore.instance.PATH) {
                 return NodeCore.instance.PATH.extname(path);
             }
             return null;
-        }
-        static getJoinPath(aPath, bPath) {
+        };
+        FileSystem.getJoinPath = function (aPath, bPath) {
             if (NodeCore.instance.PATH) {
                 return NodeCore.instance.PATH.join(aPath, bPath);
             }
             return null;
-        }
-        static getRefPath(aPath, bPath) {
+        };
+        FileSystem.getRefPath = function (aPath, bPath) {
             var a = aPath.split(/[\\\/]/g);
             var b = bPath.split(/[\\\/]/g);
             var c = new Array();
@@ -234,126 +273,132 @@ var SolarOS;
                 return NodeCore.instance.PATH.join.apply(null, c);
             }
             return null;
-        }
-        static getAppPath() {
+        };
+        FileSystem.getAppPath = function () {
             if (NodeCore.instance.APP) {
                 return NodeCore.instance.APP.getAppPath();
             }
             return null;
-        }
-        static getHomePath() {
+        };
+        FileSystem.getHomePath = function () {
             if (NodeCore.instance.APP)
                 return NodeCore.instance.APP.getPath("home");
             else
                 return null;
-        }
-        static getAppDataPath() {
+        };
+        FileSystem.getAppDataPath = function () {
             if (NodeCore.instance.APP)
                 return NodeCore.instance.APP.getPath("appData");
             else
                 return null;
-        }
-        static getUserDataPath() {
+        };
+        FileSystem.getUserDataPath = function () {
             if (NodeCore.instance.APP)
                 return NodeCore.instance.APP.getPath("userData");
             else
                 return null;
-        }
-        static getTempPath() {
+        };
+        FileSystem.getTempPath = function () {
             if (NodeCore.instance.APP)
                 return NodeCore.instance.APP.getPath("temp");
             else
                 return null;
-        }
-        static getExePath() {
+        };
+        FileSystem.getExePath = function () {
             if (NodeCore.instance.APP)
                 return NodeCore.instance.APP.getPath("exe");
             else
                 return null;
-        }
-        static getModulePath() {
+        };
+        FileSystem.getModulePath = function () {
             if (NodeCore.instance.APP)
                 return NodeCore.instance.APP.getPath("module");
             else
                 return null;
-        }
-        static getDesktopPath() {
+        };
+        FileSystem.getDesktopPath = function () {
             if (NodeCore.instance.APP)
                 return NodeCore.instance.APP.getPath("desktop");
             else
                 return null;
-        }
-        static getDocumentsPath() {
+        };
+        FileSystem.getDocumentsPath = function () {
             if (NodeCore.instance.APP)
                 return NodeCore.instance.APP.getPath("documents");
             else
                 return null;
-        }
-        static getDownloadPath() {
+        };
+        FileSystem.getDownloadPath = function () {
             if (NodeCore.instance.APP)
                 return NodeCore.instance.APP.getPath("downloads");
             else
                 return null;
-        }
-        static getMusicPath() {
+        };
+        FileSystem.getMusicPath = function () {
             if (NodeCore.instance.APP)
                 return NodeCore.instance.APP.getPath("music");
             else
                 return null;
-        }
-        static getPicturePath() {
+        };
+        FileSystem.getPicturePath = function () {
             if (NodeCore.instance.APP)
                 return NodeCore.instance.APP.getPath("pictures");
             else
                 return null;
-        }
-        static getVideoPath() {
+        };
+        FileSystem.getVideoPath = function () {
             if (NodeCore.instance.APP)
                 return NodeCore.instance.APP.getPath("videos");
             else
                 return null;
-        }
-    }
+        };
+        return FileSystem;
+    }());
     SolarOS.FileSystem = FileSystem;
-    class Application {
-        static getName() {
+    var Application = (function () {
+        function Application() {
+        }
+        Application.getName = function () {
             if (NodeCore.instance.APP) {
                 return NodeCore.instance.APP.getName();
             }
             return null;
-        }
-        static getVersion() {
+        };
+        Application.getVersion = function () {
             if (NodeCore.instance.APP) {
                 return NodeCore.instance.APP.getVersion();
             }
             return null;
-        }
-        static getLocale() {
+        };
+        Application.getLocale = function () {
             if (NodeCore.instance.APP) {
                 return NodeCore.instance.APP.getLocale();
             }
             return null;
-        }
-        static addRecentDocument(path) {
+        };
+        Application.addRecentDocument = function (path) {
             if (NodeCore.instance.APP) {
                 NodeCore.instance.APP.addRecentDocument(path);
             }
-        }
-        static clearRecentDocuments() {
+        };
+        Application.clearRecentDocuments = function () {
             if (NodeCore.instance.APP) {
                 NodeCore.instance.APP.clearRecentDocuments();
             }
-        }
-    }
+        };
+        return Application;
+    }());
     SolarOS.Application = Application;
-    class UserData {
-        static init() {
+    var UserData = (function () {
+        function UserData() {
+        }
+        UserData.init = function () {
             if (SolarOS.UserData.inited)
                 return;
             SolarOS.UserData.inited = true;
             SolarOS.UserData.data = new Object();
-        }
-        static getFilePath() {
+        };
+        UserData.getFilePath = function () {
             var basePath = FileSystem.getDocumentsPath();
             var folderName = Application.getName();
             var fileName = "UserData.json";
@@ -363,8 +408,8 @@ var SolarOS;
                 return ret;
             }
             return null;
-        }
-        static load() {
+        };
+        UserData.load = function () {
             SolarOS.UserData.init();
             try {
                 var jsonStr = FileSystem.loadFileNow(UserData.getFilePath(), null);
@@ -372,8 +417,8 @@ var SolarOS;
             }
             catch (err) {
             }
-        }
-        static save() {
+        };
+        UserData.save = function () {
             SolarOS.UserData.init();
             try {
                 var userDataPath = UserData.getFilePath();
@@ -384,8 +429,8 @@ var SolarOS;
             }
             catch (err) {
             }
-        }
-        static getValue(key, def) {
+        };
+        UserData.getValue = function (key, def) {
             SolarOS.UserData.init();
             if (SolarOS.UserData.data) {
                 if (SolarOS.UserData.data[key]) {
@@ -393,23 +438,29 @@ var SolarOS;
                 }
             }
             return def;
-        }
-        static setValue(key, value) {
+        };
+        UserData.setValue = function (key, value) {
             SolarOS.UserData.init();
             SolarOS.UserData.data[key] = value;
-        }
-    }
+        };
+        return UserData;
+    }());
     SolarOS.UserData = UserData;
-    class MessageBoxIcons {
-    }
+    var MessageBoxIcons = (function () {
+        function MessageBoxIcons() {
+        }
+        return MessageBoxIcons;
+    }());
     MessageBoxIcons.None = "none";
     MessageBoxIcons.Info = "info";
     MessageBoxIcons.Error = "error";
     MessageBoxIcons.Question = "question";
     MessageBoxIcons.Warning = "warning";
     SolarOS.MessageBoxIcons = MessageBoxIcons;
-    class UI {
-        static showOpenFile(filters, callback) {
+    var UI = (function () {
+        function UI() {
+        }
+        UI.showOpenFile = function (filters, callback) {
             filters = [
                 { name: "json files", extensions: ["json"] }
             ];
@@ -421,8 +472,8 @@ var SolarOS;
                 return;
             }
             callback(null);
-        }
-        static showSaveFile(filters, callback) {
+        };
+        UI.showSaveFile = function (filters, callback) {
             filters = [
                 { name: "json files", extensions: ["json"] }
             ];
@@ -433,13 +484,13 @@ var SolarOS;
                 return;
             }
             callback(null);
-        }
-        static showErrorBox(title, content) {
+        };
+        UI.showErrorBox = function (title, content) {
             if (NodeCore.instance.DIALOG) {
                 NodeCore.instance.DIALOG.showErrorBox(title, content);
             }
-        }
-        static showMessageBox(title, content, icon, buttons, defaultButtonIndex, cancelButtonIndex, callback) {
+        };
+        UI.showMessageBox = function (title, content, icon, buttons, defaultButtonIndex, cancelButtonIndex, callback) {
             if (NodeCore.instance.DIALOG) {
                 NodeCore.instance.DIALOG.showMessageBox({
                     title: title,
@@ -450,20 +501,24 @@ var SolarOS;
                     cancelId: cancelButtonIndex
                 }, callback);
             }
-        }
-        static showInfoBox(title, content, callback) {
+        };
+        UI.showInfoBox = function (title, content, callback) {
             UI.showMessageBox(title, content, MessageBoxIcons.Info, ["OK"], 0, 0, callback);
-        }
-        static showInfoBox_OK_CANCEL(title, content, callback) {
+        };
+        UI.showInfoBox_OK_CANCEL = function (title, content, callback) {
             UI.showMessageBox(title, content, MessageBoxIcons.Info, ["OK", "Cancel"], 0, 1, callback);
-        }
-        static showInfoBox_YES_NO(title, content, callback) {
+        };
+        UI.showInfoBox_YES_NO = function (title, content, callback) {
             UI.showMessageBox(title, content, MessageBoxIcons.Info, ["Yes", "No"], 0, 1, callback);
-        }
-        static showInfoBox_YES_NO_CANCEL(title, content, callback) {
+        };
+        UI.showInfoBox_YES_NO_CANCEL = function (title, content, callback) {
             UI.showMessageBox(title, content, MessageBoxIcons.Info, ["Yes", "No", "Cancel"], 0, 2, callback);
-        }
-        static setupMenuBar(...args) {
+        };
+        UI.setupMenuBar = function () {
+            var args = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                args[_i] = arguments[_i];
+            }
             var template = null;
             if (args.length == 0) {
                 var folder = SolarOS.FileSystem.getAppPath();
@@ -477,8 +532,9 @@ var SolarOS;
             template = SolarOS.NodeCore.instance.MENU.buildFromTemplate(template);
             if (template)
                 SolarOS.NodeCore.instance.MENU.setApplicationMenu(template);
-        }
-    }
+        };
+        return UI;
+    }());
     SolarOS.UI = UI;
 })(SolarOS || (SolarOS = {}));
 //# sourceMappingURL=SolarOS.js.map

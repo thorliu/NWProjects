@@ -1,5 +1,11 @@
 module Utils
 {
+	/**
+	 * 字符串工具类
+	 * 
+	 * @export
+	 * @class StrUtils
+	 */
 	export class StrUtils
 	{
 		/**
@@ -7,6 +13,7 @@ module Utils
 		 */
 		static trim(src: string): string
 		{
+
 			return src.replace(/^\s+/g, "").replace(/\s+$/g, "");
 		}
 

@@ -3,12 +3,15 @@
  * @Author: thor.liu 
  * @Date: 2017-01-17 10:36:31 
  * @Last Modified by: thor.liu
- * @Last Modified time: 2017-01-17 11:53:13
+ * @Last Modified time: 2017-02-21 23:27:32
  */
 module SolarMVC 
 {
 	/**
 	 * 一个常用的字典类
+	 * @export
+	 * @class Dict
+	 * @template T 
 	 */
 	export class Dict<T> {
 		private _dict: Object;
@@ -97,7 +100,7 @@ module SolarMVC
 			var ret = new Object();
 			for (var k in this._dict)
 			{
-				var v = this._dict;
+				var v = this._dict[k];
 				ret[k] = v;
 			}
 			return ret;
@@ -108,7 +111,7 @@ module SolarMVC
 		 */
 		public toString(): string
 		{
-			return JSON.stringify(this._dict);
+			return "Dict " + JSON.stringify(this._dict);
 		}
 
 		/**
@@ -144,11 +147,13 @@ module SolarMVC
 		{
 			return this.keys.length;
 		}
-
 	}
 
 	/**
 	 * 一个常用的列表类
+	 * @export
+	 * @class List
+	 * @template T 
 	 */
 	export class List<T>{
 		private _list: Array<T>;
@@ -157,7 +162,7 @@ module SolarMVC
 		 */
 		constructor()
 		{
-			this._list = new Array<any>();
+			this._list = new Array<T>();
 		}
 
 		/**
@@ -234,7 +239,7 @@ module SolarMVC
 		 */
 		public toArray(): Array<T>
 		{
-			return this._list.slice(0, 0);
+			return this._list.slice(0);
 		}
 
 		/**
@@ -242,7 +247,15 @@ module SolarMVC
 		 */
 		public toString(): string
 		{
-			return JSON.stringify(this._list);
+			return "List [" + this._list.toString() + "]";
+		}
+
+		/**
+		 * 使用分隔符将所有成员拼成一个字符串
+		 */
+		public join(separator: string): string
+		{
+			return this._list.join(separator);
 		}
 
 		/**
@@ -252,6 +265,443 @@ module SolarMVC
 		{
 			return this._list.length;
 		}
+	}
+
+	/**
+	 * 队列
+	 * @export
+	 * @class Queue
+	 * @template T 
+	 */
+	export class Queue<T>{
+
+		private _list: Array<T>;
+
+		/**
+		 * Creates an instance of Queue.
+		 * @memberOf Queue
+		 */
+		constructor()
+		{
+			this._list = new Array<T>();
+		}
+
+		/**
+		 * 添加一个成员到队列尾部
+		 * @param {T} item 
+		 * @memberOf Queue
+		 */
+		public add(item: T): void
+		{
+			this._list.push(item);
+		}
+
+		/**
+		 * 从队列头部移除一个成员
+		 * @returns {T} 
+		 * @memberOf Queue
+		 */
+		public remove(): T
+		{
+			if (this._list.length > 0) return this._list.shift();
+			return null;
+		}
+
+		/**
+		 * 清空整个队列
+		 * @memberOf Queue
+		 */
+		public clear(): void
+		{
+			this._list.splice(0, this._list.length);
+		}
+
+		/**
+		 * 转换成普通数组
+		 * @memberOf Queue
+		 */
+		public toArray(): Array<any>
+		{
+			return this._list.slice(0);
+		}
+
+		/**
+		 * 转换成文本信息
+		 * @returns {string} 
+		 * @memberOf Queue
+		 */
+		public toString(): string
+		{
+			return "Queue[" + this._list.toString() + "]";
+		}
+
+		/**
+		 * 返回队列成员数量
+		 * @readonly
+		 * @type {number}
+		 * @memberOf Queue
+		 */
+		public get length(): number
+		{
+			return this._list.length;
+		}
+
+		/**
+		 * 返回队列头部的成员
+		 * @readonly
+		 * @type {T}
+		 * @memberOf Queue
+		 */
+		public get current(): T
+		{
+			if (this._list.length == 0) return null;
+			return this._list[0];
+		}
+	}
+
+	/**
+	 * 树形节点
+	 * @export
+	 * @class Node
+	 * @template T 
+	 */
+	export class Node<T> {
+		private _id: string;
+		private _nodes: SolarMVC.List<Node<T>>;
+		private _parentNode: SolarMVC.Node<T>;
+		private _data:T;
+
+		/**
+		 * Creates an instance of Node.
+		 * @memberOf Node
+		 */
+		constructor(id: string)
+		{
+			this._nodes = new SolarMVC.List<Node<T>>();
+			this._id = id;
+		}
+
+		/**
+		 * 清空所有子节点
+		 * @memberOf Node
+		 */
+		public clear(): void
+		{
+			for (var i = 0; i < this._nodes.length; i++)
+			{
+				var node: SolarMVC.Node<T> = this._nodes[i];
+				node._parentNode = null;
+			}
+			this._nodes.clear();
+		}
+
+		/**
+		 * 添加一个子节点
+		 * @param {SolarMVC.Node<T>} node 
+		 * @returns {SolarMVC.Node<T>} 
+		 * @memberOf Node
+		 */
+		public add(node: SolarMVC.Node<T>): SolarMVC.Node<T>
+		{
+			node._parentNode = this;
+			return this._nodes.add(node);
+		}
+
+		/**
+		 * 插入一个子节点
+		 * @param {SolarMVC.Node<T>} node 
+		 * @param {number} index 
+		 * @returns {SolarMVC.Node<T>} 
+		 * @memberOf Node
+		 */
+		public insert(node: SolarMVC.Node<T>, index: number): SolarMVC.Node<T>
+		{
+			var ret: SolarMVC.Node<T> = node;
+			node._parentNode = this;
+			return ret;
+		}
+
+		/**
+		 * 移除子节点
+		 * @param {SolarMVC.Node<T>} node 
+		 * @returns {SolarMVC.Node<T>} 
+		 * @memberOf Node
+		 */
+		public remove(node: SolarMVC.Node<T>): SolarMVC.Node<T>
+		{
+			node._parentNode = null;
+			return this._nodes.remove(node);
+		}
+
+		/**
+		 * 移除指定索引的子节点
+		 * @param {number} index 
+		 * @returns {SolarMVC.Node<T>} 
+		 * @memberOf Node
+		 */
+		public removeAt(index: number): SolarMVC.Node<T>
+		{
+			var ret = this._nodes.at(index);
+			this._nodes.removeAt(index);
+			ret._parentNode = null;
+			return ret;
+		}
+
+		/**
+		 * 获取指定索引的子节点
+		 * @param {number} index 
+		 * @returns {SolarMVC.Node<T>} 
+		 * @memberOf Node
+		 */
+		public at(index: number): SolarMVC.Node<T>
+		{
+			var ret = this._nodes.at(index);
+			return ret;
+		}
+
+		/**
+		 * 搜索特定子节点的索引
+		 * @param {SolarMVC.Node<T>} node 
+		 * @returns {number} 
+		 * 
+		 * @memberOf Node
+		 */
+		public indexOf(node: SolarMVC.Node<T>): number
+		{
+			return this._nodes.indexOf(node);
+		}
+
+		/**
+		 * 查找到定ID的节点
+		 * @param {string} id 
+		 * @returns {SolarMVC.Node<T>} 
+		 * @memberOf Node
+		 */
+		public find(id:string):SolarMVC.Node<T>
+		{
+			if(this._id === id) return this;
+			for(var i:number = 0; i < this._nodes.length; i ++)
+			{
+				let n:SolarMVC.Node<T> = this._nodes.at(i);
+				if(n.id === id) return n;
+				let cn:SolarMVC.Node<T> = n.find(id);
+				if(cn) return cn; 
+			}
+			return null;
+		}
+
+		//---------------------- refs
+
+		/**
+		 * 获取第一个子节点
+		 * @readonly
+		 * @type {SolarMVC.Node<T>}
+		 * @memberOf Node
+		 */
+		public get firstChild(): SolarMVC.Node<T>
+		{
+			if (this._nodes.length > 0)
+			{
+				return this._nodes[0]
+			}
+			return null;
+		}
+
+		/**
+		 * 获取最后一个子节点
+		 * @readonly
+		 * @type {SolarMVC.Node<T>}
+		 * @memberOf Node
+		 */
+		public get lastChild(): SolarMVC.Node<T>
+		{
+			if (this._nodes.length > 0)
+			{
+				return this._nodes[this._nodes.length - 1];
+			}
+			return null;
+		}
+
+		/**
+		 * 获取第一个同级节点
+		 * @readonly
+		 * @type {SolarMVC.Node<T>}
+		 * @memberOf Node
+		 */
+		public get firstNode(): SolarMVC.Node<T>
+		{
+			if (this._parentNode) return this._parentNode.firstChild;
+			return null;
+		}
+
+		/**
+		 * 获取上一个同级节点
+		 * @readonly
+		 * @type {SolarMVC.Node<T>}
+		 * @memberOf Node
+		 */
+		public get prevNode(): SolarMVC.Node<T>
+		{
+			if (this._parentNode)
+			{
+				var i: number = this._parentNode.indexOf(this);
+				if (i > 0) return this._parentNode.at(i - 1);
+			}
+			return null;
+		}
+
+		/**
+		 * 获取下一个同级节点
+		 * @readonly
+		 * @type {SolarMVC.Node<T>}
+		 * @memberOf Node
+		 */
+		public get nextNode(): SolarMVC.Node<T>
+		{
+			if (this._parentNode)
+			{
+				var i = this._parentNode.indexOf(this);
+				if (i >= this._parentNode.length) return null;
+				if (i < 0) return null;
+
+				return this._parentNode.at[i + 1];
+			}
+			return null;
+		}
+
+		/**
+		 * 获取最后一个同级节点
+		 * @readonly
+		 * @type {SolarMVC.Node<T>}
+		 * @memberOf Node
+		 */
+		public get lastNode(): SolarMVC.Node<T>
+		{
+			if (this._parentNode) return this._parentNode.lastChild;
+			return null;
+		}
+
+		/**
+		 * 获取数据
+		 * @type {T}
+		 * @memberOf Node
+		 */
+		public get data():T{
+			return this._data;
+		}
+		/**
+		 * 设置数据
+		 * @memberOf Node
+		 */
+		public set data(value:T)
+		{
+			this._data=value;
+		}
+
+		/**
+		 * 获取字符串信息
+		 * @returns {string} 
+		 * @memberOf Node
+		 */
+		public toString():string
+		{
+			var temp:any = this._data;
+			if(temp || temp === 0 || temp === false)
+			{
+				return "Node "+JSON.stringify(this._data);
+			}
+			else return "Node {}";
+		}
+
+		//---------------------- properties
+
+		/**
+		 * 获取子节点的数量
+		 * @readonly
+		 * @type {number}
+		 * @memberOf Node
+		 */
+		public get length(): number
+		{
+			return this._nodes.length;
+		}
+
+		/**
+		 * 获取父级节点实例
+		 * @readonly
+		 * @type {SolarMVC.Node<T>}
+		 * @memberOf Node
+		 */
+		public get parentNode(): SolarMVC.Node<T>
+		{
+			return this._parentNode;
+		}
+
+		/**
+		 * 获取当前节点的ID
+		 * @readonly
+		 * @type {string}
+		 * @memberOf Node
+		 */
+		public get id(): string
+		{
+			return this._id;
+		}
+
+		/**
+		 * 获取当前节点的深度级别
+		 * @readonly
+		 * @type {number}
+		 * @memberOf Node
+		 */
+		public get level(): number
+		{
+			var ret: number = 0;
+			var temp: SolarMVC.Node<T> = this;
+			while (temp.parentNode)
+			{
+				temp = temp.parentNode;
+				ret++;
+			}
+			return ret;
+		}
+
+		/**
+		 * 获取根节点
+		 * @readonly
+		 * @type {SolarMVC.Node<T>}
+		 * @memberOf Node
+		 */
+		public get rootNode(): SolarMVC.Node<T>
+		{
+			var ret: SolarMVC.Node<T> = this;
+			while (ret.parentNode)
+			{
+				ret = ret.parentNode;
+			}
+			return ret;
+		}
+
+		/**
+		 * 获取节点路径
+		 * @readonly
+		 * @type {string}
+		 * @memberOf Node
+		 */
+		public get path(): string
+		{
+			var ary = new Array<string>();
+
+			var n: SolarMVC.Node<T> = this;
+			while (n)
+			{
+				ary.splice(0, 0, n.id);
+				n = n.parentNode;
+			}
+
+			return ary.join("/");
+		}
+
 	}
 
 	/**
@@ -282,140 +732,6 @@ module SolarMVC
 		public args: any;
 	}
 
-	/**
-	 * 指令队列
-	 */
-	export class CommandQueue
-	{
-		private _queue: List<Command>;
-
-		/**
-		 * 构造
-		 */
-		constructor()
-		{
-			this._queue = new List<Command>();
-		}
-
-		/**
-		 * 添加
-		 */
-		public add(cmd: Command): void
-		{
-			this._queue.add(cmd);
-		}
-
-		/**
-		 * 移除
-		 */
-		public remove(): Command
-		{
-			if (this._queue.length > 0)
-			{
-				return this._queue.removeAt(0);
-			}
-			return null;
-		}
-
-		/**
-		 * 清空
-		 */
-		public clear():void
-		{
-			this._queue.clear();
-		}
-
-		/**
-		 * 获取字符串信息
-		 */
-		public toString(): string
-		{
-			return this._queue.toString();
-		}
-
-		/**
-		 * 获取长度
-		 */
-		public get length(): number
-		{
-			return this._queue.length;
-		}
-
-		/**
-		 * 获取第一个
-		 */
-		public get current(): Command
-		{
-			if (this._queue.length > 0)
-			{
-				return this._queue.at(0);
-			}
-			return null;
-		}
-
-	}
-
-	/**
-	 * 指令路由
-	 */
-	export class CommandRouter
-	{
-		static _instance: CommandRouter;
-		static get instance(): CommandRouter
-		{
-			if (!CommandRouter._instance)
-			{
-				CommandRouter._instance = new SolarMVC.CommandRouter();
-			}
-			return CommandRouter._instance;
-		}
-
-
-		private _queues: Dict<CommandQueue>;
-
-		/**
-		 * 构造
-		 */
-		constructor()
-		{
-			this._queues = new Dict<CommandQueue>();
-		}
-
-		/**
-		 * 清除指定队列的消息
-		 */
-		public clearQueueMessages(category: string): void
-		{
-			var queue:CommandQueue = this._queues.getItem(category);
-			queue.clear();
-		}
-
-		/**
-		 * 清除所有队列的消息
-		 */
-		public clearAllQueueMessages(): void
-		{
-			var keys:Array<string> = this._queues.keys;
-			for(var i:number = 0; i < keys.length; i ++)
-			{
-				this.clearQueueMessages(keys[i]);
-			}
-		}
-
-		/**
-		 * 发送指令
-		 */
-		public send(cmd: Command): void
-		{
-		}
-
-		/**
-		 * 推送指令
-		 */
-		public push(cmd: Command): void
-		{
-		}
-	}
 }
 
 

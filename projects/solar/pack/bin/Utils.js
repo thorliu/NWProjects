@@ -1,10 +1,12 @@
 var Utils;
 (function (Utils) {
-    class StrUtils {
-        static trim(src) {
-            return src.replace(/^\s+/g, "").replace(/\s+$/g, "");
+    var StrUtils = (function () {
+        function StrUtils() {
         }
-        static htmlEncode(src) {
+        StrUtils.trim = function (src) {
+            return src.replace(/^\s+/g, "").replace(/\s+$/g, "");
+        };
+        StrUtils.htmlEncode = function (src) {
             var s = "";
             var str = src + "";
             if (str.length == 0)
@@ -16,8 +18,8 @@ var Utils;
             s = s.replace(/\"/g, "&quot;");
             s = s.replace(/\n/g, "<br>");
             return s;
-        }
-        static htmlDecode(src) {
+        };
+        StrUtils.htmlDecode = function (src) {
             var s = "";
             var str = src + "";
             if (str.length == 0)
@@ -31,14 +33,14 @@ var Utils;
             s = s.replace(/<br>/g, "\n");
             s = s.replace(/&#39;/g, "\'");
             return s;
-        }
-        static urlEncode(src) {
+        };
+        StrUtils.urlEncode = function (src) {
             return encodeURI(src);
-        }
-        static urlDecode(src) {
+        };
+        StrUtils.urlDecode = function (src) {
             return decodeURI(src);
-        }
-        static matchs(src, re) {
+        };
+        StrUtils.matchs = function (src, re) {
             var result = new Array();
             var str = src + "";
             var item = null;
@@ -46,16 +48,20 @@ var Utils;
                 result.push(item);
             }
             return result;
-        }
-        static format(src, ...args) {
+        };
+        StrUtils.format = function (src) {
+            var args = [];
+            for (var _i = 1; _i < arguments.length; _i++) {
+                args[_i - 1] = arguments[_i];
+            }
             var str = src + "";
             for (var i = 1; i < arguments.length; i++) {
                 var re = new RegExp('\\{' + (i - 1) + '\\}', 'gm');
                 str = str.replace(re, arguments[i]);
             }
             return str;
-        }
-        static formatData(src, data) {
+        };
+        StrUtils.formatData = function (src, data) {
             var re = new RegExp('\\{[^\\{\\}]*\\}', 'gm');
             var ms = Utils.StrUtils.matchs(src, re);
             var str = src + "";
@@ -69,8 +75,8 @@ var Utils;
                 str = str.substr(0, mIndex) + mStr + str.substr(mIndex + mLength);
             }
             return str;
-        }
-        static formatArray(src, spec, ary) {
+        };
+        StrUtils.formatArray = function (src, spec, ary) {
             if (!src)
                 return "";
             if (!ary)
@@ -83,8 +89,8 @@ var Utils;
                 ret += Utils.StrUtils.formatData(str, ary[i]);
             }
             return ret;
-        }
-        static getDataValue(data, key) {
+        };
+        StrUtils.getDataValue = function (data, key) {
             if (data) { }
             else
                 return null;
@@ -97,15 +103,15 @@ var Utils;
                 }
             }
             return temp;
-        }
-        static getQuery(name) {
+        };
+        StrUtils.getQuery = function (name) {
             var result = document.location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));
             if (result == null || result.length < 1) {
                 return "";
             }
             return decodeURI(result[1]);
-        }
-        static getQueryData() {
+        };
+        StrUtils.getQueryData = function () {
             var queryString = document.location.search + "";
             queryString = queryString.trim().replace(/^\?/g, "");
             var items = queryString.split("&");
@@ -124,8 +130,9 @@ var Utils;
                 }
             }
             return ret;
-        }
-    }
+        };
+        return StrUtils;
+    }());
     Utils.StrUtils = StrUtils;
 })(Utils || (Utils = {}));
 //# sourceMappingURL=Utils.js.map
