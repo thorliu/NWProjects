@@ -3,7 +3,7 @@
  * @Author: thor.liu 
  * @Date: 2017-01-17 10:36:31 
  * @Last Modified by: thor.liu
- * @Last Modified time: 2017-02-21 23:27:32
+ * @Last Modified time: 2017-02-22 20:05:50
  */
 module SolarMVC 
 {
@@ -705,10 +705,18 @@ module SolarMVC
 	}
 
 	/**
-	 * 指令
+	 * 指令/消息/通知/事件
+	 * @export
+	 * @class FMessage
 	 */
-	export class Command 
+	export class FMessage 
 	{
+		/**
+		 * Creates an instance of FMessage.
+		 * @param {string} cmdName 
+		 * @param {string} cmdCategory 
+		 * @memberOf FMessage
+		 */
 		constructor(cmdName: string, cmdCategory: string)
 		{
 			this.name = cmdName;
@@ -730,6 +738,278 @@ module SolarMVC
 		 * 指令参数
 		 */
 		public args: any;
+	}
+
+	/**
+	 * 消息连接接口
+	 * @export
+	 * @interface IFMessageConnection
+	 */
+	export interface IFMessageConnection
+	{
+		/**
+		 * 处理消息路由推送来的消息
+		 * @param {FMessage} msg 
+		 * @returns {boolean} 是否接管此消息
+		 * 
+		 * @memberOf IFMessageConnection
+		 */
+		onFMessage(msg:FMessage):boolean;
+	}
+
+	/**
+	 * 消息连接
+	 * @export
+	 * @class FMessageConnection
+	 * @implements {IFMessageConnection}
+	 */
+	export class FMessageConnection implements IFMessageConnection
+	{
+		/**
+		 * 构造
+		 * @memberOf FMessageConnection
+		 */
+		constructor(){
+		}
+
+		/**
+		 * 处理收到的消息
+		 * @param {FMessage} msg 
+		 * @returns {boolean} 
+		 * @memberOf FMessageConnection
+		 */
+		onFMessage(msg:FMessage):boolean
+		{
+			let ret:boolean = false;
+
+			let handlerName = msg.name;
+			let handler:Function = this["onFMessage_" + handlerName];
+			if(handler)
+			{
+				ret = handler.call(this, msg);
+			}
+			return ret;
+		}
+	}
+
+	/**
+	 * 消息连接代理
+	 * @export
+	 * @class FMessageConnectionDelegate
+	 * @implements {IFMessageConnection}
+	 */
+	export class FMessageConnectionDelegate implements IFMessageConnection
+	{
+		private _target:any;
+		
+		/**
+		 * 构造
+		 * @memberOf FMessageConnectionDelegate
+		 */
+		constructor(){
+		}
+
+		/**
+		 * 处理收到的消息
+		 * @param {FMessage} msg 
+		 * @returns {boolean} 
+		 * @memberOf FMessageConnection
+		 */
+		onFMessage(msg:FMessage):boolean
+		{
+			let ret:boolean = false;
+			let handlerName = msg.name;
+			if(this._target && this._target["onFMessage_" + handlerName])
+			{
+				ret = this._target[handlerName].call(this._target, msg);
+			}
+			return ret;
+		}
+
+		/**
+		 * 获取代理目标
+		 * @type {*}
+		 * @memberOf FMessageConnectionDelegate
+		 */
+		public get target():any
+		{
+			return this._target;
+		}
+		/**
+		 * 设置代理目标
+		 * @memberOf FMessageConnectionDelegate
+		 */
+		public set target(v:any)
+		{
+			this._target = v;
+		}
+
+	}
+
+	
+	/**
+	 * 消息路由
+	 * 
+	 * @class FMessageRouter
+	 */
+	class FMessageRouter
+	{
+		/**
+		 * 唯一实例
+		 * @static
+		 * @type {FMessageRouter}
+		 * @memberOf FMessageRouter
+		 */
+		static _instance:FMessageRouter;
+		
+		/**
+		 * 所有已定义的消息队列
+		 * @private
+		 * @type {Dict<Queue<FMessage>>}
+		 * @memberOf FMessageRouter
+		 */
+		private _queues:Dict<Queue<FMessage>>;
+
+		/**
+		 * 所有已经连至路由的模块连接
+		 * @private
+		 * @type {Array<IFMessageConnection>}
+		 * @memberOf FMessageRouter
+		 */
+		private _connections:Array<IFMessageConnection>;
+
+		/**
+		 * 构造
+		 * @memberOf FMessageRouter
+		 */
+		constructor(){
+			if(FMessageRouter._instance)
+			{
+				throw "FMessageRouter设计为单例, 不能创建多个实例";
+			}
+
+			this._queues = new Dict<Queue<FMessage>>();
+			this._connections = new Array<IFMessageConnection>();
+		}
+
+		/**
+		 * 创建队列
+		 * @param {string} category 
+		 * @returns {void} 
+		 * @memberOf FMessageRouter
+		 */
+		public createQueue(category:string):void
+		{
+			if(this._queues.containKey(category)) return;
+		}
+
+		/**
+		 * 删除队列
+		 * @param {string} category 
+		 * @memberOf FMessageRouter
+		 */
+		public removeQueue(category:string):void
+		{
+			if(this._queues.containKey(category))
+			{
+				this._queues.deleteKey(category);
+			}
+		}
+
+		/**
+		 * 删除所有队列
+		 * @memberOf FMessageRouter
+		 */
+		public removeAllQueues():void
+		{
+			this._queues.clear();
+		}
+
+		/**
+		 * 获取指定的队列
+		 * @param {string} category 
+		 * @returns {Queue<FMessage>} 
+		 * @memberOf FMessageRouter
+		 */
+		public getQueue(category:string):Queue<FMessage>
+		{
+			if(this._queues.containKey(category))
+			{
+				return this._queues.getItem(category);
+			}
+			else return null;
+		}
+
+		/**
+		 * 清除队列中的所有消息
+		 * @param {string} category 
+		 * 
+		 * @memberOf FMessageRouter
+		 */
+		public clearQueueMessages(category:string):void
+		{
+			if(this._queues.containKey(category))
+			{
+				let q:Queue<FMessage> = this._queues.getItem(category);
+				q.clear();
+			}
+		}
+
+		/**
+		 * 清除所有队列中的所有消息
+		 * @memberOf FMessageRouter
+		 */
+		public clearAllQueuesMessages():void
+		{
+			var keys:Array<string> = this._queues.keys;
+			for(var i:number= 0; i < keys.length; i ++)
+			{
+				let key:string = keys[i];
+				let q:Queue<FMessage> = this._queues.getItem(key);
+				q.clear();
+			}
+		}
+
+		/**
+		 * 发送消息至路由
+		 * @param {FMessage} msg 
+		 * @memberOf FMessageRouter
+		 */
+		public send(msg:FMessage):void
+		{
+		}
+
+		/**
+		 * 将消息推送给所有已连接的模块
+		 * @param {FMessage} msg 
+		 * @memberOf FMessageRouter
+		 */
+		public push(msg:FMessage):void
+		{
+		}
+
+		/**
+		 * 将消息标为完成
+		 * @param {FMessage} msg 
+		 * @memberOf FMessageRouter
+		 */
+		public complete(msg:FMessage):void
+		{
+		}
+	}
+	
+	/**
+	 * 获取消息路由实例
+	 * @export
+	 * @returns {FMessageRouter} 
+	 */
+	export function getFMessageRouter():FMessageRouter
+	{
+		if(!FMessageRouter._instance)
+		{
+			FMessageRouter._instance = new FMessageRouter();
+		}
+		return FMessageRouter._instance;
 	}
 
 }

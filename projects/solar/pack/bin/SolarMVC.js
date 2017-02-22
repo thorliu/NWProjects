@@ -361,14 +361,109 @@ var SolarMVC;
         return Node;
     }());
     SolarMVC.Node = Node;
-    var Command = (function () {
-        function Command(cmdName, cmdCategory) {
+    var FMessage = (function () {
+        function FMessage(cmdName, cmdCategory) {
             this.name = cmdName;
             this.category = cmdCategory;
             this.args = new Object();
         }
-        return Command;
+        return FMessage;
     }());
-    SolarMVC.Command = Command;
+    SolarMVC.FMessage = FMessage;
+    var FMessageConnection = (function () {
+        function FMessageConnection() {
+        }
+        FMessageConnection.prototype.onFMessage = function (msg) {
+            var ret = false;
+            var handlerName = msg.name;
+            var handler = this[handlerName];
+            if (handler) {
+                ret = handler.call(this, msg);
+            }
+            return ret;
+        };
+        return FMessageConnection;
+    }());
+    SolarMVC.FMessageConnection = FMessageConnection;
+    var FMessageConnectionDelegate = (function () {
+        function FMessageConnectionDelegate() {
+        }
+        FMessageConnectionDelegate.prototype.onFMessage = function (msg) {
+            var ret = false;
+            var handlerName = msg.name;
+            if (this._target && this._target[handlerName]) {
+                ret = this._target[handlerName].call(this._target, msg);
+            }
+            return ret;
+        };
+        Object.defineProperty(FMessageConnectionDelegate.prototype, "target", {
+            get: function () {
+                return this._target;
+            },
+            set: function (v) {
+                this._target = v;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return FMessageConnectionDelegate;
+    }());
+    SolarMVC.FMessageConnectionDelegate = FMessageConnectionDelegate;
+    var FMessageRouter = (function () {
+        function FMessageRouter() {
+            if (FMessageRouter._instance) {
+                throw "FMessageRouter设计为单例, 不能创建多个实例";
+            }
+            this._queues = new Dict();
+            this._connections = new Array();
+        }
+        FMessageRouter.prototype.createQueue = function (category) {
+            if (this._queues.containKey(category))
+                return;
+        };
+        FMessageRouter.prototype.removeQueue = function (category) {
+            if (this._queues.containKey(category)) {
+                this._queues.deleteKey(category);
+            }
+        };
+        FMessageRouter.prototype.removeAllQueues = function () {
+            this._queues.clear();
+        };
+        FMessageRouter.prototype.getQueue = function (category) {
+            if (this._queues.containKey(category)) {
+                return this._queues.getItem(category);
+            }
+            else
+                return null;
+        };
+        FMessageRouter.prototype.clearQueueMessages = function (category) {
+            if (this._queues.containKey(category)) {
+                var q = this._queues.getItem(category);
+                q.clear();
+            }
+        };
+        FMessageRouter.prototype.clearAllQueuesMessages = function () {
+            var keys = this._queues.keys;
+            for (var i = 0; i < keys.length; i++) {
+                var key = keys[i];
+                var q = this._queues.getItem(key);
+                q.clear();
+            }
+        };
+        FMessageRouter.prototype.send = function (msg) {
+        };
+        FMessageRouter.prototype.push = function (msg) {
+        };
+        FMessageRouter.prototype.complete = function (msg) {
+        };
+        return FMessageRouter;
+    }());
+    function getFMessageRouter() {
+        if (!FMessageRouter._instance) {
+            FMessageRouter._instance = new FMessageRouter();
+        }
+        return FMessageRouter._instance;
+    }
+    SolarMVC.getFMessageRouter = getFMessageRouter;
 })(SolarMVC || (SolarMVC = {}));
 //# sourceMappingURL=SolarMVC.js.map

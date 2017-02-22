@@ -79,5 +79,9 @@ microsoft.add(office);
 office.add(outlook);
 office.add(word);
 office.add(excel);
+console.log("microsoft", microsoft);
+console.groupEnd();
+console.group("FMessageRouter");
+var router = SolarMVC.getFMessageRouter();
 console.groupEnd();
 //# sourceMappingURL=SolarMVC_Test.js.map
