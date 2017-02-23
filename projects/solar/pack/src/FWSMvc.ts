@@ -3,7 +3,7 @@
  * @Author: thor.liu 
  * @Date: 2017-01-17 10:36:31 
  * @Last Modified by: thor.liu
- * @Last Modified time: 2017-02-23 15:57:20
+ * @Last Modified time: 2017-02-23 16:39:21
  */
 module FWSMvc 
 {
@@ -238,8 +238,8 @@ module FWSMvc
 		 */
 		onFMessage(msg: FMessage): boolean;
 
-		connect():void;
-		disconnect():void;
+		connect(): void;
+		disconnect(): void;
 	}
 
 	/**
@@ -262,7 +262,7 @@ module FWSMvc
 		 * 连入路由
 		 * @memberOf FMessageConnection
 		 */
-		public connect():void
+		public connect(): void
 		{
 			getFMessageRouter().connect(this);
 		}
@@ -271,7 +271,7 @@ module FWSMvc
 		 * 从路由断开
 		 * @memberOf FMessageConnection
 		 */
-		public disconnect():void
+		public disconnect(): void
 		{
 			getFMessageRouter().disconnect(this);
 		}
@@ -318,7 +318,7 @@ module FWSMvc
 		 * 连入路由
 		 * @memberOf FMessageConnection
 		 */
-		public connect():void
+		public connect(): void
 		{
 			getFMessageRouter().connect(this);
 		}
@@ -327,7 +327,7 @@ module FWSMvc
 		 * 从路由断开
 		 * @memberOf FMessageConnection
 		 */
-		public disconnect():void
+		public disconnect(): void
 		{
 			getFMessageRouter().disconnect(this);
 		}
@@ -424,6 +424,33 @@ module FWSMvc
 			this._trackList = new Array<FMessageTrack>();
 			this._queues = new FWSData.Dict<FWSData.Queue<FMessage>>();
 			this._connections = new Array<IFMessageConnection>();
+
+			setInterval(this.tick, 1);
+		}
+
+		/**
+		 * 循环检查队列消息
+		 * @private
+		 * @memberOf FMessageRouter
+		 */
+		private tick(): void
+		{
+			var self:FMessageRouter = getFMessageRouter();
+			var keys: Array<string> = self.getQueueKeys();
+			for (var i: number = 0; i < keys.length; i++)
+			{
+				var key: string = keys[i];
+				var q: FWSData.Queue<FMessage> = self.getQueue(key);
+
+				if(q.length == 0 || !q.current.completed) continue;
+
+				while(q.current && q.current.completed)
+				{
+					q.remove();
+				}
+
+				if(q.current) self.push(q.current);
+			}
 		}
 
 		/**
@@ -435,6 +462,8 @@ module FWSMvc
 		public createQueue(category: string): void
 		{
 			if (this._queues.containKey(category)) return;
+			var q:FWSData.Queue<FMessage> = new FWSData.Queue<FMessage>();
+			this._queues.setItem(category, q);
 		}
 
 		/**
@@ -472,6 +501,16 @@ module FWSMvc
 				return this._queues.getItem(category);
 			}
 			else return null;
+		}
+
+		/**
+		 * 获取所有队列的名称
+		 * @returns {Array<string>} 
+		 * @memberOf FMessageRouter
+		 */
+		public getQueueKeys():Array<string>
+		{
+			return this._queues.keys;
 		}
 
 		/**
@@ -665,9 +704,9 @@ module FWSMvc
 	 */
 	export class FContext implements IContext
 	{
-		public connections:Array<IFMessageConnection>;
+		public connections: Array<IFMessageConnection>;
 
-		constructor(...connections:IFMessageConnection[])
+		constructor(...connections: IFMessageConnection[])
 		{
 			this.connections = connections.slice(0);
 		}
@@ -679,7 +718,7 @@ module FWSMvc
 		public onContextEnter(): void
 		{
 			// console.log("%conContextEnter","color:blue", this.path);
-			for(var i:number = 0; i < this.connections.length; i++)
+			for (var i: number = 0; i < this.connections.length; i++)
 			{
 				this.connections[i].connect();
 			}
@@ -692,7 +731,7 @@ module FWSMvc
 		public onContextLeave(): void
 		{
 			// console.log("%conContextLeave","color:darkred", this.path);
-			for(var i:number = 0; i < this.connections.length; i++)
+			for (var i: number = 0; i < this.connections.length; i++)
 			{
 				this.connections[i].disconnect();
 			}
@@ -704,11 +743,11 @@ module FWSMvc
 		 * @type {string}
 		 * @memberOf FContext
 		 */
-		public get path():string
+		public get path(): string
 		{
-			var mgr:FContextManager = getFContextManager();
-			var node:FWSData.Node<IContext> = mgr.findContext(this);
-			if(node)
+			var mgr: FContextManager = getFContextManager();
+			var node: FWSData.Node<IContext> = mgr.findContext(this);
+			if (node)
 			{
 				return node.path;
 			}
@@ -900,10 +939,10 @@ module FWSMvc
 		 * @returns {void} 
 		 * @memberOf FContextManager
 		 */
-		public back():void
+		public back(): void
 		{
-			if(!this.canBack) return;
-			var c:FWSData.Node<IContext> = this._history.pop();
+			if (!this.canBack) return;
+			var c: FWSData.Node<IContext> = this._history.pop();
 			c = this._history[this._history.length - 1];
 			this.goto(c.data);
 		}
@@ -914,7 +953,7 @@ module FWSMvc
 		 * @type {boolean}
 		 * @memberOf FContextManager
 		 */
-		public get canBack():boolean
+		public get canBack(): boolean
 		{
 			return this._history.length > 1;
 		}

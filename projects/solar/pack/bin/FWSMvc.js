@@ -157,10 +157,28 @@ var FWSMvc;
             this._trackList = new Array();
             this._queues = new FWSData.Dict();
             this._connections = new Array();
+            setInterval(this.tick, 1);
         }
+        FMessageRouter.prototype.tick = function () {
+            var self = getFMessageRouter();
+            var keys = self.getQueueKeys();
+            for (var i = 0; i < keys.length; i++) {
+                var key = keys[i];
+                var q = self.getQueue(key);
+                if (q.length == 0 || !q.current.completed)
+                    continue;
+                while (q.current && q.current.completed) {
+                    q.remove();
+                }
+                if (q.current)
+                    self.push(q.current);
+            }
+        };
         FMessageRouter.prototype.createQueue = function (category) {
             if (this._queues.containKey(category))
                 return;
+            var q = new FWSData.Queue();
+            this._queues.setItem(category, q);
         };
         FMessageRouter.prototype.removeQueue = function (category) {
             if (this._queues.containKey(category)) {
@@ -176,6 +194,9 @@ var FWSMvc;
             }
             else
                 return null;
+        };
+        FMessageRouter.prototype.getQueueKeys = function () {
+            return this._queues.keys;
         };
         FMessageRouter.prototype.clearQueueMessages = function (category) {
             if (this._queues.containKey(category)) {

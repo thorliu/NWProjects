@@ -94,15 +94,54 @@
 // console.log("microsoft", microsoft);
 // console.groupEnd();
 //----------------------------------------------
+
+class MsgConnection1 extends FWSMvc.FMessageConnection
+{
+	public onFMessage_test(msg:FWSMvc.FMessage):boolean
+	{
+		// msg.complete();
+		console.log("MsgConnection1", msg);
+		return true;
+	}
+}
+
+class MsgConnection2 extends FWSMvc.FMessageConnection
+{
+	public onFMessage_test(msg:FWSMvc.FMessage):boolean
+	{
+		// msg.complete();
+		console.log("MsgConnection2", msg);
+		return true;
+	}
+}
+
+class MsgConnection3 extends FWSMvc.FMessageConnection
+{
+	public onFMessage_hello(msg:FWSMvc.FMessage):boolean
+	{
+		// msg.complete();
+		console.log("MsgConnection3", msg);
+		return true;
+	}
+}
+
+
 console.group("MVC");
 var router = FWSMvc.getFMessageRouter();
+router.createQueue("ui");
 var contextManager = FWSMvc.getFContextManager();
 
 var p9:FWSMvc.FContext = new FWSMvc.FContext();
 var loading: FWSMvc.FContext = new FWSMvc.FContext();
 var main:FWSMvc.FContext = new FWSMvc.FContext();
-var room:FWSMvc.FContext = new FWSMvc.FContext();
-var game:FWSMvc.FContext = new FWSMvc.FContext();
+var room:FWSMvc.FContext = new FWSMvc.FContext(
+	new MsgConnection1(),
+	new MsgConnection2()
+	);
+var game:FWSMvc.FContext = new FWSMvc.FContext(
+	new MsgConnection1(),
+	new MsgConnection3()
+	);
 
 contextManager.addContext("p9", p9);
 contextManager.addContext("loading", loading, p9);
@@ -110,8 +149,12 @@ contextManager.addContext("main", main, p9);
 contextManager.addContext("room", room, main);
 contextManager.addContext("game", game, main);
 
-contextManager.goto(room);
+// contextManager.goto(room);
 contextManager.goto(game);
-contextManager.goto(loading);
+// contextManager.goto(loading);
+
+new FWSMvc.FMessage("test", "ui").send();
+new FWSMvc.FMessage("hello", "ui").send();
+new FWSMvc.FMessage("test", "").send();
 
 console.groupEnd();
