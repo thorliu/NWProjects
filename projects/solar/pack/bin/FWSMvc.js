@@ -100,6 +100,12 @@ var FWSMvc;
     var FMessageConnection = (function () {
         function FMessageConnection() {
         }
+        FMessageConnection.prototype.connect = function () {
+            getFMessageRouter().connect(this);
+        };
+        FMessageConnection.prototype.disconnect = function () {
+            getFMessageRouter().disconnect(this);
+        };
         FMessageConnection.prototype.onFMessage = function (msg) {
             var ret = false;
             var handlerName = msg.name;
@@ -115,6 +121,12 @@ var FWSMvc;
     var FMessageConnectionDelegate = (function () {
         function FMessageConnectionDelegate() {
         }
+        FMessageConnectionDelegate.prototype.connect = function () {
+            getFMessageRouter().connect(this);
+        };
+        FMessageConnectionDelegate.prototype.disconnect = function () {
+            getFMessageRouter().disconnect(this);
+        };
         FMessageConnectionDelegate.prototype.onFMessage = function (msg) {
             var ret = false;
             var handlerName = msg.name;
@@ -244,12 +256,21 @@ var FWSMvc;
     FWSMvc.getFMessageRouter = getFMessageRouter;
     var FContext = (function () {
         function FContext() {
+            var connections = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                connections[_i] = arguments[_i];
+            }
+            this.connections = connections.slice(0);
         }
         FContext.prototype.onContextEnter = function () {
-            console.log("%conContextEnter", "color:blue", this.path);
+            for (var i = 0; i < this.connections.length; i++) {
+                this.connections[i].connect();
+            }
         };
         FContext.prototype.onContextLeave = function () {
-            console.log("%conContextLeave", "color:darkred", this.path);
+            for (var i = 0; i < this.connections.length; i++) {
+                this.connections[i].disconnect();
+            }
         };
         Object.defineProperty(FContext.prototype, "path", {
             get: function () {

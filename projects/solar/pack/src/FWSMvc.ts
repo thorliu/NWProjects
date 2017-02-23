@@ -3,7 +3,7 @@
  * @Author: thor.liu 
  * @Date: 2017-01-17 10:36:31 
  * @Last Modified by: thor.liu
- * @Last Modified time: 2017-02-23 15:34:30
+ * @Last Modified time: 2017-02-23 15:57:20
  */
 module FWSMvc 
 {
@@ -237,6 +237,9 @@ module FWSMvc
 		 * @memberOf IFMessageConnection
 		 */
 		onFMessage(msg: FMessage): boolean;
+
+		connect():void;
+		disconnect():void;
 	}
 
 	/**
@@ -256,12 +259,30 @@ module FWSMvc
 		}
 
 		/**
+		 * 连入路由
+		 * @memberOf FMessageConnection
+		 */
+		public connect():void
+		{
+			getFMessageRouter().connect(this);
+		}
+
+		/**
+		 * 从路由断开
+		 * @memberOf FMessageConnection
+		 */
+		public disconnect():void
+		{
+			getFMessageRouter().disconnect(this);
+		}
+
+		/**
 		 * 处理收到的消息
 		 * @param {FMessage} msg 
 		 * @returns {boolean} 
 		 * @memberOf FMessageConnection
 		 */
-		onFMessage(msg: FMessage): boolean
+		public onFMessage(msg: FMessage): boolean
 		{
 			let ret: boolean = false;
 
@@ -294,12 +315,30 @@ module FWSMvc
 		}
 
 		/**
+		 * 连入路由
+		 * @memberOf FMessageConnection
+		 */
+		public connect():void
+		{
+			getFMessageRouter().connect(this);
+		}
+
+		/**
+		 * 从路由断开
+		 * @memberOf FMessageConnection
+		 */
+		public disconnect():void
+		{
+			getFMessageRouter().disconnect(this);
+		}
+
+		/**
 		 * 处理收到的消息
 		 * @param {FMessage} msg 
 		 * @returns {boolean} 
 		 * @memberOf FMessageConnection
 		 */
-		onFMessage(msg: FMessage): boolean
+		public onFMessage(msg: FMessage): boolean
 		{
 			let ret: boolean = false;
 			let handlerName = msg.name;
@@ -626,8 +665,11 @@ module FWSMvc
 	 */
 	export class FContext implements IContext
 	{
-		constructor()
+		public connections:Array<IFMessageConnection>;
+
+		constructor(...connections:IFMessageConnection[])
 		{
+			this.connections = connections.slice(0);
 		}
 
 		/**
@@ -637,6 +679,10 @@ module FWSMvc
 		public onContextEnter(): void
 		{
 			// console.log("%conContextEnter","color:blue", this.path);
+			for(var i:number = 0; i < this.connections.length; i++)
+			{
+				this.connections[i].connect();
+			}
 		}
 
 		/**
@@ -646,6 +692,10 @@ module FWSMvc
 		public onContextLeave(): void
 		{
 			// console.log("%conContextLeave","color:darkred", this.path);
+			for(var i:number = 0; i < this.connections.length; i++)
+			{
+				this.connections[i].disconnect();
+			}
 		}
 
 		/**
