@@ -1,5 +1,5 @@
-var SolarMVC;
-(function (SolarMVC) {
+var FWSData;
+(function (FWSData) {
     var Dict = (function () {
         function Dict(data) {
             if (data === void 0) { data = null; }
@@ -75,7 +75,7 @@ var SolarMVC;
         });
         return Dict;
     }());
-    SolarMVC.Dict = Dict;
+    FWSData.Dict = Dict;
     var List = (function () {
         function List() {
             this._list = new Array();
@@ -125,7 +125,7 @@ var SolarMVC;
         });
         return List;
     }());
-    SolarMVC.List = List;
+    FWSData.List = List;
     var Queue = (function () {
         function Queue() {
             this._list = new Array();
@@ -165,10 +165,10 @@ var SolarMVC;
         });
         return Queue;
     }());
-    SolarMVC.Queue = Queue;
+    FWSData.Queue = Queue;
     var Node = (function () {
         function Node(id) {
-            this._nodes = new SolarMVC.List();
+            this._nodes = new List();
             this._id = id;
         }
         Node.prototype.clear = function () {
@@ -197,6 +197,11 @@ var SolarMVC;
             ret._parentNode = null;
             return ret;
         };
+        Node.prototype.removeFromParent = function () {
+            if (this._parentNode) {
+                this._parentNode.remove(this);
+            }
+        };
         Node.prototype.at = function (index) {
             var ret = this._nodes.at(index);
             return ret;
@@ -216,6 +221,45 @@ var SolarMVC;
                     return cn;
             }
             return null;
+        };
+        Node.prototype.findData = function (d) {
+            if (this._data === d)
+                return this;
+            for (var i = 0; i < this._nodes.length; i++) {
+                var n = this._nodes.at(i);
+                if (n.data === d)
+                    return n;
+                var cn = n.findData(d);
+                if (cn)
+                    return cn;
+            }
+            return null;
+        };
+        Node.prototype.getParentNodes = function () {
+            var ret = new Array();
+            var temp = this;
+            while (temp) {
+                ret.splice(0, 0, temp);
+                temp = temp.parentNode;
+            }
+            return ret;
+        };
+        Node.prototype.getParentByOtherNode = function (node) {
+            var p1 = this.getParentNodes();
+            var p2 = node.getParentNodes();
+            var ret = null;
+            for (var i = 0; i < p1.length; i++) {
+                var n1 = p1[i];
+                var n2 = null;
+                if (i < p2.length) {
+                    n2 = p2[i];
+                }
+                if (n1 === n2)
+                    ret = n1;
+                else
+                    break;
+            }
+            return ret;
         };
         Object.defineProperty(Node.prototype, "firstChild", {
             get: function () {
@@ -360,110 +404,6 @@ var SolarMVC;
         });
         return Node;
     }());
-    SolarMVC.Node = Node;
-    var FMessage = (function () {
-        function FMessage(cmdName, cmdCategory) {
-            this.name = cmdName;
-            this.category = cmdCategory;
-            this.args = new Object();
-        }
-        return FMessage;
-    }());
-    SolarMVC.FMessage = FMessage;
-    var FMessageConnection = (function () {
-        function FMessageConnection() {
-        }
-        FMessageConnection.prototype.onFMessage = function (msg) {
-            var ret = false;
-            var handlerName = msg.name;
-            var handler = this[handlerName];
-            if (handler) {
-                ret = handler.call(this, msg);
-            }
-            return ret;
-        };
-        return FMessageConnection;
-    }());
-    SolarMVC.FMessageConnection = FMessageConnection;
-    var FMessageConnectionDelegate = (function () {
-        function FMessageConnectionDelegate() {
-        }
-        FMessageConnectionDelegate.prototype.onFMessage = function (msg) {
-            var ret = false;
-            var handlerName = msg.name;
-            if (this._target && this._target[handlerName]) {
-                ret = this._target[handlerName].call(this._target, msg);
-            }
-            return ret;
-        };
-        Object.defineProperty(FMessageConnectionDelegate.prototype, "target", {
-            get: function () {
-                return this._target;
-            },
-            set: function (v) {
-                this._target = v;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return FMessageConnectionDelegate;
-    }());
-    SolarMVC.FMessageConnectionDelegate = FMessageConnectionDelegate;
-    var FMessageRouter = (function () {
-        function FMessageRouter() {
-            if (FMessageRouter._instance) {
-                throw "FMessageRouter设计为单例, 不能创建多个实例";
-            }
-            this._queues = new Dict();
-            this._connections = new Array();
-        }
-        FMessageRouter.prototype.createQueue = function (category) {
-            if (this._queues.containKey(category))
-                return;
-        };
-        FMessageRouter.prototype.removeQueue = function (category) {
-            if (this._queues.containKey(category)) {
-                this._queues.deleteKey(category);
-            }
-        };
-        FMessageRouter.prototype.removeAllQueues = function () {
-            this._queues.clear();
-        };
-        FMessageRouter.prototype.getQueue = function (category) {
-            if (this._queues.containKey(category)) {
-                return this._queues.getItem(category);
-            }
-            else
-                return null;
-        };
-        FMessageRouter.prototype.clearQueueMessages = function (category) {
-            if (this._queues.containKey(category)) {
-                var q = this._queues.getItem(category);
-                q.clear();
-            }
-        };
-        FMessageRouter.prototype.clearAllQueuesMessages = function () {
-            var keys = this._queues.keys;
-            for (var i = 0; i < keys.length; i++) {
-                var key = keys[i];
-                var q = this._queues.getItem(key);
-                q.clear();
-            }
-        };
-        FMessageRouter.prototype.send = function (msg) {
-        };
-        FMessageRouter.prototype.push = function (msg) {
-        };
-        FMessageRouter.prototype.complete = function (msg) {
-        };
-        return FMessageRouter;
-    }());
-    function getFMessageRouter() {
-        if (!FMessageRouter._instance) {
-            FMessageRouter._instance = new FMessageRouter();
-        }
-        return FMessageRouter._instance;
-    }
-    SolarMVC.getFMessageRouter = getFMessageRouter;
-})(SolarMVC || (SolarMVC = {}));
-//# sourceMappingURL=SolarMVC.js.map
+    FWSData.Node = Node;
+})(FWSData || (FWSData = {}));
+//# sourceMappingURL=FWSData.js.map

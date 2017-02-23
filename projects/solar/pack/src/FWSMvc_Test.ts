@@ -1,6 +1,6 @@
 console.group("List");
-var list:SolarMVC.List<number> = new SolarMVC.List<number>();
-for(var i:number = 0; i < 10; i ++)
+var list: FWSData.List<number> = new FWSData.List<number>();
+for (var i: number = 0; i < 10; i++)
 {
 	list.add(i);
 }
@@ -11,11 +11,11 @@ list.remove(5);
 console.log(list.length, list + "");
 list.removeAt(3);
 console.log(list.length, list + "");
-list.insert(88,3);
+list.insert(88, 3);
 console.log(list.length, list + "");
 list.clear();
 console.log(list.length, list + "");
-for(var i:number = 0; i < 5; i ++)
+for (var i: number = 0; i < 5; i++)
 {
 	list.add(i);
 }
@@ -26,7 +26,7 @@ console.log("toArray", list.toArray());
 console.groupEnd();
 //----------------------------------------------
 console.group("Dict");
-var dict:SolarMVC.Dict<string> = new SolarMVC.Dict<string>();
+var dict: FWSData.Dict<string> = new FWSData.Dict<string>();
 dict.setItem("a", "111");
 dict.setItem("b", "222");
 dict.setItem("c", "333");
@@ -44,7 +44,7 @@ console.groupEnd();
 
 //----------------------------------------------
 console.group("Queue");
-var queue:SolarMVC.Queue<string> = new SolarMVC.Queue<string>();
+var queue: FWSData.Queue<string> = new FWSData.Queue<string>();
 queue.add("abc");
 queue.add("def");
 queue.add("ghi");
@@ -61,15 +61,15 @@ console.log("toArray", queue.toArray());
 console.groupEnd();
 //----------------------------------------------
 console.group("Node");
-var microsoft:SolarMVC.Node<string> = new SolarMVC.Node<string>("microsoft");
-var visualstudio:SolarMVC.Node<string> = new SolarMVC.Node<string>("visualstudio");
-var cs:SolarMVC.Node<string> = new SolarMVC.Node<string>("cs");
-var vb:SolarMVC.Node<string> = new SolarMVC.Node<string>("vb");
-var ts:SolarMVC.Node<string> = new SolarMVC.Node<string>("ts");
-var office:SolarMVC.Node<string> = new SolarMVC.Node<string>("office");
-var outlook:SolarMVC.Node<string> = new SolarMVC.Node<string>("outlook");
-var word:SolarMVC.Node<string> = new SolarMVC.Node<string>("word");
-var excel:SolarMVC.Node<string> = new SolarMVC.Node<string>("excel");
+var microsoft: FWSData.Node<string> = new FWSData.Node<string>("microsoft");
+var visualstudio: FWSData.Node<string> = new FWSData.Node<string>("visualstudio");
+var cs: FWSData.Node<string> = new FWSData.Node<string>("cs");
+var vb: FWSData.Node<string> = new FWSData.Node<string>("vb");
+var ts: FWSData.Node<string> = new FWSData.Node<string>("ts");
+var office: FWSData.Node<string> = new FWSData.Node<string>("office");
+var outlook: FWSData.Node<string> = new FWSData.Node<string>("outlook");
+var word: FWSData.Node<string> = new FWSData.Node<string>("word");
+var excel: FWSData.Node<string> = new FWSData.Node<string>("excel");
 
 microsoft.data = "microsoft";
 visualstudio.data = "VisualStudio";
@@ -95,8 +95,10 @@ console.log("microsoft", microsoft);
 console.groupEnd();
 //----------------------------------------------
 console.group("FMessageRouter");
-var router = SolarMVC.getFMessageRouter();
+var router = FWSMvc.getFMessageRouter();
 
-
+var msg: FWSMvc.FMessage = new FWSMvc.FMessage("test", "ui");
+msg.args.name = "abc";
+msg.send();
 
 console.groupEnd();

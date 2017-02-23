@@ -1,17 +1,10 @@
-module Utils
+module FWSUtils
 {
-	/**
-	 * 字符串工具类
-	 * 
-	 * @export
-	 * @class StrUtils
-	 */
-	export class StrUtils
-	{
+	
 		/**
 		 * 移除文本两端的空白
 		 */
-		static trim(src: string): string
+		export function trim(src: string): string
 		{
 
 			return src.replace(/^\s+/g, "").replace(/\s+$/g, "");
@@ -20,7 +13,7 @@ module Utils
 		/**
 		 * HtmlEncode
 		 */
-		static htmlEncode(src: string): string
+		export function htmlEncode(src: string): string
 		{
 			var s = "";
 			var str = src + "";
@@ -38,7 +31,7 @@ module Utils
 		/**
 		 * HtmlDecode
 		 */
-		static htmlDecode(src: string): string
+		export function htmlDecode(src: string): string
 		{
 			var s = "";
 			var str = src + "";
@@ -57,7 +50,7 @@ module Utils
 		/**
 		 * UrlEncode
 		 */
-		static urlEncode(src: string): string
+		export function urlEncode(src: string): string
 		{
 			return encodeURI(src);
 		}
@@ -65,7 +58,7 @@ module Utils
 		/**
 		 * UrlDecode
 		 */
-		static urlDecode(src: string): string
+		export function urlDecode(src: string): string
 		{
 			return decodeURI(src);
 		}
@@ -73,7 +66,7 @@ module Utils
 		/**
 		 * 匹配所有结果
 		 */
-		static matchs(src: string, re: RegExp): any
+		export function matchs(src: string, re: RegExp): any
 		{
 			var result = new Array();
 			var str = src + "";
@@ -88,7 +81,7 @@ module Utils
 		/**
 		 * 格式化参数
 		 */
-		static format(src: string, ...args): string
+		export function format(src: string, ...args): string
 		{
 			var str = src + "";
 			for (var i = 1; i < arguments.length; i++)
@@ -103,10 +96,10 @@ module Utils
 		/**
 		 * 格式化数据
 		 */
-		static formatData(src: string, data: any): string
+		export function formatData(src: string, data: any): string
 		{
 			var re = new RegExp('\\{[^\\{\\}]*\\}', 'gm');
-			var ms = Utils.StrUtils.matchs(src, re);
+			var ms = FWSUtils.matchs(src, re);
 			var str = src + "";
 			for (var i = ms.length - 1; i >= 0; i--)
 			{
@@ -114,7 +107,7 @@ module Utils
 				var mIndex = m.index;
 				var mLength = m[0].length;
 				var mKey = m[0].substr(1, mLength - 2);
-				var mValue = Utils.StrUtils.getDataValue(data, mKey);
+				var mValue = FWSUtils.getDataValue(data, mKey);
 				var mStr = mValue ? mValue.toString() : "";
 				str = str.substr(0, mIndex) + mStr + str.substr(mIndex + mLength);
 			}
@@ -124,7 +117,7 @@ module Utils
 		/**
 		 * 格式化数组
 		 */
-		static formatArray(src: string, spec: string, ary: any): string
+		export function formatArray(src: string, spec: string, ary: any): string
 		{
 			if (!src) return "";
 			if (!ary) return src + "";
@@ -135,7 +128,7 @@ module Utils
 			for (var i = 0; i < ary.length; i++)
 			{
 				if (i > 0) ret += spec;
-				ret += Utils.StrUtils.formatData(str, ary[i]);
+				ret += FWSUtils.formatData(str, ary[i]);
 			}
 
 			return ret;
@@ -144,7 +137,7 @@ module Utils
 		/**
 		 * 获取数据值
 		 */
-		static getDataValue(data: any, key: string): any
+		export function getDataValue(data: any, key: string): any
 		{
 			if (data) { } else return null;
 			var ks = key.split(".");
@@ -163,7 +156,7 @@ module Utils
 		/**
 		 * 获取GET参数值
 		 */
-		static getQuery(name: string): string
+		export function getQuery(name: string): string
 		{
 			var result = document.location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));
 			if (result == null || result.length < 1)
@@ -176,7 +169,7 @@ module Utils
 		/**
 		 * 获取GET参数组成的对象
 		 */
-		static getQueryData(): any
+		export function getQueryData(): any
 		{
 			var queryString = document.location.search + "";
 			queryString = queryString.trim().replace(/^\?/g, "");
@@ -189,10 +182,10 @@ module Utils
 				var itemAry = item.split("=");
 				if (itemAry.length == 2)
 				{
-					var k = Utils.StrUtils.urlDecode(itemAry[0]);
-					k = Utils.StrUtils.trim(k);
-					var v = Utils.StrUtils.urlDecode(itemAry[1]);
-					v = Utils.StrUtils.trim(v);
+					var k = FWSUtils.urlDecode(itemAry[0]);
+					k = FWSUtils.trim(k);
+					var v = FWSUtils.urlDecode(itemAry[1]);
+					v = FWSUtils.trim(v);
 					if (k.length > 0)
 					{
 						ret[k] = v;
@@ -203,5 +196,5 @@ module Utils
 			return ret;
 		}
 
-	}
+
 }

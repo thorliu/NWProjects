@@ -1,14 +1,16 @@
 /*
- * 一个简单的MVC框架
+ * 数据相关的基础功能
  * @Author: thor.liu 
- * @Date: 2017-01-17 10:36:31 
+ * @Date: 2017-02-23 12:46:35 
  * @Last Modified by: thor.liu
- * @Last Modified time: 2017-02-22 20:05:50
+ * @Last Modified time: 2017-02-23 14:57:54
  */
-module SolarMVC 
+
+module FWSData
 {
+
 	/**
-	 * 一个常用的字典类
+	 * 字典
 	 * @export
 	 * @class Dict
 	 * @template T 
@@ -150,7 +152,7 @@ module SolarMVC
 	}
 
 	/**
-	 * 一个常用的列表类
+	 * 列表
 	 * @export
 	 * @class List
 	 * @template T 
@@ -367,9 +369,9 @@ module SolarMVC
 	 */
 	export class Node<T> {
 		private _id: string;
-		private _nodes: SolarMVC.List<Node<T>>;
-		private _parentNode: SolarMVC.Node<T>;
-		private _data:T;
+		private _nodes: List<Node<T>>;
+		private _parentNode: Node<T>;
+		private _data: T;
 
 		/**
 		 * Creates an instance of Node.
@@ -377,7 +379,7 @@ module SolarMVC
 		 */
 		constructor(id: string)
 		{
-			this._nodes = new SolarMVC.List<Node<T>>();
+			this._nodes = new List<Node<T>>();
 			this._id = id;
 		}
 
@@ -389,7 +391,7 @@ module SolarMVC
 		{
 			for (var i = 0; i < this._nodes.length; i++)
 			{
-				var node: SolarMVC.Node<T> = this._nodes[i];
+				var node: Node<T> = this._nodes[i];
 				node._parentNode = null;
 			}
 			this._nodes.clear();
@@ -397,11 +399,11 @@ module SolarMVC
 
 		/**
 		 * 添加一个子节点
-		 * @param {SolarMVC.Node<T>} node 
-		 * @returns {SolarMVC.Node<T>} 
+		 * @param {Node<T>} node 
+		 * @returns {Node<T>} 
 		 * @memberOf Node
 		 */
-		public add(node: SolarMVC.Node<T>): SolarMVC.Node<T>
+		public add(node: Node<T>): Node<T>
 		{
 			node._parentNode = this;
 			return this._nodes.add(node);
@@ -409,25 +411,25 @@ module SolarMVC
 
 		/**
 		 * 插入一个子节点
-		 * @param {SolarMVC.Node<T>} node 
+		 * @param {Node<T>} node 
 		 * @param {number} index 
-		 * @returns {SolarMVC.Node<T>} 
+		 * @returns {Node<T>} 
 		 * @memberOf Node
 		 */
-		public insert(node: SolarMVC.Node<T>, index: number): SolarMVC.Node<T>
+		public insert(node: Node<T>, index: number): Node<T>
 		{
-			var ret: SolarMVC.Node<T> = node;
+			var ret: Node<T> = node;
 			node._parentNode = this;
 			return ret;
 		}
 
 		/**
 		 * 移除子节点
-		 * @param {SolarMVC.Node<T>} node 
-		 * @returns {SolarMVC.Node<T>} 
+		 * @param {Node<T>} node 
+		 * @returns {Node<T>} 
 		 * @memberOf Node
 		 */
-		public remove(node: SolarMVC.Node<T>): SolarMVC.Node<T>
+		public remove(node: Node<T>): Node<T>
 		{
 			node._parentNode = null;
 			return this._nodes.remove(node);
@@ -436,10 +438,10 @@ module SolarMVC
 		/**
 		 * 移除指定索引的子节点
 		 * @param {number} index 
-		 * @returns {SolarMVC.Node<T>} 
+		 * @returns {Node<T>} 
 		 * @memberOf Node
 		 */
-		public removeAt(index: number): SolarMVC.Node<T>
+		public removeAt(index: number): Node<T>
 		{
 			var ret = this._nodes.at(index);
 			this._nodes.removeAt(index);
@@ -448,12 +450,24 @@ module SolarMVC
 		}
 
 		/**
-		 * 获取指定索引的子节点
-		 * @param {number} index 
-		 * @returns {SolarMVC.Node<T>} 
+		 * 从节点的父级移除
 		 * @memberOf Node
 		 */
-		public at(index: number): SolarMVC.Node<T>
+		public removeFromParent(): void
+		{
+			if (this._parentNode)
+			{
+				this._parentNode.remove(this);
+			}
+		}
+
+		/**
+		 * 获取指定索引的子节点
+		 * @param {number} index 
+		 * @returns {Node<T>} 
+		 * @memberOf Node
+		 */
+		public at(index: number): Node<T>
 		{
 			var ret = this._nodes.at(index);
 			return ret;
@@ -461,12 +475,12 @@ module SolarMVC
 
 		/**
 		 * 搜索特定子节点的索引
-		 * @param {SolarMVC.Node<T>} node 
+		 * @param {Node<T>} node 
 		 * @returns {number} 
 		 * 
 		 * @memberOf Node
 		 */
-		public indexOf(node: SolarMVC.Node<T>): number
+		public indexOf(node: Node<T>): number
 		{
 			return this._nodes.indexOf(node);
 		}
@@ -474,20 +488,86 @@ module SolarMVC
 		/**
 		 * 查找到定ID的节点
 		 * @param {string} id 
-		 * @returns {SolarMVC.Node<T>} 
+		 * @returns {Node<T>} 
 		 * @memberOf Node
 		 */
-		public find(id:string):SolarMVC.Node<T>
+		public find(id: string): Node<T>
 		{
-			if(this._id === id) return this;
-			for(var i:number = 0; i < this._nodes.length; i ++)
+			if (this._id === id) return this;
+			for (var i: number = 0; i < this._nodes.length; i++)
 			{
-				let n:SolarMVC.Node<T> = this._nodes.at(i);
-				if(n.id === id) return n;
-				let cn:SolarMVC.Node<T> = n.find(id);
-				if(cn) return cn; 
+				let n: Node<T> = this._nodes.at(i);
+				if (n.id === id) return n;
+				let cn: Node<T> = n.find(id);
+				if (cn) return cn;
 			}
 			return null;
+		}
+
+		/**
+		 * 查找指定数据的节点
+		 * @param {T} d 
+		 * @returns {Node<T>} 
+		 * @memberOf Node
+		 */
+		public findData(d: T): Node<T>
+		{
+			if (this._data === d) return this;
+			for (var i: number = 0; i < this._nodes.length; i++)
+			{
+				let n: Node<T> = this._nodes.at(i);
+				if (n.data === d) return n;
+				let cn: Node<T> = n.findData(d);
+				if (cn) return cn;
+			}
+			return null;
+		}
+
+		/**
+		 * 获取节点到根的逐级节点
+		 * @returns {Array<Node<T>>} 
+		 * @memberOf Node
+		 */
+		public getParentNodes(): Array<Node<T>>
+		{
+			var ret: Array<Node<T>> = new Array<Node<T>>();
+			var temp: Node<T> = this;
+			while (temp)
+			{
+				ret.splice(0, 0, temp);
+				temp = temp.parentNode;
+			}
+			return ret;
+		}
+
+		/**
+		 * 获取与另一个节点的共同父级节点
+		 * @param {Node<T>} node 
+		 * @returns {Node<T>} 
+		 * @memberOf Node
+		 */
+		public getParentByOtherNode(node: Node<T>): Node<T>
+		{
+			var p1: Array<Node<T>> = this.getParentNodes();
+			var p2: Array<Node<T>> = node.getParentNodes();
+
+			var ret: Node<T> = null;
+
+			for (var i: number = 0; i < p1.length; i++)
+			{
+				var n1: Node<T> = p1[i];
+				var n2: Node<T> = null;
+
+				if (i < p2.length)
+				{
+					n2 = p2[i];
+				}
+
+				if (n1 === n2) ret = n1;
+				else break;
+			}
+
+			return ret;
 		}
 
 		//---------------------- refs
@@ -495,10 +575,10 @@ module SolarMVC
 		/**
 		 * 获取第一个子节点
 		 * @readonly
-		 * @type {SolarMVC.Node<T>}
+		 * @type {Node<T>}
 		 * @memberOf Node
 		 */
-		public get firstChild(): SolarMVC.Node<T>
+		public get firstChild(): Node<T>
 		{
 			if (this._nodes.length > 0)
 			{
@@ -510,10 +590,10 @@ module SolarMVC
 		/**
 		 * 获取最后一个子节点
 		 * @readonly
-		 * @type {SolarMVC.Node<T>}
+		 * @type {Node<T>}
 		 * @memberOf Node
 		 */
-		public get lastChild(): SolarMVC.Node<T>
+		public get lastChild(): Node<T>
 		{
 			if (this._nodes.length > 0)
 			{
@@ -525,10 +605,10 @@ module SolarMVC
 		/**
 		 * 获取第一个同级节点
 		 * @readonly
-		 * @type {SolarMVC.Node<T>}
+		 * @type {Node<T>}
 		 * @memberOf Node
 		 */
-		public get firstNode(): SolarMVC.Node<T>
+		public get firstNode(): Node<T>
 		{
 			if (this._parentNode) return this._parentNode.firstChild;
 			return null;
@@ -537,10 +617,10 @@ module SolarMVC
 		/**
 		 * 获取上一个同级节点
 		 * @readonly
-		 * @type {SolarMVC.Node<T>}
+		 * @type {Node<T>}
 		 * @memberOf Node
 		 */
-		public get prevNode(): SolarMVC.Node<T>
+		public get prevNode(): Node<T>
 		{
 			if (this._parentNode)
 			{
@@ -553,10 +633,10 @@ module SolarMVC
 		/**
 		 * 获取下一个同级节点
 		 * @readonly
-		 * @type {SolarMVC.Node<T>}
+		 * @type {Node<T>}
 		 * @memberOf Node
 		 */
-		public get nextNode(): SolarMVC.Node<T>
+		public get nextNode(): Node<T>
 		{
 			if (this._parentNode)
 			{
@@ -572,10 +652,10 @@ module SolarMVC
 		/**
 		 * 获取最后一个同级节点
 		 * @readonly
-		 * @type {SolarMVC.Node<T>}
+		 * @type {Node<T>}
 		 * @memberOf Node
 		 */
-		public get lastNode(): SolarMVC.Node<T>
+		public get lastNode(): Node<T>
 		{
 			if (this._parentNode) return this._parentNode.lastChild;
 			return null;
@@ -586,16 +666,17 @@ module SolarMVC
 		 * @type {T}
 		 * @memberOf Node
 		 */
-		public get data():T{
+		public get data(): T
+		{
 			return this._data;
 		}
 		/**
 		 * 设置数据
 		 * @memberOf Node
 		 */
-		public set data(value:T)
+		public set data(value: T)
 		{
-			this._data=value;
+			this._data = value;
 		}
 
 		/**
@@ -603,12 +684,12 @@ module SolarMVC
 		 * @returns {string} 
 		 * @memberOf Node
 		 */
-		public toString():string
+		public toString(): string
 		{
-			var temp:any = this._data;
-			if(temp || temp === 0 || temp === false)
+			var temp: any = this._data;
+			if (temp || temp === 0 || temp === false)
 			{
-				return "Node "+JSON.stringify(this._data);
+				return "Node " + JSON.stringify(this._data);
 			}
 			else return "Node {}";
 		}
@@ -629,10 +710,10 @@ module SolarMVC
 		/**
 		 * 获取父级节点实例
 		 * @readonly
-		 * @type {SolarMVC.Node<T>}
+		 * @type {Node<T>}
 		 * @memberOf Node
 		 */
-		public get parentNode(): SolarMVC.Node<T>
+		public get parentNode(): Node<T>
 		{
 			return this._parentNode;
 		}
@@ -657,7 +738,7 @@ module SolarMVC
 		public get level(): number
 		{
 			var ret: number = 0;
-			var temp: SolarMVC.Node<T> = this;
+			var temp: Node<T> = this;
 			while (temp.parentNode)
 			{
 				temp = temp.parentNode;
@@ -669,12 +750,12 @@ module SolarMVC
 		/**
 		 * 获取根节点
 		 * @readonly
-		 * @type {SolarMVC.Node<T>}
+		 * @type {Node<T>}
 		 * @memberOf Node
 		 */
-		public get rootNode(): SolarMVC.Node<T>
+		public get rootNode(): Node<T>
 		{
-			var ret: SolarMVC.Node<T> = this;
+			var ret: Node<T> = this;
 			while (ret.parentNode)
 			{
 				ret = ret.parentNode;
@@ -692,7 +773,7 @@ module SolarMVC
 		{
 			var ary = new Array<string>();
 
-			var n: SolarMVC.Node<T> = this;
+			var n: Node<T> = this;
 			while (n)
 			{
 				ary.splice(0, 0, n.id);
@@ -703,315 +784,4 @@ module SolarMVC
 		}
 
 	}
-
-	/**
-	 * 指令/消息/通知/事件
-	 * @export
-	 * @class FMessage
-	 */
-	export class FMessage 
-	{
-		/**
-		 * Creates an instance of FMessage.
-		 * @param {string} cmdName 
-		 * @param {string} cmdCategory 
-		 * @memberOf FMessage
-		 */
-		constructor(cmdName: string, cmdCategory: string)
-		{
-			this.name = cmdName;
-			this.category = cmdCategory;
-			this.args = new Object();
-		}
-
-		/**
-		 * 指令名称
-		 */
-		public name: string;
-
-		/**
-		 * 指令类型
-		 */
-		public category: string;
-
-		/**
-		 * 指令参数
-		 */
-		public args: any;
-	}
-
-	/**
-	 * 消息连接接口
-	 * @export
-	 * @interface IFMessageConnection
-	 */
-	export interface IFMessageConnection
-	{
-		/**
-		 * 处理消息路由推送来的消息
-		 * @param {FMessage} msg 
-		 * @returns {boolean} 是否接管此消息
-		 * 
-		 * @memberOf IFMessageConnection
-		 */
-		onFMessage(msg:FMessage):boolean;
-	}
-
-	/**
-	 * 消息连接
-	 * @export
-	 * @class FMessageConnection
-	 * @implements {IFMessageConnection}
-	 */
-	export class FMessageConnection implements IFMessageConnection
-	{
-		/**
-		 * 构造
-		 * @memberOf FMessageConnection
-		 */
-		constructor(){
-		}
-
-		/**
-		 * 处理收到的消息
-		 * @param {FMessage} msg 
-		 * @returns {boolean} 
-		 * @memberOf FMessageConnection
-		 */
-		onFMessage(msg:FMessage):boolean
-		{
-			let ret:boolean = false;
-
-			let handlerName = msg.name;
-			let handler:Function = this["onFMessage_" + handlerName];
-			if(handler)
-			{
-				ret = handler.call(this, msg);
-			}
-			return ret;
-		}
-	}
-
-	/**
-	 * 消息连接代理
-	 * @export
-	 * @class FMessageConnectionDelegate
-	 * @implements {IFMessageConnection}
-	 */
-	export class FMessageConnectionDelegate implements IFMessageConnection
-	{
-		private _target:any;
-		
-		/**
-		 * 构造
-		 * @memberOf FMessageConnectionDelegate
-		 */
-		constructor(){
-		}
-
-		/**
-		 * 处理收到的消息
-		 * @param {FMessage} msg 
-		 * @returns {boolean} 
-		 * @memberOf FMessageConnection
-		 */
-		onFMessage(msg:FMessage):boolean
-		{
-			let ret:boolean = false;
-			let handlerName = msg.name;
-			if(this._target && this._target["onFMessage_" + handlerName])
-			{
-				ret = this._target[handlerName].call(this._target, msg);
-			}
-			return ret;
-		}
-
-		/**
-		 * 获取代理目标
-		 * @type {*}
-		 * @memberOf FMessageConnectionDelegate
-		 */
-		public get target():any
-		{
-			return this._target;
-		}
-		/**
-		 * 设置代理目标
-		 * @memberOf FMessageConnectionDelegate
-		 */
-		public set target(v:any)
-		{
-			this._target = v;
-		}
-
-	}
-
-	
-	/**
-	 * 消息路由
-	 * 
-	 * @class FMessageRouter
-	 */
-	class FMessageRouter
-	{
-		/**
-		 * 唯一实例
-		 * @static
-		 * @type {FMessageRouter}
-		 * @memberOf FMessageRouter
-		 */
-		static _instance:FMessageRouter;
-		
-		/**
-		 * 所有已定义的消息队列
-		 * @private
-		 * @type {Dict<Queue<FMessage>>}
-		 * @memberOf FMessageRouter
-		 */
-		private _queues:Dict<Queue<FMessage>>;
-
-		/**
-		 * 所有已经连至路由的模块连接
-		 * @private
-		 * @type {Array<IFMessageConnection>}
-		 * @memberOf FMessageRouter
-		 */
-		private _connections:Array<IFMessageConnection>;
-
-		/**
-		 * 构造
-		 * @memberOf FMessageRouter
-		 */
-		constructor(){
-			if(FMessageRouter._instance)
-			{
-				throw "FMessageRouter设计为单例, 不能创建多个实例";
-			}
-
-			this._queues = new Dict<Queue<FMessage>>();
-			this._connections = new Array<IFMessageConnection>();
-		}
-
-		/**
-		 * 创建队列
-		 * @param {string} category 
-		 * @returns {void} 
-		 * @memberOf FMessageRouter
-		 */
-		public createQueue(category:string):void
-		{
-			if(this._queues.containKey(category)) return;
-		}
-
-		/**
-		 * 删除队列
-		 * @param {string} category 
-		 * @memberOf FMessageRouter
-		 */
-		public removeQueue(category:string):void
-		{
-			if(this._queues.containKey(category))
-			{
-				this._queues.deleteKey(category);
-			}
-		}
-
-		/**
-		 * 删除所有队列
-		 * @memberOf FMessageRouter
-		 */
-		public removeAllQueues():void
-		{
-			this._queues.clear();
-		}
-
-		/**
-		 * 获取指定的队列
-		 * @param {string} category 
-		 * @returns {Queue<FMessage>} 
-		 * @memberOf FMessageRouter
-		 */
-		public getQueue(category:string):Queue<FMessage>
-		{
-			if(this._queues.containKey(category))
-			{
-				return this._queues.getItem(category);
-			}
-			else return null;
-		}
-
-		/**
-		 * 清除队列中的所有消息
-		 * @param {string} category 
-		 * 
-		 * @memberOf FMessageRouter
-		 */
-		public clearQueueMessages(category:string):void
-		{
-			if(this._queues.containKey(category))
-			{
-				let q:Queue<FMessage> = this._queues.getItem(category);
-				q.clear();
-			}
-		}
-
-		/**
-		 * 清除所有队列中的所有消息
-		 * @memberOf FMessageRouter
-		 */
-		public clearAllQueuesMessages():void
-		{
-			var keys:Array<string> = this._queues.keys;
-			for(var i:number= 0; i < keys.length; i ++)
-			{
-				let key:string = keys[i];
-				let q:Queue<FMessage> = this._queues.getItem(key);
-				q.clear();
-			}
-		}
-
-		/**
-		 * 发送消息至路由
-		 * @param {FMessage} msg 
-		 * @memberOf FMessageRouter
-		 */
-		public send(msg:FMessage):void
-		{
-		}
-
-		/**
-		 * 将消息推送给所有已连接的模块
-		 * @param {FMessage} msg 
-		 * @memberOf FMessageRouter
-		 */
-		public push(msg:FMessage):void
-		{
-		}
-
-		/**
-		 * 将消息标为完成
-		 * @param {FMessage} msg 
-		 * @memberOf FMessageRouter
-		 */
-		public complete(msg:FMessage):void
-		{
-		}
-	}
-	
-	/**
-	 * 获取消息路由实例
-	 * @export
-	 * @returns {FMessageRouter} 
-	 */
-	export function getFMessageRouter():FMessageRouter
-	{
-		if(!FMessageRouter._instance)
-		{
-			FMessageRouter._instance = new FMessageRouter();
-		}
-		return FMessageRouter._instance;
-	}
-
 }
-
-
