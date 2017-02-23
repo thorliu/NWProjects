@@ -1,58 +1,86 @@
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-var MsgConnection1 = (function (_super) {
-    __extends(MsgConnection1, _super);
-    function MsgConnection1() {
-        return _super.apply(this, arguments) || this;
-    }
-    MsgConnection1.prototype.onFMessage_test = function (msg) {
-        console.log("MsgConnection1", msg);
-        return true;
-    };
-    return MsgConnection1;
-}(FWSMvc.FMessageConnection));
-var MsgConnection2 = (function (_super) {
-    __extends(MsgConnection2, _super);
-    function MsgConnection2() {
-        return _super.apply(this, arguments) || this;
-    }
-    MsgConnection2.prototype.onFMessage_test = function (msg) {
-        console.log("MsgConnection2", msg);
-        return true;
-    };
-    return MsgConnection2;
-}(FWSMvc.FMessageConnection));
-var MsgConnection3 = (function (_super) {
-    __extends(MsgConnection3, _super);
-    function MsgConnection3() {
-        return _super.apply(this, arguments) || this;
-    }
-    MsgConnection3.prototype.onFMessage_hello = function (msg) {
-        console.log("MsgConnection3", msg);
-        return true;
-    };
-    return MsgConnection3;
-}(FWSMvc.FMessageConnection));
-console.group("MVC");
-var router = FWSMvc.getFMessageRouter();
-router.createQueue("ui");
-var contextManager = FWSMvc.getFContextManager();
-var p9 = new FWSMvc.FContext();
-var loading = new FWSMvc.FContext();
-var main = new FWSMvc.FContext();
-var room = new FWSMvc.FContext(new MsgConnection1(), new MsgConnection2());
-var game = new FWSMvc.FContext(new MsgConnection1(), new MsgConnection3());
-contextManager.addContext("p9", p9);
-contextManager.addContext("loading", loading, p9);
-contextManager.addContext("main", main, p9);
-contextManager.addContext("room", room, main);
-contextManager.addContext("game", game, main);
-contextManager.goto(game);
-new FWSMvc.FMessage("test", "ui").send();
-new FWSMvc.FMessage("hello", "ui").send();
-new FWSMvc.FMessage("test", "").send();
+console.group("List");
+var list = new FWSData.List();
+for (var i = 0; i < 10; i++) {
+    list.add(i);
+}
+console.log(list.length, list + "");
+list.add(99);
+console.log(list.length, list + "");
+list.remove(5);
+console.log(list.length, list + "");
+list.removeAt(3);
+console.log(list.length, list + "");
+list.insert(88, 3);
+console.log(list.length, list + "");
+list.modify(77, 3);
+console.log(list.length, list + "");
+list.clear();
+console.log(list.length, list + "");
+for (var i = 0; i < 5; i++) {
+    list.add(i);
+}
+console.log(list.length, list + "");
+console.log("indexOf", list.indexOf(2));
+console.log("toArray", list.toArray());
+console.groupEnd();
+console.group("Dict");
+var dict = new FWSData.Dict();
+dict.setItem("a", "111");
+dict.setItem("b", "222");
+dict.setItem("c", "333");
+console.log(dict.count, dict.toString());
+dict.deleteKey("b");
+console.log(dict.count, dict.toString());
+dict.setItem("c", "ccccc");
+console.log(dict.count, dict.toString());
+console.log("getItem", dict.getItem("c"));
+console.log("keys", dict.keys);
+console.log("values", dict.values);
+console.log("toObject", dict.toObject());
+console.groupEnd();
+console.group("Queue");
+var queue = new FWSData.Queue();
+queue.add("abc");
+queue.add("def");
+queue.add("ghi");
+console.log(queue.current, queue.length, queue.toString());
+queue.clear();
+console.log(queue.current, queue.length, queue.toString());
+queue.add("jkl");
+queue.add("mno");
+queue.add("pqr");
+console.log(queue.current, queue.length, queue.toString());
+console.log("remove", queue.remove());
+console.log(queue.current, queue.length, queue.toString());
+console.log("toArray", queue.toArray());
+console.groupEnd();
+console.group("Node");
+var microsoft = new FWSData.Node("microsoft");
+var visualstudio = new FWSData.Node("visualstudio");
+var cs = new FWSData.Node("cs");
+var vb = new FWSData.Node("vb");
+var ts = new FWSData.Node("ts");
+var office = new FWSData.Node("office");
+var outlook = new FWSData.Node("outlook");
+var word = new FWSData.Node("word");
+var excel = new FWSData.Node("excel");
+microsoft.data = "microsoft";
+visualstudio.data = "VisualStudio";
+cs.data = "CSharp";
+vb.data = "VisualBasic";
+ts.data = "TypeScript";
+office.data = "Office";
+outlook.data = "Outlook";
+word.data = "Word";
+excel.data = "Excel";
+microsoft.add(visualstudio);
+visualstudio.add(cs);
+visualstudio.add(vb);
+visualstudio.add(ts);
+microsoft.add(office);
+office.add(outlook);
+office.add(word);
+office.add(excel);
+console.log("microsoft", microsoft);
 console.groupEnd();
 //# sourceMappingURL=FWSMvc_Test.js.map

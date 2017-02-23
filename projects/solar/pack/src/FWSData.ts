@@ -3,11 +3,422 @@
  * @Author: thor.liu 
  * @Date: 2017-02-23 12:46:35 
  * @Last Modified by: thor.liu
- * @Last Modified time: 2017-02-23 14:57:54
+ * @Last Modified time: 2017-02-23 22:13:52
  */
 
 module FWSData
 {
+	/**
+	 * 事件参数
+	 * @export
+	 * @class EventArgs
+	 */
+	export class EventArgs
+	{
+		private _sender: any;
+
+		/**
+		 * 构造
+		 * @param {*} sender 
+		 * @memberOf EventArgs
+		 */
+		constructor(sender: any)
+		{
+			this._sender = sender;
+		}
+
+		/**
+		 * 获取事件发送者
+		 * @readonly
+		 * @type {*}
+		 * @memberOf EventArgs
+		 */
+		public get sender(): any
+		{
+			return this._sender;
+		}
+	}
+
+	/**
+	 * 数据属性改变事件参数
+	 * @export
+	 * @class DataPropertyChangeEventArgs
+	 * @extends {EventArgs}
+	 */
+	export class DataPropertyChangeEventArgs extends EventArgs
+	{
+		private _propertyName: string;
+		private _source: any;
+		private _newValue: any;
+		private _oldValue: any;
+
+		/**
+		 * Creates an instance of DataPropertyChangeEventArgs.
+		 * @param {*} sender 
+		 * @param {*} source 
+		 * @param {string} propertyName 
+		 * @param {*} newValue 
+		 * @param {*} oldValue 
+		 * 
+		 * @memberOf DataPropertyChangeEventArgs
+		 */
+		constructor(sender: any, source: any, propertyName: string, newValue: any, oldValue: any)
+		{
+			super(sender);
+			this._source = source;
+			this._propertyName = propertyName;
+			this._newValue = newValue;
+			this._oldValue = oldValue;
+		}
+
+		/**
+		 * 获取数据源对象
+		 * @readonly
+		 * @type {*}
+		 * @memberOf DataPropertyChangeEventArgs
+		 */
+		public get source(): any { return this._source; }
+
+		/**
+		 * 获取属性名称
+		 * @readonly
+		 * @type {string}
+		 * @memberOf DataPropertyChangeEventArgs
+		 */
+		public get propertyName(): string { return this._propertyName; }
+
+		/**
+		 * 获取属性的新值
+		 * @readonly
+		 * @type {*}
+		 * @memberOf DataPropertyChangeEventArgs
+		 */
+		public get newValue(): any { return this._newValue; }
+
+		/**
+		 * 获取属性的老值
+		 * 
+		 * @readonly
+		 * @type {*}
+		 * @memberOf DataPropertyChangeEventArgs
+		 */
+		public get oldValue(): any { return this._oldValue; }
+	}
+
+	/**
+	 * 数据字典改变事件类型
+	 * @export
+	 * @enum {number}
+	 */
+	export enum DataCollectionChangeType
+	{
+		/**
+		 * 清空成员时
+		 */
+		Clear,
+		/**
+		 * 添加成员时
+		 */
+		Add,
+		/**
+		 * 移除成员时
+		 */
+		Remove,
+		/**
+		 * 修改成员时
+		 */
+		Modify
+	}
+
+	/**
+	 * 数据字典改变事件参数
+	 * @export
+	 * @class DataDictChangeEventArgs
+	 * @extends {EventArgs}
+	 */
+	export class DataDictChangeEventArgs extends EventArgs
+	{
+		private _source: any;
+		private _key: string;
+		private _oldValue: any;
+		private _newValue: any;
+		private _type: DataCollectionChangeType;
+
+		constructor(sender: any, type: DataCollectionChangeType, source: any, key: string, oldValue: any, newValue: any)
+		{
+			super(sender);
+
+			this._source = source;
+			this._key = key;
+			this._oldValue = oldValue;
+			this._newValue = newValue;
+			this._type = type;
+		}
+
+		/**
+		 * 改变方式
+		 * @readonly
+		 * @type {DataCollectionChangeType}
+		 * @memberOf DataDictChangeEventArgs
+		 */
+		public get type(): DataCollectionChangeType { return this._type; }
+
+		/**
+		 * 数据源对象
+		 * @readonly
+		 * @type {*}
+		 * @memberOf DataDictChangeEventArgs
+		 */
+		public get source(): any { return this._source; }
+
+		/**
+		 * 老值
+		 * @readonly
+		 * @type {*}
+		 * @memberOf DataDictChangeEventArgs
+		 */
+		public get oldValue(): any { return this._oldValue; }
+
+		/**
+		 * 新值
+		 * @readonly
+		 * @type {*}
+		 * @memberOf DataDictChangeEventArgs
+		 */
+		public get newValue(): any { return this._newValue; }
+
+		/**
+		 * 键名
+		 * @readonly
+		 * @type {string}
+		 * @memberOf DataDictChangeEventArgs
+		 */
+		public get key(): string { return this._key; }
+	}
+
+	/**
+	 * 数据列表改变事件参数
+	 * @export
+	 * @class DataListChangeEventArgs
+	 * @extends {EventArgs}
+	 */
+	export class DataListChangeEventArgs extends EventArgs
+	{
+		private _source: any;
+		private _index: number;
+		private _oldValue: any;
+		private _newValue: any;
+		private _type: DataCollectionChangeType;
+
+		/**
+		 * Creates an instance of DataListChangeEventArgs.
+		 * @param {*} sender 
+		 * @param {DataCollectionChangeType} type 
+		 * @param {*} source 
+		 * @param {number} index 
+		 * @param {*} newValue 
+		 * @param {*} oldValue 
+		 * 
+		 * @memberOf DataListChangeEventArgs
+		 */
+		constructor(sender: any, type: DataCollectionChangeType, source: any, index: number, newValue: any, oldValue: any)
+		{
+			super(sender);
+
+			this._type = type;
+			this._source = source;
+			this._index = index;
+			this._newValue = newValue;
+			this._oldValue = oldValue;
+		}
+
+		/**
+		 * 数据改变方式
+		 * @readonly
+		 * @type {DataCollectionChangeType}
+		 * @memberOf DataListChangeEventArgs
+		 */
+		public get type(): DataCollectionChangeType { return this._type; }
+
+		/**
+		 * 数据源对象
+		 * @readonly
+		 * @type {*}
+		 * @memberOf DataListChangeEventArgs
+		 */
+		public get source(): any { return this._source; }
+
+		/**
+		 * 索引
+		 * @readonly
+		 * @type {number}
+		 * @memberOf DataListChangeEventArgs
+		 */
+		public get index(): number { return this._index; }
+
+		/**
+		 * 新值
+		 * @readonly
+		 * @type {*}
+		 * @memberOf DataListChangeEventArgs
+		 */
+		public get newValue(): any { return this._newValue; }
+
+		/**
+		 * 老值
+		 * @readonly
+		 * @type {*}
+		 * @memberOf DataListChangeEventArgs
+		 */
+		public get oldValue(): any { return this._oldValue; }
+	}
+
+	/**
+	 * 数据绑定模式
+	 * @export
+	 * @enum {number}
+	 */
+	export enum DataBindMode
+	{
+		/**
+		 * 一次性同步
+		 */
+		Once,
+		/**
+		 * 单向更新绑定
+		 */
+		OneWay,
+		/**
+		 * 双向更新绑定
+		 */
+		TwoWay
+	}
+
+	/**
+	 * 数据绑定关系
+	 * 
+	 * @export
+	 * @class DataBindLink
+	 */
+	export class DataBindLink
+	{
+		private _source: any;
+		private _target: any;
+		private _mode: DataBindMode;
+		private _options: any;
+
+		constructor(source: any, target: any, mode: DataBindMode, options?: any)
+		{
+			this._source = source;
+			this._target = target;
+			this._mode = mode;
+			this._options = options;
+		}
+	}
+
+	/**
+	 * 数据绑定管理器
+	 * 
+	 * @class DataBindManager
+	 */
+	class DataBindManager
+	{
+		static _isntance: DataBindManager;
+		constructor()
+		{
+		}
+
+		/**
+		 * 通知数据改变事件
+		 * @param {EventArgs} e 
+		 * @memberOf DataBindManager
+		 */
+		public distEvent(e: EventArgs): void
+		{
+			console.log("DataBindManager::distEvent", e);
+		}
+	}
+
+	/**
+	 * 获取数据绑定管理器实例
+	 * 
+	 * @returns {DataBindManager} 
+	 */
+	function getDataBindManager(): DataBindManager
+	{
+		if (!DataBindManager._isntance)
+		{
+			DataBindManager._isntance = new DataBindManager();
+		}
+		return DataBindManager._isntance;
+	}
+
+	/**
+	 * 建立数据属性绑定
+	 * @export
+	 * @param {*} source 
+	 * @param {*} target 
+	 * @param {DataBindMode} mode 
+	 * @param {*} options 
+	 */
+	export function bindProperties(source: any, target: any, mode: DataBindMode, options?: any): void
+	{
+		if (source && target && source !== target) { } else return;
+		if (mode === DataBindMode.Once)
+		{
+			//TODO: 拷贝数据
+		}
+		else
+		{
+
+		}
+	}
+
+	/**
+	 * 建立列表成员绑定
+	 * @export
+	 * @param {*} source 
+	 * @param {*} target 
+	 * @param {DataBindMode} mode 
+	 * @param {*} [options] 
+	 */
+	export function bindList(source: any, target: any, mode: DataBindMode, options?: any): void
+	{
+	}
+
+	/**
+	 * 建立字典成员绑定
+	 * @export
+	 * @param {*} source 
+	 * @param {*} target 
+	 * @param {DataBindMode} mode 
+	 * @param {*} [options] 
+	 */
+	export function bindDict(source: any, target: any, mode: DataBindMode, options?: any): void
+	{
+	}
+
+	/**
+	 * 解除数据源的数据绑定
+	 * @export
+	 * @param {*} source 
+	 */
+	export function unbindBySource(source: any): void
+	{
+	}
+
+	/**
+	 * 解除目标对象的数据绑定
+	 * @export
+	 * @param {*} target 
+	 */
+	export function unbindByTarget(target: any): void
+	{
+	}
+
+
+
+	//-----------------------------------------------------------
 
 	/**
 	 * 字典
@@ -51,18 +462,33 @@ module FWSData
 		 */
 		public setItem(key: string, value: T): void
 		{
-			this._dict[key] = value;
+			if (this._dict[key] === value) return;
+
+			if (this.containKey(key))
+			{
+				var oldValue: T = this._dict[key];
+				this._dict[key] = value;
+				getDataBindManager().distEvent(new DataDictChangeEventArgs(this, DataCollectionChangeType.Modify, this, key, oldValue, value));
+			}
+			else
+			{
+				this._dict[key] = value;
+				getDataBindManager().distEvent(new DataDictChangeEventArgs(this, DataCollectionChangeType.Add, this, key, oldValue, value));
+			}
 		}
 
 		/**
 		 * 删除指定键以及值
 		 * @param key 键
 		 */
-		public deleteKey(key: string): T
+		public deleteKey(key: string): void
 		{
+			if (!this.containKey(key)) return;
+
 			var ret = this._dict[key];
 			delete this._dict[key];
-			return ret;
+
+			getDataBindManager().distEvent(new DataDictChangeEventArgs(this, DataCollectionChangeType.Remove, this, key, ret, null));
 		}
 
 		/**
@@ -88,10 +514,13 @@ module FWSData
 		 */
 		public clear(): void
 		{
+			if (this.count == 0) return;
 			for (var key in this._dict)
 			{
 				delete this._dict[key];
 			}
+
+			getDataBindManager().distEvent(new DataDictChangeEventArgs(this, DataCollectionChangeType.Clear, this, null, null, null));
 		}
 
 		/**
@@ -177,12 +606,29 @@ module FWSData
 		}
 
 		/**
+		 * 设置指定索引的项目
+		 * @param {T} item 
+		 * @param {number} index 
+		 * @memberOf List
+		 */
+		public modify(item: T, index: number): void
+		{
+			if (index < 0 || index >= this._list.length) return;
+			if (this._list[index] === item) return;
+			var oldValue: T = this._list[index];
+			this._list[index] = item;
+
+			getDataBindManager().distEvent(new DataListChangeEventArgs(this, DataCollectionChangeType.Modify, this, index, item, oldValue));
+		}
+
+		/**
 		 * 添加项目
 		 * @param item 项目
 		 */
 		public add(item: T): T
 		{
 			this._list.push(item);
+			getDataBindManager().distEvent(new DataListChangeEventArgs(this, DataCollectionChangeType.Add, this, this._list.length - 1, item, null));
 			return item;
 		}
 
@@ -193,7 +639,9 @@ module FWSData
 		public remove(item: T): T
 		{
 			var i = this._list.indexOf(item);
+			if(i < 0) return;
 			this._list.splice(i, 1);
+			getDataBindManager().distEvent(new DataListChangeEventArgs(this, DataCollectionChangeType.Remove, this, i, null, item));
 			return item;
 		}
 
@@ -204,7 +652,9 @@ module FWSData
 		 */
 		public insert(item: T, index: number): T
 		{
+			if (index < 0 || index > this._list.length - 1) return;
 			this._list.splice(index, 0, item);
+			getDataBindManager().distEvent(new DataListChangeEventArgs(this, DataCollectionChangeType.Add, this, index, item, null));
 			return item;
 		}
 
@@ -216,6 +666,7 @@ module FWSData
 		{
 			var ret = this._list[index];
 			this._list.splice(index, 1);
+			getDataBindManager().distEvent(new DataListChangeEventArgs(this, DataCollectionChangeType.Remove, this, index, null, ret));
 			return ret;
 		}
 
@@ -224,7 +675,9 @@ module FWSData
 		 */
 		public clear(): void
 		{
+			if (this._list.length == 0) return;
 			this._list.splice(0, this._list.length);
+			getDataBindManager().distEvent(new DataListChangeEventArgs(this, DataCollectionChangeType.Clear, this, 0, null, null));
 		}
 
 		/**
@@ -296,6 +749,7 @@ module FWSData
 		public add(item: T): void
 		{
 			this._list.push(item);
+			getDataBindManager().distEvent(new DataListChangeEventArgs(this, DataCollectionChangeType.Add, this, this.length - 1, item, null));
 		}
 
 		/**
@@ -305,8 +759,10 @@ module FWSData
 		 */
 		public remove(): T
 		{
-			if (this._list.length > 0) return this._list.shift();
-			return null;
+			var ret: T = null;
+			if (this._list.length > 0) ret = this._list.shift(); else return null;
+			getDataBindManager().distEvent(new DataListChangeEventArgs(this, DataCollectionChangeType.Remove, this, 0, ret, null));
+			return ret;
 		}
 
 		/**
@@ -316,6 +772,7 @@ module FWSData
 		public clear(): void
 		{
 			this._list.splice(0, this._list.length);
+			getDataBindManager().distEvent(new DataListChangeEventArgs(this, DataCollectionChangeType.Clear, this, 0, null, null));
 		}
 
 		/**
