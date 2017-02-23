@@ -246,9 +246,23 @@ var FWSMvc;
         function FContext() {
         }
         FContext.prototype.onContextEnter = function () {
+            console.log("%conContextEnter", "color:blue", this.path);
         };
         FContext.prototype.onContextLeave = function () {
+            console.log("%conContextLeave", "color:darkred", this.path);
         };
+        Object.defineProperty(FContext.prototype, "path", {
+            get: function () {
+                var mgr = getFContextManager();
+                var node = mgr.findContext(this);
+                if (node) {
+                    return node.path;
+                }
+                return "";
+            },
+            enumerable: true,
+            configurable: true
+        });
         return FContext;
     }());
     FWSMvc.FContext = FContext;

@@ -3,7 +3,7 @@
  * @Author: thor.liu 
  * @Date: 2017-01-17 10:36:31 
  * @Last Modified by: thor.liu
- * @Last Modified time: 2017-02-23 15:18:19
+ * @Last Modified time: 2017-02-23 15:34:30
  */
 module FWSMvc 
 {
@@ -636,6 +636,7 @@ module FWSMvc
 		 */
 		public onContextEnter(): void
 		{
+			// console.log("%conContextEnter","color:blue", this.path);
 		}
 
 		/**
@@ -644,6 +645,24 @@ module FWSMvc
 		 */
 		public onContextLeave(): void
 		{
+			// console.log("%conContextLeave","color:darkred", this.path);
+		}
+
+		/**
+		 * 获取当前节点的路径
+		 * @readonly
+		 * @type {string}
+		 * @memberOf FContext
+		 */
+		public get path():string
+		{
+			var mgr:FContextManager = getFContextManager();
+			var node:FWSData.Node<IContext> = mgr.findContext(this);
+			if(node)
+			{
+				return node.path;
+			}
+			return "";
 		}
 	}
 
