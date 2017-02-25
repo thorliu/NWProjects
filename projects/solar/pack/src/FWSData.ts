@@ -1,13 +1,16 @@
 /*
- * 数据相关的基础功能
+ * 数据相关的基础功能, 包括支持克隆, 迭代的基本数据结构, 支持数据绑定通知的基本数据模型
  * @Author: thor.liu 
  * @Date: 2017-02-23 12:46:35 
  * @Last Modified by: thor.liu
- * @Last Modified time: 2017-02-25 18:41:18
+ * @Last Modified time: 2017-02-26 04:20:04
  */
 
 module FWSData
 {
+
+	//----------------------------------------------- 事件通知
+
 	/**
 	 * 事件参数
 	 * @export
@@ -273,6 +276,8 @@ module FWSData
 		public get oldValue(): any { return this._oldValue; }
 	}
 
+	//----------------------------------------------- 数据绑定信息
+
 	/**
 	 * 数据绑定模式
 	 * @export
@@ -324,6 +329,8 @@ module FWSData
 		public get options(): any { return this._options; }
 	}
 
+	//----------------------------------------------- 数据绑定管理器
+
 	/**
 	 * 数据绑定管理器
 	 * 
@@ -360,15 +367,15 @@ module FWSData
 				var handler: Function = this["on" + lk.type + "Change"];
 				if (!handler) continue;
 
-				if(e.sender === lk.source)
+				if (e.sender === lk.source)
 				{
-					if(lk.mode === DataBindMode.TwoWay 
-					|| lk.mode === DataBindMode.OneWay)
+					if (lk.mode === DataBindMode.TwoWay
+						|| lk.mode === DataBindMode.OneWay)
 					{
 						handler.call(this, e, lk, false);
 					}
 				}
-				else if(e.sender === lk.target && lk.mode === DataBindMode.TwoWay)
+				else if (e.sender === lk.target && lk.mode === DataBindMode.TwoWay)
 				{
 					handler.call(this, e, lk, true);
 				}
@@ -488,6 +495,23 @@ module FWSData
 		}
 
 		/**
+		 * 移除特定数据源和目标关系的绑定
+		 * @param {*} source 
+		 * @param {*} target 
+		 * @memberOf DataBindManager
+		 */
+		public removeLinksBy(source: any, target: any): void
+		{
+			for (var i: number = this._links.length - 1; i >= 0; i--)
+			{
+				var link: DataBindLink = this._links[i];
+				if (link.source !== source || link.target !== target) continue;
+
+				this._links.splice(i, 1);
+			}
+		}
+
+		/**
 		 * 移除所有特定数据源的绑定
 		 * @param {*} source 
 		 * @memberOf DataBindManager
@@ -542,7 +566,7 @@ module FWSData
 			var tagName = "";
 
 			//options { target: source }
-			if(twoway)
+			if (twoway)
 			{
 				//反向
 				src = lk.target;
@@ -556,10 +580,10 @@ module FWSData
 				src = lk.source;
 				tag = lk.target;
 				srcName = e.propertyName;
-				for(var k in lk.options)
+				for (var k in lk.options)
 				{
 					var v = lk.options[k];
-					if(v === srcName)
+					if (v === srcName)
 					{
 						tagName = k;
 						break;
@@ -567,9 +591,9 @@ module FWSData
 				}
 			}
 
-			if(!srcName || !tagName) return;
+			if (!srcName || !tagName) return;
 			tag[tagName] = src[srcName];
-			
+
 		}
 
 		/**
@@ -582,7 +606,37 @@ module FWSData
 		 */
 		private onListChange(e: DataListChangeEventArgs, lk: DataBindLink, twoway: boolean): void
 		{
-			console.log("onListChange", e, lk, twoway);
+			if (!lk.source || !lk.target) return;
+
+			switch (e.type)
+			{
+				case FWSData.DataCollectionChangeType.Clear:
+					{
+						if (twoway)
+						{
+							lk.source.clear();
+						}
+						else
+						{
+						}
+					}
+					break;
+
+				case FWSData.DataCollectionChangeType.Add:
+					{
+					}
+					break;
+
+				case FWSData.DataCollectionChangeType.Remove:
+					{
+					}
+					break;
+
+				case FWSData.DataCollectionChangeType.Modify:
+					{
+					}
+					break;
+			}
 		}
 
 		/**
@@ -595,13 +649,25 @@ module FWSData
 		 */
 		private onDictChange(e: DataDictChangeEventArgs, lk: DataBindLink, twoway: boolean): void
 		{
-			console.log("onDictChange", e, lk, twoway);
+			switch (e.type)
+			{
+				case FWSData.DataCollectionChangeType.Clear:
+					break;
+
+				case FWSData.DataCollectionChangeType.Add:
+					break;
+
+				case FWSData.DataCollectionChangeType.Remove:
+					break;
+
+				case FWSData.DataCollectionChangeType.Modify:
+					break;
+			}
 		}
 	}
 
 	/**
 	 * 获取数据绑定管理器实例
-	 * 
 	 * @returns {DataBindManager} 
 	 */
 	function getDataBindManager(): DataBindManager
@@ -613,6 +679,8 @@ module FWSData
 		return DataBindManager._isntance;
 	}
 
+	//----------------------------------------------- 数据拷贝方法
+
 	/**
 	 * 拷贝属性值
 	 * @export
@@ -622,9 +690,9 @@ module FWSData
 	 */
 	export function copyProperties(source: any, target: any, options?: any): void
 	{
-		if(!options) return;
+		if (!options) return;
 
-		for(var k in options)
+		for (var k in options)
 		{
 			var v = options[k];
 			target[v] = source[k];
@@ -640,6 +708,15 @@ module FWSData
 	 */
 	export function copyList(source: any, target: any, options?: any): void
 	{
+		if (source && target && source !== target) { } else return;
+		if (source instanceof List) { } else return;
+		if (target instanceof List) { } else return;
+
+		target.clear();
+		for (var i = 0; i < source.length; i++)
+		{
+			target.add(source.at(i));
+		}
 	}
 
 	/**
@@ -651,9 +728,20 @@ module FWSData
 	 */
 	export function copyDict(source: any, target: any, options?: any): void
 	{
+		if (source && target && source !== target) { } else return;
+		if (source instanceof Dict) { } else return;
+		if (target instanceof Dict) { } else return;
+
+		var ks: Array<string> = source.keys;
+		for (var i: number = 0; i < ks.length; i++)
+		{
+			var k = ks[i];
+			var v = source.getItem(k);
+			target.setItem(k, v);
+		}
 	}
 
-
+	//----------------------------------------------- 数据绑定方法
 
 	/**
 	 * 建立数据属性绑定
@@ -674,41 +762,14 @@ module FWSData
 	}
 
 	/**
-	 * 建立列表成员绑定
+	 * 解除特定数据源和目标的数据绑定
 	 * @export
 	 * @param {*} source 
 	 * @param {*} target 
-	 * @param {DataBindMode} mode 
-	 * @param {*} [options] 
 	 */
-	export function bindList(source: any, target: any, mode: DataBindMode, options?: any): void
+	export function unbind(source: any, target: any): void
 	{
-		if (source && target && source !== target) { } else return;
-		if (mode !== DataBindMode.Once)
-		{
-			getDataBindManager().add("List", source, target, mode, options);
-		}
-
-		copyList(source, target, options);
-	}
-
-	/**
-	 * 建立字典成员绑定
-	 * @export
-	 * @param {*} source 
-	 * @param {*} target 
-	 * @param {DataBindMode} mode 
-	 * @param {*} [options] 
-	 */
-	export function bindDict(source: any, target: any, mode: DataBindMode, options?: any): void
-	{
-		if (source && target && source !== target) { } else return;
-		if (mode !== DataBindMode.Once)
-		{
-			getDataBindManager().add("Dict", source, target, mode, options);
-
-		}
-		copyDict(source, target, options);
+		getDataBindManager().removeLinksBy(source, target);
 	}
 
 	/**
@@ -731,24 +792,26 @@ module FWSData
 		getDataBindManager().removeLinksByTarget(target);
 	}
 
-	//-----------------------------------------------------------
+	//----------------------------------------------- 依赖关系
 
 	/**
 	 * 依赖属性 (提供属性值绑定的数据源的主要实现方法)
 	 * @export
 	 * @class DependentProperties
 	 */
-	export class DependentProperties {
-		
-		private _owner:any;
-		private _properties:Object;
+	export class DependentProperties
+	{
+
+		private _owner: any;
+		private _properties: Object;
 
 		/**
 		 * 构造
 		 * @param {*} owner 
 		 * @memberOf DependentProperties
 		 */
-		constructor(owner:any) {
+		constructor(owner: any)
+		{
 			this._owner = owner;
 			this._properties = new Object();
 		}
@@ -760,9 +823,9 @@ module FWSData
 		 * @returns {*} 
 		 * @memberOf DependentProperties
 		 */
-		public get(name:string, defValue?:any):any
+		public get(name: string, defValue?: any): any
 		{
-			if(this._properties.hasOwnProperty(name))
+			if (this._properties.hasOwnProperty(name))
 			{
 				return this._properties[name];
 			}
@@ -775,10 +838,10 @@ module FWSData
 		 * @param {*} newValue 
 		 * @memberOf DependentProperties
 		 */
-		public set(name:string, newValue:any):void
+		public set(name: string, newValue: any): void
 		{
-			if(this._properties[name] === newValue) return;
-			var oldValue:any = this._properties[name];
+			if (this._properties[name] === newValue) return;
+			var oldValue: any = this._properties[name];
 			this._properties[name] = newValue;
 			getDataBindManager().distEvent(new DataPropertyChangeEventArgs(this._owner, this._owner, name, newValue, oldValue));
 		}
@@ -787,9 +850,9 @@ module FWSData
 		 * 清空内容
 		 * @memberOf DependentProperties
 		 */
-		public clear():void
+		public clear(): void
 		{
-			for(var k in this._properties)
+			for (var k in this._properties)
 			{
 				delete this._properties[k];
 			}
@@ -801,13 +864,15 @@ module FWSData
 	 * @export
 	 * @class DependentObject
 	 */
-	export class DependentObject {
-		private __DP:DependentProperties;
+	export class DependentObject
+	{
+		private __DP: DependentProperties;
 		/**
 		 * 构造
 		 * @memberOf DependentObject
 		 */
-		constructor(){
+		constructor()
+		{
 			this.__DP = new DependentProperties(this);
 		}
 
@@ -819,7 +884,8 @@ module FWSData
 		 * @returns {*} 
 		 * @memberOf DependentObject
 		 */
-		public get(name:string, defValue?:any):any{
+		public get(name: string, defValue?: any): any
+		{
 			return this.__DP.get(name, defValue);
 		}
 		/**
@@ -829,7 +895,7 @@ module FWSData
 		 * 
 		 * @memberOf DependentObject
 		 */
-		public set(name:string, newValue:any):void
+		public set(name: string, newValue: any): void
 		{
 			this.__DP.set(name, newValue);
 		}
@@ -838,11 +904,76 @@ module FWSData
 		 * 清空属性值
 		 * @memberOf DependentObject
 		 */
-		public clear():void
+		public clear(): void
 		{
 			this.__DP.clear();
 		}
+
+
 	}
+
+	//----------------------------------------------- 接口标准
+
+	/**
+	 * 统一的迭代器接口
+	 * @export
+	 * @interface IEnumerator
+	 */
+	export interface IEnumerator
+	{
+		/**
+		 * 重置迭代器
+		 * @memberOf IEnumerator
+		 */
+		reset(): void;
+
+		/**
+		 * 获取当前项
+		 * @returns {*} 
+		 * @memberOf IEnumerator
+		 */
+		getCurrent(): any;
+
+		/**
+		 * 移至下一个
+		 * @memberOf IEnumerator
+		 */
+		moveNext(): void;
+
+		/**
+		 * 获取当前迭代是否已经结束
+		 * @returns {boolean} 
+		 * @memberOf IEnumerator
+		 */
+		end(): boolean;
+	}
+
+	/**
+	 * 克隆接口 (目前基本上只支持浅克隆)
+	 * @export
+	 * @interface ICloneable
+	 */
+	export interface ICloneable
+	{
+		clone(deep?: boolean): any;
+	}
+
+	/**
+	 * 统一的可迭代的访问接口
+	 * @export
+	 * @interface IEnumerable
+	 */
+	export interface IEnumerable
+	{
+		/**
+		 * 获取一个迭代器
+		 * @returns {IEnumerator} 
+		 * @memberOf IEnumerable
+		 */
+		getEnumerator(): IEnumerator;
+	}
+
+	//----------------------------------------------- 数据结构和迭代器
 
 	/**
 	 * 字典
@@ -850,7 +981,8 @@ module FWSData
 	 * @class Dict
 	 * @template T 
 	 */
-	export class Dict<T> {
+	export class Dict<T> implements IEnumerable, ICloneable
+	{
 		private _dict: Object;
 
 		/**
@@ -868,6 +1000,37 @@ module FWSData
 					this._dict[k] = v;
 				}
 			}
+		}
+
+		/**
+		 * 获取迭代器
+		 * @returns {IEnumerator} 
+		 * @memberOf Dict
+		 */
+		public getEnumerator(): IEnumerator
+		{
+			return new DictEnumerator(this);
+		}
+
+		/**
+		 * 克隆
+		 * @param {boolean} [deep] 
+		 * @returns {*} 
+		 * 
+		 * @memberOf Dict
+		 */
+		public clone(deep?: boolean): any
+		{
+			var ret: Dict<T> = new Dict<T>();
+
+			var ks: Array<string> = this.keys;
+			for (var k in ks)
+			{
+				let v = this.getItem[k];
+				ret.setItem(k, v);
+			}
+
+			return ret;
 		}
 
 		/**
@@ -1005,12 +1168,83 @@ module FWSData
 	}
 
 	/**
+	 * 字典迭代器
+	 * @export
+	 * @class DictEnumerator
+	 * @implements {IEnumerator}
+	 */
+	export class DictEnumerator implements IEnumerator
+	{
+		private _dict: Dict<any>;
+		private _keys: Array<string>;
+		private _values: Array<any>;
+		private _index: number;
+
+		/**
+		 * 构造
+		 * @param {Dict<any>} dict 
+		 * @memberOf DictEnumerator
+		 */
+		constructor(dict: Dict<any>)
+		{
+			this._dict = dict;
+			this.reset();
+		}
+
+		/**
+		 * 重置迭代器
+		 * @memberOf DictEnumerator
+		 */
+		public reset(): void
+		{
+			this._keys = this._dict.keys;
+			this._values = this._dict.values;
+			this._index = 0;
+		}
+
+		/**
+		 * 移至下一个
+		 * @memberOf DictEnumerator
+		 */
+		public moveNext(): void
+		{
+			this._index++;
+		}
+
+		/**
+		 * 获取当前项
+		 * @returns {*} 
+		 * @memberOf DictEnumerator
+		 */
+		public getCurrent(): any
+		{
+			return this._values[this._index];
+		}
+
+		/**
+		 * 获取当前迭代是否已经结束
+		 * @returns {boolean} 
+		 * @memberOf DictEnumerator
+		 */
+		public end(): boolean
+		{
+			if (this._dict && this._values && this._index >= 0 && this._index < this._values.length)
+			{
+				return false;
+			}
+			return true;
+		}
+
+	}
+
+	/**
 	 * 列表
 	 * @export
 	 * @class List
 	 * @template T 
 	 */
-	export class List<T>{
+	export class List<T> implements IEnumerable, ICloneable
+	{
 		private _list: Array<T>;
 		/**
 		 * 构造
@@ -1018,6 +1252,34 @@ module FWSData
 		constructor()
 		{
 			this._list = new Array<T>();
+		}
+
+		/**
+		 * 克隆
+		 * @param {boolean} [deep] 
+		 * @returns {*} 
+		 * 
+		 * @memberOf List
+		 */
+		public clone(deep?: boolean): any
+		{
+			var ret: List<T> = new List<T>();
+
+			for (var i: number = 0; i < this._list.length; i++)
+			{
+				ret.add(this._list[i]);
+			}
+			return ret;
+		}
+
+		/**
+		 * 获取迭代器
+		 * @returns {IEnumerator} 
+		 * @memberOf List
+		 */
+		public getEnumerator(): IEnumerator
+		{
+			return new ListEnumerator(this);
 		}
 
 		/**
@@ -1147,22 +1409,115 @@ module FWSData
 	}
 
 	/**
+	 * 列表迭代器
+	 * @export
+	 * @class ListEnumerator
+	 * @implements {IEnumerator}
+	 */
+	export class ListEnumerator implements IEnumerator
+	{
+		private _list: List<any>;
+		private _index: number;
+
+		/**
+		 * 构造
+		 * @param {List<any>} list 
+		 * @memberOf ListEnumerator
+		 */
+		constructor(list: List<any>)
+		{
+			this._list = list;
+			this.reset();
+		}
+
+		/**
+		 * 重置迭代器
+		 * @memberOf ListEnumerator
+		 */
+		public reset(): void
+		{
+			this._index = 0;
+		}
+
+		/**
+		 * 移至下一个
+		 * @memberOf ListEnumerator
+		 */
+		public moveNext(): void
+		{
+			this._index++;
+		}
+
+		/**
+		 * 获取当前项
+		 * @returns {*} 
+		 * @memberOf ListEnumerator
+		 */
+		public getCurrent(): any
+		{
+			return this._list.at(this._index);
+		}
+
+		/**
+		 * 获取当前迭代是否已经结束
+		 * @returns {boolean} 
+		 * @memberOf ListEnumerator
+		 */
+		public end(): boolean
+		{
+			if (this._list && this._index >= 0 && this._index < this._list.length)
+			{
+				return false;
+			}
+			return true;
+		}
+	}
+
+	/**
 	 * 队列
 	 * @export
 	 * @class Queue
 	 * @template T 
 	 */
-	export class Queue<T>{
+	export class Queue<T> implements IEnumerable, ICloneable
+	{
 
 		private _list: Array<T>;
 
 		/**
-		 * Creates an instance of Queue.
+		 * 构造
 		 * @memberOf Queue
 		 */
 		constructor()
 		{
 			this._list = new Array<T>();
+		}
+
+		/**
+		 * 克隆
+		 * @param {boolean} [deep] 
+		 * @returns {*} 
+		 * @memberOf Queue
+		 */
+		public clone(deep?: boolean): any
+		{
+			var ret: Queue<T> = new Queue<T>();
+			for (var i: number = 0; i < this._list.length; i++)
+			{
+				ret.add(this._list[i]);
+			}
+			return ret;
+		}
+
+		/**
+		 * 获取迭代器
+		 * @returns {IEnumerator} 
+		 * 
+		 * @memberOf Queue
+		 */
+		public getEnumerator(): IEnumerator
+		{
+			return new QueueEnumrator(this);
 		}
 
 		/**
@@ -1243,12 +1598,75 @@ module FWSData
 	}
 
 	/**
+	 * 队列迭代器
+	 * @export
+	 * @class QueueEnumrator
+	 * @implements {IEnumerator}
+	 */
+	export class QueueEnumrator implements IEnumerator
+	{
+		private _queue: Queue<any>;
+		private _temp: Queue<any>;
+
+		/**
+		 * 构造
+		 * @param {Queue<any>} queue 
+		 * @memberOf QueueEnumrator
+		 */
+		constructor(queue: Queue<any>)
+		{
+			this._queue = queue;
+			this.reset();
+		}
+
+		/**
+		 * 重置
+		 * @memberOf QueueEnumrator
+		 */
+		public reset(): void
+		{
+			this._temp = this._queue.clone();
+		}
+
+		/**
+		 * 移至下一个
+		 * @memberOf QueueEnumrator
+		 */
+		public moveNext(): void
+		{
+			this._temp.remove();
+		}
+
+		/**
+		 * 获取当前项
+		 * @returns {*} 
+		 * @memberOf QueueEnumrator
+		 */
+		public getCurrent(): any
+		{
+			return this._temp.current;
+		}
+
+		/**
+		 * 获取当前迭代是否已经结束
+		 * @returns {boolean} 
+		 * 
+		 * @memberOf QueueEnumrator
+		 */
+		public end(): boolean
+		{
+			return !(this._temp && this._temp.length >= 1);
+		}
+	}
+
+	/**
 	 * 树形节点
 	 * @export
 	 * @class Node
 	 * @template T 
 	 */
-	export class Node<T> {
+	export class Node<T> implements IEnumerable, ICloneable
+	{
 		private _id: string;
 		private _nodes: List<Node<T>>;
 		private _parentNode: Node<T>;
@@ -1262,6 +1680,36 @@ module FWSData
 		{
 			this._nodes = new List<Node<T>>();
 			this._id = id;
+		}
+
+		/**
+		 * 获取迭代器
+		 * @returns {IEnumerator} 
+		 * @memberOf Node
+		 */
+		public getEnumerator(): IEnumerator
+		{
+			return new NodeEnumrator(this);
+		}
+
+		/**
+		 * 克隆节点
+		 * @param {boolean} [deep] 
+		 * @returns {*} 
+		 * @memberOf Node
+		 */
+		public clone(deep?: boolean): any
+		{
+			var ret: Node<T> = new Node<T>(this._id);
+
+			for (var i: number = 0; i < this._nodes.length; i++)
+			{
+				var c: Node<T> = this._nodes.at(i);
+				if (deep) c = c.clone(deep);
+				ret.add(c);
+			}
+
+			return ret;
 		}
 
 		/**
@@ -1463,7 +1911,7 @@ module FWSData
 		{
 			if (this._nodes.length > 0)
 			{
-				return this._nodes[0]
+				return this._nodes.at(0);
 			}
 			return null;
 		}
@@ -1478,7 +1926,7 @@ module FWSData
 		{
 			if (this._nodes.length > 0)
 			{
-				return this._nodes[this._nodes.length - 1];
+				return this._nodes.at(this._nodes.length - 1);
 			}
 			return null;
 		}
@@ -1525,7 +1973,7 @@ module FWSData
 				if (i >= this._parentNode.length) return null;
 				if (i < 0) return null;
 
-				return this._parentNode.at[i + 1];
+				return this._parentNode.at(i + 1);
 			}
 			return null;
 		}
@@ -1664,5 +2112,74 @@ module FWSData
 			return ary.join("/");
 		}
 
+	}
+
+	/**
+	 * 树形节点迭代器
+	 * @export
+	 * @class NodeEnumrator
+	 * @implements {IEnumerator}
+	 */
+	export class NodeEnumrator implements IEnumerator
+	{
+		private _node: Node<any>;
+		private _temp: Node<any>;
+
+		/**
+		 * 构造
+		 * @param {Node<any>} node 
+		 * @memberOf NodeEnumrator
+		 */
+		constructor(node: Node<any>)
+		{
+			this._node = node;
+			this.reset();
+		}
+
+		public reset(): void
+		{
+			this._temp = this._node;//.clone();
+		}
+
+		public moveNext(): void
+		{
+			if (this._temp.firstChild && this._temp.firstChild !== this._temp)
+			{
+				this._temp = this._temp.firstChild;
+			}
+			else if (this._temp.nextNode && this._temp.nextNode !== this._temp)
+			{
+				this._temp = this._temp.nextNode;
+			}
+			else 
+			{
+				while (this._temp.parentNode)
+				{
+					this._temp = this._temp.parentNode;
+
+					if (this._temp === this._node)
+					{
+						this._temp = null;
+					}
+
+					if (this._temp.nextNode !== this._temp)
+					{
+						this._temp = this._temp.nextNode;
+						return;
+					}
+				}
+				this._temp = null;
+			}
+		}
+
+		public getCurrent(): any
+		{
+			return this._temp;
+		}
+
+		public end(): boolean
+		{
+			return !this._temp;
+		}
 	}
 }

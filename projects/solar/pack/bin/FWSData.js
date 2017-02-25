@@ -156,6 +156,14 @@ var FWSData;
             }
             return ret;
         }
+        removeLinksBy(source, target) {
+            for (var i = this._links.length - 1; i >= 0; i--) {
+                var link = this._links[i];
+                if (link.source !== source || link.target !== target)
+                    continue;
+                this._links.splice(i, 1);
+            }
+        }
         removeLinksBySource(source) {
             for (var i = this._links.length - 1; i >= 0; i--) {
                 var link = this._links[i];
@@ -203,10 +211,43 @@ var FWSData;
             tag[tagName] = src[srcName];
         }
         onListChange(e, lk, twoway) {
-            console.log("onListChange", e, lk, twoway);
+            if (!lk.source || !lk.target)
+                return;
+            switch (e.type) {
+                case FWSData.DataCollectionChangeType.Clear:
+                    {
+                        if (twoway) {
+                            lk.source.clear();
+                        }
+                        else {
+                        }
+                    }
+                    break;
+                case FWSData.DataCollectionChangeType.Add:
+                    {
+                    }
+                    break;
+                case FWSData.DataCollectionChangeType.Remove:
+                    {
+                    }
+                    break;
+                case FWSData.DataCollectionChangeType.Modify:
+                    {
+                    }
+                    break;
+            }
         }
         onDictChange(e, lk, twoway) {
-            console.log("onDictChange", e, lk, twoway);
+            switch (e.type) {
+                case FWSData.DataCollectionChangeType.Clear:
+                    break;
+                case FWSData.DataCollectionChangeType.Add:
+                    break;
+                case FWSData.DataCollectionChangeType.Remove:
+                    break;
+                case FWSData.DataCollectionChangeType.Modify:
+                    break;
+            }
         }
     }
     function getDataBindManager() {
@@ -225,9 +266,37 @@ var FWSData;
     }
     FWSData.copyProperties = copyProperties;
     function copyList(source, target, options) {
+        if (source && target && source !== target) { }
+        else
+            return;
+        if (source instanceof List) { }
+        else
+            return;
+        if (target instanceof List) { }
+        else
+            return;
+        target.clear();
+        for (var i = 0; i < source.length; i++) {
+            target.add(source.at(i));
+        }
     }
     FWSData.copyList = copyList;
     function copyDict(source, target, options) {
+        if (source && target && source !== target) { }
+        else
+            return;
+        if (source instanceof Dict) { }
+        else
+            return;
+        if (target instanceof Dict) { }
+        else
+            return;
+        var ks = source.keys;
+        for (var i = 0; i < ks.length; i++) {
+            var k = ks[i];
+            var v = source.getItem(k);
+            target.setItem(k, v);
+        }
     }
     FWSData.copyDict = copyDict;
     function bindProperties(source, target, mode, options) {
@@ -240,26 +309,10 @@ var FWSData;
         copyProperties(source, target, options);
     }
     FWSData.bindProperties = bindProperties;
-    function bindList(source, target, mode, options) {
-        if (source && target && source !== target) { }
-        else
-            return;
-        if (mode !== DataBindMode.Once) {
-            getDataBindManager().add("List", source, target, mode, options);
-        }
-        copyList(source, target, options);
+    function unbind(source, target) {
+        getDataBindManager().removeLinksBy(source, target);
     }
-    FWSData.bindList = bindList;
-    function bindDict(source, target, mode, options) {
-        if (source && target && source !== target) { }
-        else
-            return;
-        if (mode !== DataBindMode.Once) {
-            getDataBindManager().add("Dict", source, target, mode, options);
-        }
-        copyDict(source, target, options);
-    }
-    FWSData.bindDict = bindDict;
+    FWSData.unbind = unbind;
     function unbindBySource(source) {
         getDataBindManager().removeLinksBySource(source);
     }
@@ -317,6 +370,18 @@ var FWSData;
                     this._dict[k] = v;
                 }
             }
+        }
+        getEnumerator() {
+            return new DictEnumerator(this);
+        }
+        clone(deep) {
+            var ret = new Dict();
+            var ks = this.keys;
+            for (var k in ks) {
+                let v = this.getItem[k];
+                ret.setItem(k, v);
+            }
+            return ret;
         }
         getItem(key) {
             return this._dict[key];
@@ -385,9 +450,43 @@ var FWSData;
         }
     }
     FWSData.Dict = Dict;
+    class DictEnumerator {
+        constructor(dict) {
+            this._dict = dict;
+            this.reset();
+        }
+        reset() {
+            this._keys = this._dict.keys;
+            this._values = this._dict.values;
+            this._index = 0;
+        }
+        moveNext() {
+            this._index++;
+        }
+        getCurrent() {
+            return this._values[this._index];
+        }
+        end() {
+            if (this._dict && this._values && this._index >= 0 && this._index < this._values.length) {
+                return false;
+            }
+            return true;
+        }
+    }
+    FWSData.DictEnumerator = DictEnumerator;
     class List {
         constructor() {
             this._list = new Array();
+        }
+        clone(deep) {
+            var ret = new List();
+            for (var i = 0; i < this._list.length; i++) {
+                ret.add(this._list[i]);
+            }
+            return ret;
+        }
+        getEnumerator() {
+            return new ListEnumerator(this);
         }
         at(index) {
             return this._list[index];
@@ -450,9 +549,41 @@ var FWSData;
         }
     }
     FWSData.List = List;
+    class ListEnumerator {
+        constructor(list) {
+            this._list = list;
+            this.reset();
+        }
+        reset() {
+            this._index = 0;
+        }
+        moveNext() {
+            this._index++;
+        }
+        getCurrent() {
+            return this._list.at(this._index);
+        }
+        end() {
+            if (this._list && this._index >= 0 && this._index < this._list.length) {
+                return false;
+            }
+            return true;
+        }
+    }
+    FWSData.ListEnumerator = ListEnumerator;
     class Queue {
         constructor() {
             this._list = new Array();
+        }
+        clone(deep) {
+            var ret = new Queue();
+            for (var i = 0; i < this._list.length; i++) {
+                ret.add(this._list[i]);
+            }
+            return ret;
+        }
+        getEnumerator() {
+            return new QueueEnumrator(this);
         }
         add(item) {
             this._list.push(item);
@@ -487,10 +618,42 @@ var FWSData;
         }
     }
     FWSData.Queue = Queue;
+    class QueueEnumrator {
+        constructor(queue) {
+            this._queue = queue;
+            this.reset();
+        }
+        reset() {
+            this._temp = this._queue.clone();
+        }
+        moveNext() {
+            this._temp.remove();
+        }
+        getCurrent() {
+            return this._temp.current;
+        }
+        end() {
+            return !(this._temp && this._temp.length >= 1);
+        }
+    }
+    FWSData.QueueEnumrator = QueueEnumrator;
     class Node {
         constructor(id) {
             this._nodes = new List();
             this._id = id;
+        }
+        getEnumerator() {
+            return new NodeEnumrator(this);
+        }
+        clone(deep) {
+            var ret = new Node(this._id);
+            for (var i = 0; i < this._nodes.length; i++) {
+                var c = this._nodes.at(i);
+                if (deep)
+                    c = c.clone(deep);
+                ret.add(c);
+            }
+            return ret;
         }
         clear() {
             for (var i = 0; i < this._nodes.length; i++) {
@@ -584,13 +747,13 @@ var FWSData;
         }
         get firstChild() {
             if (this._nodes.length > 0) {
-                return this._nodes[0];
+                return this._nodes.at(0);
             }
             return null;
         }
         get lastChild() {
             if (this._nodes.length > 0) {
-                return this._nodes[this._nodes.length - 1];
+                return this._nodes.at(this._nodes.length - 1);
             }
             return null;
         }
@@ -614,7 +777,7 @@ var FWSData;
                     return null;
                 if (i < 0)
                     return null;
-                return this._parentNode.at[i + 1];
+                return this._parentNode.at(i + 1);
             }
             return null;
         }
@@ -673,5 +836,42 @@ var FWSData;
         }
     }
     FWSData.Node = Node;
+    class NodeEnumrator {
+        constructor(node) {
+            this._node = node;
+            this.reset();
+        }
+        reset() {
+            this._temp = this._node;
+        }
+        moveNext() {
+            if (this._temp.firstChild && this._temp.firstChild !== this._temp) {
+                this._temp = this._temp.firstChild;
+            }
+            else if (this._temp.nextNode && this._temp.nextNode !== this._temp) {
+                this._temp = this._temp.nextNode;
+            }
+            else {
+                while (this._temp.parentNode) {
+                    this._temp = this._temp.parentNode;
+                    if (this._temp === this._node) {
+                        this._temp = null;
+                    }
+                    if (this._temp.nextNode !== this._temp) {
+                        this._temp = this._temp.nextNode;
+                        return;
+                    }
+                }
+                this._temp = null;
+            }
+        }
+        getCurrent() {
+            return this._temp;
+        }
+        end() {
+            return !this._temp;
+        }
+    }
+    FWSData.NodeEnumrator = NodeEnumrator;
 })(FWSData || (FWSData = {}));
 //# sourceMappingURL=FWSData.js.map

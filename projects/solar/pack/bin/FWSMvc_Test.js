@@ -1,17 +1,47 @@
-console.group("DependentObject");
-class User extends FWSData.DependentObject {
-    get id1() { return this.get("id1", 0); }
-    set id1(v) { this.set("id1", v); }
-    get id2() { return this.get("id2", 0); }
-    set id2(v) { this.set("id2", v); }
-    get name() { return this.get("name", ""); }
-    set name(v) { this.set("name", v); }
+console.group("iter");
+var dict = new FWSData.Dict();
+dict.setItem("a", 123);
+dict.setItem("b", 456);
+dict.setItem("c", 789);
+var list = new FWSData.List();
+list.add(123);
+list.add(456);
+list.add(789);
+var queue = new FWSData.Queue();
+queue.add(123);
+queue.add(456);
+queue.add(789);
+var microsoft = new FWSData.Node("microsoft");
+var visualstudio = new FWSData.Node("visualstudio");
+var cs = new FWSData.Node("cs");
+var vb = new FWSData.Node("vb");
+var ts = new FWSData.Node("ts");
+var office = new FWSData.Node("office");
+var outlook = new FWSData.Node("outlook");
+var word = new FWSData.Node("word");
+var excel = new FWSData.Node("excel");
+microsoft.data = "microsoft";
+visualstudio.data = "VisualStudio";
+cs.data = "CSharp";
+vb.data = "VisualBasic";
+ts.data = "TypeScript";
+office.data = "Office";
+outlook.data = "Outlook";
+word.data = "Word";
+excel.data = "Excel";
+microsoft.add(visualstudio);
+visualstudio.add(cs);
+visualstudio.add(vb);
+visualstudio.add(ts);
+microsoft.add(office);
+office.add(outlook);
+office.add(word);
+office.add(excel);
+var iter = microsoft.getEnumerator();
+while (!iter.end()) {
+    console.log(iter.getCurrent());
+    iter.moveNext();
 }
-var user1 = new User();
-var user2 = new User();
-console.log("-- BEGIN --");
-FWSData.bindProperties(user1, user2, FWSData.DataBindMode.TwoWay, { "id2": "id1" });
-console.log("set 1 : 1");
-user1.id1 = 1;
 console.groupEnd();
+console.info("** Completed **");
 //# sourceMappingURL=FWSMvc_Test.js.map
