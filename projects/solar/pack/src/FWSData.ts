@@ -3,7 +3,7 @@
  * @Author: thor.liu 
  * @Date: 2017-02-23 12:46:35 
  * @Last Modified by: thor.liu
- * @Last Modified time: 2017-02-23 22:13:52
+ * @Last Modified time: 2017-02-25 18:41:18
  */
 
 module FWSData
@@ -306,14 +306,22 @@ module FWSData
 		private _target: any;
 		private _mode: DataBindMode;
 		private _options: any;
+		private _type: string;
 
-		constructor(source: any, target: any, mode: DataBindMode, options?: any)
+		constructor(type: string, source: any, target: any, mode: DataBindMode, options?: any)
 		{
+			this._type = type;
 			this._source = source;
 			this._target = target;
 			this._mode = mode;
 			this._options = options;
 		}
+
+		public get type(): string { return this._type; }
+		public get source(): any { return this._source; }
+		public get target(): any { return this._target; }
+		public get mode(): any { return this._mode; }
+		public get options(): any { return this._options; }
 	}
 
 	/**
@@ -324,8 +332,17 @@ module FWSData
 	class DataBindManager
 	{
 		static _isntance: DataBindManager;
+
+		private _links: Array<DataBindLink>;
+
+		/**
+		 * Creates an instance of DataBindManager.
+		 * 
+		 * @memberOf DataBindManager
+		 */
 		constructor()
 		{
+			this._links = new Array<DataBindLink>();
 		}
 
 		/**
@@ -335,7 +352,250 @@ module FWSData
 		 */
 		public distEvent(e: EventArgs): void
 		{
-			console.log("DataBindManager::distEvent", e);
+			var cloneList: Array<DataBindLink> = this._links.slice(0);
+
+			for (var i: number = 0; i < cloneList.length; i++)
+			{
+				var lk: DataBindLink = cloneList[i];
+				var handler: Function = this["on" + lk.type + "Change"];
+				if (!handler) continue;
+
+				if(e.sender === lk.source)
+				{
+					if(lk.mode === DataBindMode.TwoWay 
+					|| lk.mode === DataBindMode.OneWay)
+					{
+						handler.call(this, e, lk, false);
+					}
+				}
+				else if(e.sender === lk.target && lk.mode === DataBindMode.TwoWay)
+				{
+					handler.call(this, e, lk, true);
+				}
+			}
+		}
+
+		/**
+		 * 添加绑定关系
+		 * @param {string} type
+		 * @param {*} source 
+		 * @param {*} target 
+		 * @param {DataBindMode} mode 
+		 * @param {*} options 
+		 * @returns {void} 
+		 * @memberOf DataBindManager
+		 */
+		public add(type: string, source: any, target: any, mode: DataBindMode, options: any): void
+		{
+			var link: DataBindLink = this.find(source, target);
+			if (link) return;
+
+			link = new DataBindLink(type, source, target, mode, options);
+			this._links.push(link);
+		}
+
+		/**
+		 * 查找绑定关系
+		 * @param {*} source 
+		 * @param {*} target 
+		 * @returns {DataBindLink} 
+		 * 
+		 * @memberOf DataBindManager
+		 */
+		public find(source: any, target: any): DataBindLink
+		{
+			for (var i: number = 0; i < this._links.length; i++)
+			{
+				var link: DataBindLink = this._links[i];
+
+				if (link.source === source && link.target === target) return link;
+			}
+			return null;
+		}
+
+		/**
+		 * 查找数据源
+		 * @param {*} source 
+		 * @returns {DataBindLink} 
+		 * @memberOf DataBindManager
+		 */
+		public findSource(source: any): DataBindLink
+		{
+			for (var i: number = 0; i < this._links.length; i++)
+			{
+				var link: DataBindLink = this._links[i];
+				if (link.source === source) return link;
+			}
+			return null;
+		}
+
+		/**
+		 * 查找目标
+		 * @param {*} target 
+		 * @returns {DataBindLink} 
+		 * @memberOf DataBindManager
+		 */
+		public findTarget(target: any): DataBindLink
+		{
+			for (var i: number = 0; i < this._links.length; i++)
+			{
+				var link: DataBindLink = this._links[i];
+				if (link.target === target) return link;
+			}
+			return null;
+		}
+
+		/**
+		 * 获取绑定特定目标的数据源
+		 * @param {*} target 
+		 * @returns {Array<DataBindLink>} 
+		 * @memberOf DataBindManager
+		 */
+		public getBindSources(target: any): Array<DataBindLink>
+		{
+			var ret: Array<DataBindLink> = new Array<DataBindLink>();
+
+			for (var i: number = 0; i < this._links.length; i++)
+			{
+				var link: DataBindLink = this._links[i];
+				if (link.target === target)
+				{
+					ret.push(link);
+				}
+			}
+			return ret;
+		}
+
+		/**
+		 * 获取绑定特定数据源的目标
+		 * @param {*} source 
+		 * @returns {Array<DataBindLink>} 
+		 * @memberOf DataBindManager
+		 */
+		public getBindTargets(source: any): Array<DataBindLink>
+		{
+			var ret: Array<DataBindLink> = new Array<DataBindLink>();
+
+			for (var i: number = 0; i < this._links.length; i++)
+			{
+				var link: DataBindLink = this._links[i];
+				if (link.source === source)
+				{
+					ret.push(link);
+				}
+			}
+			return ret;
+		}
+
+		/**
+		 * 移除所有特定数据源的绑定
+		 * @param {*} source 
+		 * @memberOf DataBindManager
+		 */
+		public removeLinksBySource(source: any): void
+		{
+			for (var i: number = this._links.length - 1; i >= 0; i--)
+			{
+				var link: DataBindLink = this._links[i];
+				if (link.source !== source) continue;
+				this._links.splice(i, 1);
+			}
+		}
+
+		/**
+		 * 移除所有特定目标的绑定
+		 * @param {*} target 
+		 * @memberOf DataBindManager
+		 */
+		public removeLinksByTarget(target: any): void
+		{
+			for (var i: number = this._links.length - 1; i >= 0; i--)
+			{
+				var link: DataBindLink = this._links[i];
+				if (link.target !== target) continue;
+				this._links.splice(i, 1);
+			}
+		}
+
+		/**
+		 * 移除所有绑定
+		 * @memberOf DataBindManager
+		 */
+		public removeAll(): void
+		{
+			this._links.splice(0, this._links.length);
+		}
+
+		/**
+		 * 对象属性改变
+		 * @private
+		 * @param {DataPropertyChangeEventArgs} e 
+		 * @param {DataBindLink} lk
+		 * @param {boolean} twoway 
+		 * @memberOf DataBindManager
+		 */
+		private onPropertiesChange(e: DataPropertyChangeEventArgs, lk: DataBindLink, twoway: boolean): void
+		{
+			var src = null;
+			var tag = null;
+			var srcName = "";
+			var tagName = "";
+
+			//options { target: source }
+			if(twoway)
+			{
+				//反向
+				src = lk.target;
+				tag = lk.source;
+				srcName = e.propertyName;
+				tagName = lk.options[srcName];
+			}
+			else
+			{
+				//正向
+				src = lk.source;
+				tag = lk.target;
+				srcName = e.propertyName;
+				for(var k in lk.options)
+				{
+					var v = lk.options[k];
+					if(v === srcName)
+					{
+						tagName = k;
+						break;
+					}
+				}
+			}
+
+			if(!srcName || !tagName) return;
+			tag[tagName] = src[srcName];
+			
+		}
+
+		/**
+		 * 列表成员改变
+		 * @private
+		 * @param {DataListChangeEventArgs} e 
+		 * @param {DataBindLink} lk
+		 * @param {boolean} twoway 
+		 * @memberOf DataBindManager
+		 */
+		private onListChange(e: DataListChangeEventArgs, lk: DataBindLink, twoway: boolean): void
+		{
+			console.log("onListChange", e, lk, twoway);
+		}
+
+		/**
+		 * 字典成员改变
+		 * @private
+		 * @param {DataDictChangeEventArgs} e 
+		 * @param {DataBindLink} lk
+		 * @param {boolean} twoway 
+		 * @memberOf DataBindManager
+		 */
+		private onDictChange(e: DataDictChangeEventArgs, lk: DataBindLink, twoway: boolean): void
+		{
+			console.log("onDictChange", e, lk, twoway);
 		}
 	}
 
@@ -354,6 +614,48 @@ module FWSData
 	}
 
 	/**
+	 * 拷贝属性值
+	 * @export
+	 * @param {*} source 
+	 * @param {*} target 
+	 * @param {*} [options] 
+	 */
+	export function copyProperties(source: any, target: any, options?: any): void
+	{
+		if(!options) return;
+
+		for(var k in options)
+		{
+			var v = options[k];
+			target[v] = source[k];
+		}
+	}
+
+	/**
+	 * 拷贝列表成员
+	 * @export
+	 * @param {*} source 
+	 * @param {*} target 
+	 * @param {*} [options] 
+	 */
+	export function copyList(source: any, target: any, options?: any): void
+	{
+	}
+
+	/**
+	 * 拷贝字典成员
+	 * @export
+	 * @param {*} source 
+	 * @param {*} target 
+	 * @param {*} [options] 
+	 */
+	export function copyDict(source: any, target: any, options?: any): void
+	{
+	}
+
+
+
+	/**
 	 * 建立数据属性绑定
 	 * @export
 	 * @param {*} source 
@@ -364,14 +666,11 @@ module FWSData
 	export function bindProperties(source: any, target: any, mode: DataBindMode, options?: any): void
 	{
 		if (source && target && source !== target) { } else return;
-		if (mode === DataBindMode.Once)
+		if (mode !== DataBindMode.Once)
 		{
-			//TODO: 拷贝数据
+			getDataBindManager().add("Properties", source, target, mode, options);
 		}
-		else
-		{
-
-		}
+		copyProperties(source, target, options);
 	}
 
 	/**
@@ -384,6 +683,13 @@ module FWSData
 	 */
 	export function bindList(source: any, target: any, mode: DataBindMode, options?: any): void
 	{
+		if (source && target && source !== target) { } else return;
+		if (mode !== DataBindMode.Once)
+		{
+			getDataBindManager().add("List", source, target, mode, options);
+		}
+
+		copyList(source, target, options);
 	}
 
 	/**
@@ -396,6 +702,13 @@ module FWSData
 	 */
 	export function bindDict(source: any, target: any, mode: DataBindMode, options?: any): void
 	{
+		if (source && target && source !== target) { } else return;
+		if (mode !== DataBindMode.Once)
+		{
+			getDataBindManager().add("Dict", source, target, mode, options);
+
+		}
+		copyDict(source, target, options);
 	}
 
 	/**
@@ -405,6 +718,7 @@ module FWSData
 	 */
 	export function unbindBySource(source: any): void
 	{
+		getDataBindManager().removeLinksBySource(source);
 	}
 
 	/**
@@ -414,11 +728,121 @@ module FWSData
 	 */
 	export function unbindByTarget(target: any): void
 	{
+		getDataBindManager().removeLinksByTarget(target);
 	}
 
-
-
 	//-----------------------------------------------------------
+
+	/**
+	 * 依赖属性 (提供属性值绑定的数据源的主要实现方法)
+	 * @export
+	 * @class DependentProperties
+	 */
+	export class DependentProperties {
+		
+		private _owner:any;
+		private _properties:Object;
+
+		/**
+		 * 构造
+		 * @param {*} owner 
+		 * @memberOf DependentProperties
+		 */
+		constructor(owner:any) {
+			this._owner = owner;
+			this._properties = new Object();
+		}
+
+		/**
+		 * 获取属性值
+		 * @param {string} name 
+		 * @param {*} [defValue] 
+		 * @returns {*} 
+		 * @memberOf DependentProperties
+		 */
+		public get(name:string, defValue?:any):any
+		{
+			if(this._properties.hasOwnProperty(name))
+			{
+				return this._properties[name];
+			}
+			return defValue;
+		}
+
+		/**
+		 * 设置属性值
+		 * @param {string} name 
+		 * @param {*} newValue 
+		 * @memberOf DependentProperties
+		 */
+		public set(name:string, newValue:any):void
+		{
+			if(this._properties[name] === newValue) return;
+			var oldValue:any = this._properties[name];
+			this._properties[name] = newValue;
+			getDataBindManager().distEvent(new DataPropertyChangeEventArgs(this._owner, this._owner, name, newValue, oldValue));
+		}
+
+		/**
+		 * 清空内容
+		 * @memberOf DependentProperties
+		 */
+		public clear():void
+		{
+			for(var k in this._properties)
+			{
+				delete this._properties[k];
+			}
+		}
+	}
+
+	/**
+	 * 依赖对象 (用于数据绑定的数据对象的抽象类)
+	 * @export
+	 * @class DependentObject
+	 */
+	export class DependentObject {
+		private __DP:DependentProperties;
+		/**
+		 * 构造
+		 * @memberOf DependentObject
+		 */
+		constructor(){
+			this.__DP = new DependentProperties(this);
+		}
+
+		/**
+		 * 获取属性值
+		 * @private
+		 * @param {string} name 
+		 * @param {*} [defValue] 
+		 * @returns {*} 
+		 * @memberOf DependentObject
+		 */
+		public get(name:string, defValue?:any):any{
+			return this.__DP.get(name, defValue);
+		}
+		/**
+		 * 设置属性值
+		 * @param {string} name 
+		 * @param {*} newValue 
+		 * 
+		 * @memberOf DependentObject
+		 */
+		public set(name:string, newValue:any):void
+		{
+			this.__DP.set(name, newValue);
+		}
+
+		/**
+		 * 清空属性值
+		 * @memberOf DependentObject
+		 */
+		public clear():void
+		{
+			this.__DP.clear();
+		}
+	}
 
 	/**
 	 * 字典
@@ -639,7 +1063,7 @@ module FWSData
 		public remove(item: T): T
 		{
 			var i = this._list.indexOf(item);
-			if(i < 0) return;
+			if (i < 0) return;
 			this._list.splice(i, 1);
 			getDataBindManager().distEvent(new DataListChangeEventArgs(this, DataCollectionChangeType.Remove, this, i, null, item));
 			return item;

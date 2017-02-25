@@ -52,11 +52,7 @@ var FWSUtils;
         return result;
     }
     FWSUtils.matchs = matchs;
-    function format(src) {
-        var args = [];
-        for (var _i = 1; _i < arguments.length; _i++) {
-            args[_i - 1] = arguments[_i];
-        }
+    function format(src, ...args) {
         var str = src + "";
         for (var i = 1; i < arguments.length; i++) {
             var re = new RegExp('\\{' + (i - 1) + '\\}', 'gm');

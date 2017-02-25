@@ -17,8 +17,8 @@ var FWSMvc;
         return ret;
     }
     FWSMvc.getShortTime = getShortTime;
-    var FMessage = (function () {
-        function FMessage(cmdName, cmdCategory) {
+    class FMessage {
+        constructor(cmdName, cmdCategory) {
             this.name = cmdName;
             this.category = cmdCategory;
             this.args = new Object();
@@ -27,7 +27,7 @@ var FWSMvc;
             this._completed = false;
             this._sended = false;
         }
-        FMessage.prototype.toString = function () {
+        toString() {
             var ret = "<FMessage " + this._index.toString() + ">(";
             if (this.category && this.category.length > 0) {
                 ret += this.category + ":";
@@ -49,107 +49,87 @@ var FWSMvc;
             }
             ret += "}";
             return ret;
-        };
-        FMessage.prototype.send = function () {
+        }
+        send() {
             if (this._sended)
                 return;
             this._sended = true;
             getFMessageRouter().send(this);
-        };
-        FMessage.prototype.complete = function () {
+        }
+        complete() {
             if (this._completed)
                 return;
             this._completed = true;
             getFMessageRouter().complete(this);
-        };
-        Object.defineProperty(FMessage.prototype, "sended", {
-            get: function () {
-                return this._sended;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(FMessage.prototype, "completed", {
-            get: function () {
-                return this._completed;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(FMessage.prototype, "index", {
-            get: function () {
-                return this._index;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return FMessage;
-    }());
+        }
+        get sended() {
+            return this._sended;
+        }
+        get completed() {
+            return this._completed;
+        }
+        get index() {
+            return this._index;
+        }
+    }
     FMessage.nextIndex = 0;
     FWSMvc.FMessage = FMessage;
-    var FMessageTrack = (function () {
-        function FMessageTrack(msg, action, info) {
+    class FMessageTrack {
+        constructor(msg, action, info) {
             this.msg = msg;
             this.action = action;
             this.time = getShortTime();
             this.info = info;
         }
-        return FMessageTrack;
-    }());
+    }
     FWSMvc.FMessageTrack = FMessageTrack;
-    var FMessageConnection = (function () {
-        function FMessageConnection() {
+    class FMessageConnection {
+        constructor() {
         }
-        FMessageConnection.prototype.connect = function () {
+        connect() {
             getFMessageRouter().connect(this);
-        };
-        FMessageConnection.prototype.disconnect = function () {
+        }
+        disconnect() {
             getFMessageRouter().disconnect(this);
-        };
-        FMessageConnection.prototype.onFMessage = function (msg) {
-            var ret = false;
-            var handlerName = msg.name;
-            var handler = this["onFMessage_" + handlerName];
+        }
+        onFMessage(msg) {
+            let ret = false;
+            let handlerName = msg.name;
+            let handler = this["onFMessage_" + handlerName];
             if (handler) {
                 ret = handler.call(this, msg);
             }
             return ret;
-        };
-        return FMessageConnection;
-    }());
-    FWSMvc.FMessageConnection = FMessageConnection;
-    var FMessageConnectionDelegate = (function () {
-        function FMessageConnectionDelegate() {
         }
-        FMessageConnectionDelegate.prototype.connect = function () {
+    }
+    FWSMvc.FMessageConnection = FMessageConnection;
+    class FMessageConnectionDelegate {
+        constructor() {
+        }
+        connect() {
             getFMessageRouter().connect(this);
-        };
-        FMessageConnectionDelegate.prototype.disconnect = function () {
+        }
+        disconnect() {
             getFMessageRouter().disconnect(this);
-        };
-        FMessageConnectionDelegate.prototype.onFMessage = function (msg) {
-            var ret = false;
-            var handlerName = msg.name;
+        }
+        onFMessage(msg) {
+            let ret = false;
+            let handlerName = msg.name;
             if (this._target && this._target["onFMessage_" + handlerName]) {
                 ret = this._target[handlerName].call(this._target, msg);
             }
             return ret;
-        };
-        Object.defineProperty(FMessageConnectionDelegate.prototype, "target", {
-            get: function () {
-                return this._target;
-            },
-            set: function (v) {
-                this._target = v;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return FMessageConnectionDelegate;
-    }());
+        }
+        get target() {
+            return this._target;
+        }
+        set target(v) {
+            this._target = v;
+        }
+    }
     FWSMvc.FMessageConnectionDelegate = FMessageConnectionDelegate;
-    var FMessageRouter = (function () {
-        function FMessageRouter() {
+    class FMessageRouter {
+        constructor() {
             if (FMessageRouter._instance) {
                 throw "FMessageRouter设计为单例, 不能创建多个实例";
             }
@@ -159,7 +139,7 @@ var FWSMvc;
             this._connections = new Array();
             setInterval(this.tick, 1);
         }
-        FMessageRouter.prototype.tick = function () {
+        tick() {
             var self = getFMessageRouter();
             var keys = self.getQueueKeys();
             for (var i = 0; i < keys.length; i++) {
@@ -173,62 +153,62 @@ var FWSMvc;
                 if (q.current)
                     self.push(q.current);
             }
-        };
-        FMessageRouter.prototype.createQueue = function (category) {
+        }
+        createQueue(category) {
             if (this._queues.containKey(category))
                 return;
             var q = new FWSData.Queue();
             this._queues.setItem(category, q);
-        };
-        FMessageRouter.prototype.removeQueue = function (category) {
+        }
+        removeQueue(category) {
             if (this._queues.containKey(category)) {
                 this._queues.deleteKey(category);
             }
-        };
-        FMessageRouter.prototype.removeAllQueues = function () {
+        }
+        removeAllQueues() {
             this._queues.clear();
-        };
-        FMessageRouter.prototype.getQueue = function (category) {
+        }
+        getQueue(category) {
             if (this._queues.containKey(category)) {
                 return this._queues.getItem(category);
             }
             else
                 return null;
-        };
-        FMessageRouter.prototype.getQueueKeys = function () {
+        }
+        getQueueKeys() {
             return this._queues.keys;
-        };
-        FMessageRouter.prototype.clearQueueMessages = function (category) {
+        }
+        clearQueueMessages(category) {
             if (this._queues.containKey(category)) {
-                var q = this._queues.getItem(category);
+                let q = this._queues.getItem(category);
                 q.clear();
             }
-        };
-        FMessageRouter.prototype.clearAllQueuesMessages = function () {
+        }
+        clearAllQueuesMessages() {
             var keys = this._queues.keys;
             for (var i = 0; i < keys.length; i++) {
-                var key = keys[i];
-                var q = this._queues.getItem(key);
+                let key = keys[i];
+                let q = this._queues.getItem(key);
                 q.clear();
             }
-        };
-        FMessageRouter.prototype.connect = function (connection) {
+        }
+        connect(connection) {
             var i = this._connections.indexOf(connection);
             if (i >= 0) {
                 return;
             }
             this._connections.push(connection);
-        };
-        FMessageRouter.prototype.disconnect = function (connection) {
+        }
+        disconnect(connection) {
             var i = this._connections.indexOf(connection);
             if (i >= 0) {
                 this._connections.splice(i, 1);
             }
-        };
-        FMessageRouter.prototype.disconnectAll = function () {
+        }
+        disconnectAll() {
             this._connections.splice(0, this._connections.length);
-        };
-        FMessageRouter.prototype.send = function (msg) {
+        }
+        send(msg) {
             var queue = this._queues.getItem(msg.category);
             if (queue) {
                 queue.add(msg);
@@ -239,8 +219,8 @@ var FWSMvc;
             else {
                 this.push(msg);
             }
-        };
-        FMessageRouter.prototype.push = function (msg) {
+        }
+        push(msg) {
             if (this.trackEnabled)
                 this._trackList.push(new FMessageTrack(msg, "PUSH", msg.toString()));
             var targetConnections = this._connections.slice(0);
@@ -254,20 +234,15 @@ var FWSMvc;
             if (counter == 0) {
                 msg.complete();
             }
-        };
-        FMessageRouter.prototype.complete = function (msg) {
+        }
+        complete(msg) {
             if (this.trackEnabled)
                 this._trackList.push(new FMessageTrack(msg, "COMPLETE", ""));
-        };
-        Object.defineProperty(FMessageRouter.prototype, "trackList", {
-            get: function () {
-                return this._trackList;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return FMessageRouter;
-    }());
+        }
+        get trackList() {
+            return this._trackList;
+        }
+    }
     function getFMessageRouter() {
         if (!FMessageRouter._instance) {
             FMessageRouter._instance = new FMessageRouter();
@@ -275,45 +250,35 @@ var FWSMvc;
         return FMessageRouter._instance;
     }
     FWSMvc.getFMessageRouter = getFMessageRouter;
-    var FContext = (function () {
-        function FContext() {
-            var connections = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                connections[_i] = arguments[_i];
-            }
+    class FContext {
+        constructor(...connections) {
             this.connections = connections.slice(0);
         }
-        FContext.prototype.onContextEnter = function () {
+        onContextEnter() {
             for (var i = 0; i < this.connections.length; i++) {
                 this.connections[i].connect();
             }
-        };
-        FContext.prototype.onContextLeave = function () {
+        }
+        onContextLeave() {
             for (var i = 0; i < this.connections.length; i++) {
                 this.connections[i].disconnect();
             }
-        };
-        Object.defineProperty(FContext.prototype, "path", {
-            get: function () {
-                var mgr = getFContextManager();
-                var node = mgr.findContext(this);
-                if (node) {
-                    return node.path;
-                }
-                return "";
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return FContext;
-    }());
+        }
+        get path() {
+            var mgr = getFContextManager();
+            var node = mgr.findContext(this);
+            if (node) {
+                return node.path;
+            }
+            return "";
+        }
+    }
     FWSMvc.FContext = FContext;
-    var FContextManager = (function () {
-        function FContextManager() {
+    class FContextManager {
+        constructor() {
             this._history = new Array();
         }
-        FContextManager.prototype.addContext = function (id, context, parentContext) {
-            if (parentContext === void 0) { parentContext = null; }
+        addContext(id, context, parentContext = null) {
             if (parentContext) {
                 if (this._rootNode) {
                     var targetNode = this._rootNode.findData(parentContext);
@@ -329,26 +294,26 @@ var FWSMvc;
                 this._rootNode.data = context;
             }
             return context;
-        };
-        FContextManager.prototype.removeContext = function (context) {
+        }
+        removeContext(context) {
             if (this._rootNode) {
                 var node = this._rootNode.findData(context);
                 node.removeFromParent();
             }
-        };
-        FContextManager.prototype.getContext = function (id) {
+        }
+        getContext(id) {
             if (this._rootNode) {
                 return this._rootNode.find(id);
             }
             return null;
-        };
-        FContextManager.prototype.findContext = function (context) {
+        }
+        findContext(context) {
             if (this._rootNode) {
                 return this._rootNode.findData(context);
             }
             return null;
-        };
-        FContextManager.prototype.goto = function (context) {
+        }
+        goto(context) {
             if (!this._rootNode)
                 return;
             if (this._current && this._current.data === context)
@@ -393,29 +358,24 @@ var FWSMvc;
             }
             this._current = theTargetNode;
             this._history.push(theTargetNode);
-        };
-        FContextManager.prototype.gotoID = function (id) {
+        }
+        gotoID(id) {
             var node = this.getContext(id);
             if (node) {
                 this.goto(node.data);
             }
-        };
-        FContextManager.prototype.back = function () {
+        }
+        back() {
             if (!this.canBack)
                 return;
             var c = this._history.pop();
             c = this._history[this._history.length - 1];
             this.goto(c.data);
-        };
-        Object.defineProperty(FContextManager.prototype, "canBack", {
-            get: function () {
-                return this._history.length > 1;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return FContextManager;
-    }());
+        }
+        get canBack() {
+            return this._history.length > 1;
+        }
+    }
     function getFContextManager() {
         if (!FContextManager.instance) {
             FContextManager.instance = new FContextManager();

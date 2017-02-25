@@ -1,56 +1,27 @@
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
 var FWSData;
 (function (FWSData) {
-    var EventArgs = (function () {
-        function EventArgs(sender) {
+    class EventArgs {
+        constructor(sender) {
             this._sender = sender;
         }
-        Object.defineProperty(EventArgs.prototype, "sender", {
-            get: function () {
-                return this._sender;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return EventArgs;
-    }());
-    FWSData.EventArgs = EventArgs;
-    var DataPropertyChangeEventArgs = (function (_super) {
-        __extends(DataPropertyChangeEventArgs, _super);
-        function DataPropertyChangeEventArgs(sender, source, propertyName, newValue, oldValue) {
-            var _this = _super.call(this, sender) || this;
-            _this._source = source;
-            _this._propertyName = propertyName;
-            _this._newValue = newValue;
-            _this._oldValue = oldValue;
-            return _this;
+        get sender() {
+            return this._sender;
         }
-        Object.defineProperty(DataPropertyChangeEventArgs.prototype, "source", {
-            get: function () { return this._source; },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(DataPropertyChangeEventArgs.prototype, "propertyName", {
-            get: function () { return this._propertyName; },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(DataPropertyChangeEventArgs.prototype, "newValue", {
-            get: function () { return this._newValue; },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(DataPropertyChangeEventArgs.prototype, "oldValue", {
-            get: function () { return this._oldValue; },
-            enumerable: true,
-            configurable: true
-        });
-        return DataPropertyChangeEventArgs;
-    }(EventArgs));
+    }
+    FWSData.EventArgs = EventArgs;
+    class DataPropertyChangeEventArgs extends EventArgs {
+        constructor(sender, source, propertyName, newValue, oldValue) {
+            super(sender);
+            this._source = source;
+            this._propertyName = propertyName;
+            this._newValue = newValue;
+            this._oldValue = oldValue;
+        }
+        get source() { return this._source; }
+        get propertyName() { return this._propertyName; }
+        get newValue() { return this._newValue; }
+        get oldValue() { return this._oldValue; }
+    }
     FWSData.DataPropertyChangeEventArgs = DataPropertyChangeEventArgs;
     var DataCollectionChangeType;
     (function (DataCollectionChangeType) {
@@ -59,83 +30,37 @@ var FWSData;
         DataCollectionChangeType[DataCollectionChangeType["Remove"] = 2] = "Remove";
         DataCollectionChangeType[DataCollectionChangeType["Modify"] = 3] = "Modify";
     })(DataCollectionChangeType = FWSData.DataCollectionChangeType || (FWSData.DataCollectionChangeType = {}));
-    var DataDictChangeEventArgs = (function (_super) {
-        __extends(DataDictChangeEventArgs, _super);
-        function DataDictChangeEventArgs(sender, type, source, key, oldValue, newValue) {
-            var _this = _super.call(this, sender) || this;
-            _this._source = source;
-            _this._key = key;
-            _this._oldValue = oldValue;
-            _this._newValue = newValue;
-            _this._type = type;
-            return _this;
+    class DataDictChangeEventArgs extends EventArgs {
+        constructor(sender, type, source, key, oldValue, newValue) {
+            super(sender);
+            this._source = source;
+            this._key = key;
+            this._oldValue = oldValue;
+            this._newValue = newValue;
+            this._type = type;
         }
-        Object.defineProperty(DataDictChangeEventArgs.prototype, "type", {
-            get: function () { return this._type; },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(DataDictChangeEventArgs.prototype, "source", {
-            get: function () { return this._source; },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(DataDictChangeEventArgs.prototype, "oldValue", {
-            get: function () { return this._oldValue; },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(DataDictChangeEventArgs.prototype, "newValue", {
-            get: function () { return this._newValue; },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(DataDictChangeEventArgs.prototype, "key", {
-            get: function () { return this._key; },
-            enumerable: true,
-            configurable: true
-        });
-        return DataDictChangeEventArgs;
-    }(EventArgs));
+        get type() { return this._type; }
+        get source() { return this._source; }
+        get oldValue() { return this._oldValue; }
+        get newValue() { return this._newValue; }
+        get key() { return this._key; }
+    }
     FWSData.DataDictChangeEventArgs = DataDictChangeEventArgs;
-    var DataListChangeEventArgs = (function (_super) {
-        __extends(DataListChangeEventArgs, _super);
-        function DataListChangeEventArgs(sender, type, source, index, newValue, oldValue) {
-            var _this = _super.call(this, sender) || this;
-            _this._type = type;
-            _this._source = source;
-            _this._index = index;
-            _this._newValue = newValue;
-            _this._oldValue = oldValue;
-            return _this;
+    class DataListChangeEventArgs extends EventArgs {
+        constructor(sender, type, source, index, newValue, oldValue) {
+            super(sender);
+            this._type = type;
+            this._source = source;
+            this._index = index;
+            this._newValue = newValue;
+            this._oldValue = oldValue;
         }
-        Object.defineProperty(DataListChangeEventArgs.prototype, "type", {
-            get: function () { return this._type; },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(DataListChangeEventArgs.prototype, "source", {
-            get: function () { return this._source; },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(DataListChangeEventArgs.prototype, "index", {
-            get: function () { return this._index; },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(DataListChangeEventArgs.prototype, "newValue", {
-            get: function () { return this._newValue; },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(DataListChangeEventArgs.prototype, "oldValue", {
-            get: function () { return this._oldValue; },
-            enumerable: true,
-            configurable: true
-        });
-        return DataListChangeEventArgs;
-    }(EventArgs));
+        get type() { return this._type; }
+        get source() { return this._source; }
+        get index() { return this._index; }
+        get newValue() { return this._newValue; }
+        get oldValue() { return this._oldValue; }
+    }
     FWSData.DataListChangeEventArgs = DataListChangeEventArgs;
     var DataBindMode;
     (function (DataBindMode) {
@@ -143,55 +68,248 @@ var FWSData;
         DataBindMode[DataBindMode["OneWay"] = 1] = "OneWay";
         DataBindMode[DataBindMode["TwoWay"] = 2] = "TwoWay";
     })(DataBindMode = FWSData.DataBindMode || (FWSData.DataBindMode = {}));
-    var DataBindLink = (function () {
-        function DataBindLink(source, target, mode, options) {
+    class DataBindLink {
+        constructor(type, source, target, mode, options) {
+            this._type = type;
             this._source = source;
             this._target = target;
             this._mode = mode;
             this._options = options;
         }
-        return DataBindLink;
-    }());
+        get type() { return this._type; }
+        get source() { return this._source; }
+        get target() { return this._target; }
+        get mode() { return this._mode; }
+        get options() { return this._options; }
+    }
     FWSData.DataBindLink = DataBindLink;
-    var DataBindManager = (function () {
-        function DataBindManager() {
+    class DataBindManager {
+        constructor() {
+            this._links = new Array();
         }
-        DataBindManager.prototype.distEvent = function (e) {
-            console.log("DataBindManager::distEvent", e);
-        };
-        return DataBindManager;
-    }());
+        distEvent(e) {
+            var cloneList = this._links.slice(0);
+            for (var i = 0; i < cloneList.length; i++) {
+                var lk = cloneList[i];
+                var handler = this["on" + lk.type + "Change"];
+                if (!handler)
+                    continue;
+                if (e.sender === lk.source) {
+                    if (lk.mode === DataBindMode.TwoWay
+                        || lk.mode === DataBindMode.OneWay) {
+                        handler.call(this, e, lk, false);
+                    }
+                }
+                else if (e.sender === lk.target && lk.mode === DataBindMode.TwoWay) {
+                    handler.call(this, e, lk, true);
+                }
+            }
+        }
+        add(type, source, target, mode, options) {
+            var link = this.find(source, target);
+            if (link)
+                return;
+            link = new DataBindLink(type, source, target, mode, options);
+            this._links.push(link);
+        }
+        find(source, target) {
+            for (var i = 0; i < this._links.length; i++) {
+                var link = this._links[i];
+                if (link.source === source && link.target === target)
+                    return link;
+            }
+            return null;
+        }
+        findSource(source) {
+            for (var i = 0; i < this._links.length; i++) {
+                var link = this._links[i];
+                if (link.source === source)
+                    return link;
+            }
+            return null;
+        }
+        findTarget(target) {
+            for (var i = 0; i < this._links.length; i++) {
+                var link = this._links[i];
+                if (link.target === target)
+                    return link;
+            }
+            return null;
+        }
+        getBindSources(target) {
+            var ret = new Array();
+            for (var i = 0; i < this._links.length; i++) {
+                var link = this._links[i];
+                if (link.target === target) {
+                    ret.push(link);
+                }
+            }
+            return ret;
+        }
+        getBindTargets(source) {
+            var ret = new Array();
+            for (var i = 0; i < this._links.length; i++) {
+                var link = this._links[i];
+                if (link.source === source) {
+                    ret.push(link);
+                }
+            }
+            return ret;
+        }
+        removeLinksBySource(source) {
+            for (var i = this._links.length - 1; i >= 0; i--) {
+                var link = this._links[i];
+                if (link.source !== source)
+                    continue;
+                this._links.splice(i, 1);
+            }
+        }
+        removeLinksByTarget(target) {
+            for (var i = this._links.length - 1; i >= 0; i--) {
+                var link = this._links[i];
+                if (link.target !== target)
+                    continue;
+                this._links.splice(i, 1);
+            }
+        }
+        removeAll() {
+            this._links.splice(0, this._links.length);
+        }
+        onPropertiesChange(e, lk, twoway) {
+            var src = null;
+            var tag = null;
+            var srcName = "";
+            var tagName = "";
+            if (twoway) {
+                src = lk.target;
+                tag = lk.source;
+                srcName = e.propertyName;
+                tagName = lk.options[srcName];
+            }
+            else {
+                src = lk.source;
+                tag = lk.target;
+                srcName = e.propertyName;
+                for (var k in lk.options) {
+                    var v = lk.options[k];
+                    if (v === srcName) {
+                        tagName = k;
+                        break;
+                    }
+                }
+            }
+            if (!srcName || !tagName)
+                return;
+            tag[tagName] = src[srcName];
+        }
+        onListChange(e, lk, twoway) {
+            console.log("onListChange", e, lk, twoway);
+        }
+        onDictChange(e, lk, twoway) {
+            console.log("onDictChange", e, lk, twoway);
+        }
+    }
     function getDataBindManager() {
         if (!DataBindManager._isntance) {
             DataBindManager._isntance = new DataBindManager();
         }
         return DataBindManager._isntance;
     }
+    function copyProperties(source, target, options) {
+        if (!options)
+            return;
+        for (var k in options) {
+            var v = options[k];
+            target[v] = source[k];
+        }
+    }
+    FWSData.copyProperties = copyProperties;
+    function copyList(source, target, options) {
+    }
+    FWSData.copyList = copyList;
+    function copyDict(source, target, options) {
+    }
+    FWSData.copyDict = copyDict;
     function bindProperties(source, target, mode, options) {
         if (source && target && source !== target) { }
         else
             return;
-        if (mode === DataBindMode.Once) {
+        if (mode !== DataBindMode.Once) {
+            getDataBindManager().add("Properties", source, target, mode, options);
         }
-        else {
-        }
+        copyProperties(source, target, options);
     }
     FWSData.bindProperties = bindProperties;
     function bindList(source, target, mode, options) {
+        if (source && target && source !== target) { }
+        else
+            return;
+        if (mode !== DataBindMode.Once) {
+            getDataBindManager().add("List", source, target, mode, options);
+        }
+        copyList(source, target, options);
     }
     FWSData.bindList = bindList;
     function bindDict(source, target, mode, options) {
+        if (source && target && source !== target) { }
+        else
+            return;
+        if (mode !== DataBindMode.Once) {
+            getDataBindManager().add("Dict", source, target, mode, options);
+        }
+        copyDict(source, target, options);
     }
     FWSData.bindDict = bindDict;
     function unbindBySource(source) {
+        getDataBindManager().removeLinksBySource(source);
     }
     FWSData.unbindBySource = unbindBySource;
     function unbindByTarget(target) {
+        getDataBindManager().removeLinksByTarget(target);
     }
     FWSData.unbindByTarget = unbindByTarget;
-    var Dict = (function () {
-        function Dict(data) {
-            if (data === void 0) { data = null; }
+    class DependentProperties {
+        constructor(owner) {
+            this._owner = owner;
+            this._properties = new Object();
+        }
+        get(name, defValue) {
+            if (this._properties.hasOwnProperty(name)) {
+                return this._properties[name];
+            }
+            return defValue;
+        }
+        set(name, newValue) {
+            if (this._properties[name] === newValue)
+                return;
+            var oldValue = this._properties[name];
+            this._properties[name] = newValue;
+            getDataBindManager().distEvent(new DataPropertyChangeEventArgs(this._owner, this._owner, name, newValue, oldValue));
+        }
+        clear() {
+            for (var k in this._properties) {
+                delete this._properties[k];
+            }
+        }
+    }
+    FWSData.DependentProperties = DependentProperties;
+    class DependentObject {
+        constructor() {
+            this.__DP = new DependentProperties(this);
+        }
+        get(name, defValue) {
+            return this.__DP.get(name, defValue);
+        }
+        set(name, newValue) {
+            this.__DP.set(name, newValue);
+        }
+        clear() {
+            this.__DP.clear();
+        }
+    }
+    FWSData.DependentObject = DependentObject;
+    class Dict {
+        constructor(data = null) {
             this._dict = new Object();
             if (data) {
                 for (var k in data) {
@@ -200,10 +318,10 @@ var FWSData;
                 }
             }
         }
-        Dict.prototype.getItem = function (key) {
+        getItem(key) {
             return this._dict[key];
-        };
-        Dict.prototype.setItem = function (key, value) {
+        }
+        setItem(key, value) {
             if (this._dict[key] === value)
                 return;
             if (this.containKey(key)) {
@@ -215,79 +333,66 @@ var FWSData;
                 this._dict[key] = value;
                 getDataBindManager().distEvent(new DataDictChangeEventArgs(this, DataCollectionChangeType.Add, this, key, oldValue, value));
             }
-        };
-        Dict.prototype.deleteKey = function (key) {
+        }
+        deleteKey(key) {
             if (!this.containKey(key))
                 return;
             var ret = this._dict[key];
             delete this._dict[key];
             getDataBindManager().distEvent(new DataDictChangeEventArgs(this, DataCollectionChangeType.Remove, this, key, ret, null));
-        };
-        Dict.prototype.containKey = function (key) {
+        }
+        containKey(key) {
             return this.keys.indexOf(key) >= 0;
-        };
-        Dict.prototype.containValue = function (value) {
+        }
+        containValue(value) {
             return this.values.indexOf(value) >= 0;
-        };
-        Dict.prototype.clear = function () {
+        }
+        clear() {
             if (this.count == 0)
                 return;
             for (var key in this._dict) {
                 delete this._dict[key];
             }
             getDataBindManager().distEvent(new DataDictChangeEventArgs(this, DataCollectionChangeType.Clear, this, null, null, null));
-        };
-        Dict.prototype.toObject = function () {
+        }
+        toObject() {
             var ret = new Object();
             for (var k in this._dict) {
                 var v = this._dict[k];
                 ret[k] = v;
             }
             return ret;
-        };
-        Dict.prototype.toString = function () {
+        }
+        toString() {
             return "Dict " + JSON.stringify(this._dict);
-        };
-        Object.defineProperty(Dict.prototype, "keys", {
-            get: function () {
-                var ret = new Array();
-                for (var key in this._dict) {
-                    ret.push(key);
-                }
-                return ret;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Dict.prototype, "values", {
-            get: function () {
-                var ret = new Array();
-                for (var key in this._dict) {
-                    ret.push(this._dict[key]);
-                }
-                return ret;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Dict.prototype, "count", {
-            get: function () {
-                return this.keys.length;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return Dict;
-    }());
+        }
+        get keys() {
+            var ret = new Array();
+            for (var key in this._dict) {
+                ret.push(key);
+            }
+            return ret;
+        }
+        get values() {
+            var ret = new Array();
+            for (var key in this._dict) {
+                ret.push(this._dict[key]);
+            }
+            return ret;
+        }
+        get count() {
+            return this.keys.length;
+        }
+    }
     FWSData.Dict = Dict;
-    var List = (function () {
-        function List() {
+    class List {
+        constructor() {
             this._list = new Array();
         }
-        List.prototype.at = function (index) {
+        at(index) {
             return this._list[index];
-        };
-        List.prototype.modify = function (item, index) {
+        }
+        modify(item, index) {
             if (index < 0 || index >= this._list.length)
                 return;
             if (this._list[index] === item)
@@ -295,70 +400,65 @@ var FWSData;
             var oldValue = this._list[index];
             this._list[index] = item;
             getDataBindManager().distEvent(new DataListChangeEventArgs(this, DataCollectionChangeType.Modify, this, index, item, oldValue));
-        };
-        List.prototype.add = function (item) {
+        }
+        add(item) {
             this._list.push(item);
             getDataBindManager().distEvent(new DataListChangeEventArgs(this, DataCollectionChangeType.Add, this, this._list.length - 1, item, null));
             return item;
-        };
-        List.prototype.remove = function (item) {
+        }
+        remove(item) {
             var i = this._list.indexOf(item);
             if (i < 0)
                 return;
             this._list.splice(i, 1);
             getDataBindManager().distEvent(new DataListChangeEventArgs(this, DataCollectionChangeType.Remove, this, i, null, item));
             return item;
-        };
-        List.prototype.insert = function (item, index) {
+        }
+        insert(item, index) {
             if (index < 0 || index > this._list.length - 1)
                 return;
             this._list.splice(index, 0, item);
             getDataBindManager().distEvent(new DataListChangeEventArgs(this, DataCollectionChangeType.Add, this, index, item, null));
             return item;
-        };
-        List.prototype.removeAt = function (index) {
+        }
+        removeAt(index) {
             var ret = this._list[index];
             this._list.splice(index, 1);
             getDataBindManager().distEvent(new DataListChangeEventArgs(this, DataCollectionChangeType.Remove, this, index, null, ret));
             return ret;
-        };
-        List.prototype.clear = function () {
+        }
+        clear() {
             if (this._list.length == 0)
                 return;
             this._list.splice(0, this._list.length);
             getDataBindManager().distEvent(new DataListChangeEventArgs(this, DataCollectionChangeType.Clear, this, 0, null, null));
-        };
-        List.prototype.indexOf = function (item) {
+        }
+        indexOf(item) {
             return this._list.indexOf(item);
-        };
-        List.prototype.toArray = function () {
+        }
+        toArray() {
             return this._list.slice(0);
-        };
-        List.prototype.toString = function () {
+        }
+        toString() {
             return "List [" + this._list.toString() + "]";
-        };
-        List.prototype.join = function (separator) {
+        }
+        join(separator) {
             return this._list.join(separator);
-        };
-        Object.defineProperty(List.prototype, "length", {
-            get: function () {
-                return this._list.length;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return List;
-    }());
+        }
+        get length() {
+            return this._list.length;
+        }
+    }
     FWSData.List = List;
-    var Queue = (function () {
-        function Queue() {
+    class Queue {
+        constructor() {
             this._list = new Array();
         }
-        Queue.prototype.add = function (item) {
+        add(item) {
             this._list.push(item);
             getDataBindManager().distEvent(new DataListChangeEventArgs(this, DataCollectionChangeType.Add, this, this.length - 1, item, null));
-        };
-        Queue.prototype.remove = function () {
+        }
+        remove() {
             var ret = null;
             if (this._list.length > 0)
                 ret = this._list.shift();
@@ -366,106 +466,97 @@ var FWSData;
                 return null;
             getDataBindManager().distEvent(new DataListChangeEventArgs(this, DataCollectionChangeType.Remove, this, 0, ret, null));
             return ret;
-        };
-        Queue.prototype.clear = function () {
+        }
+        clear() {
             this._list.splice(0, this._list.length);
             getDataBindManager().distEvent(new DataListChangeEventArgs(this, DataCollectionChangeType.Clear, this, 0, null, null));
-        };
-        Queue.prototype.toArray = function () {
+        }
+        toArray() {
             return this._list.slice(0);
-        };
-        Queue.prototype.toString = function () {
+        }
+        toString() {
             return "Queue[" + this._list.toString() + "]";
-        };
-        Object.defineProperty(Queue.prototype, "length", {
-            get: function () {
-                return this._list.length;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Queue.prototype, "current", {
-            get: function () {
-                if (this._list.length == 0)
-                    return null;
-                return this._list[0];
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return Queue;
-    }());
+        }
+        get length() {
+            return this._list.length;
+        }
+        get current() {
+            if (this._list.length == 0)
+                return null;
+            return this._list[0];
+        }
+    }
     FWSData.Queue = Queue;
-    var Node = (function () {
-        function Node(id) {
+    class Node {
+        constructor(id) {
             this._nodes = new List();
             this._id = id;
         }
-        Node.prototype.clear = function () {
+        clear() {
             for (var i = 0; i < this._nodes.length; i++) {
                 var node = this._nodes[i];
                 node._parentNode = null;
             }
             this._nodes.clear();
-        };
-        Node.prototype.add = function (node) {
+        }
+        add(node) {
             node._parentNode = this;
             return this._nodes.add(node);
-        };
-        Node.prototype.insert = function (node, index) {
+        }
+        insert(node, index) {
             var ret = node;
             node._parentNode = this;
             return ret;
-        };
-        Node.prototype.remove = function (node) {
+        }
+        remove(node) {
             node._parentNode = null;
             return this._nodes.remove(node);
-        };
-        Node.prototype.removeAt = function (index) {
+        }
+        removeAt(index) {
             var ret = this._nodes.at(index);
             this._nodes.removeAt(index);
             ret._parentNode = null;
             return ret;
-        };
-        Node.prototype.removeFromParent = function () {
+        }
+        removeFromParent() {
             if (this._parentNode) {
                 this._parentNode.remove(this);
             }
-        };
-        Node.prototype.at = function (index) {
+        }
+        at(index) {
             var ret = this._nodes.at(index);
             return ret;
-        };
-        Node.prototype.indexOf = function (node) {
+        }
+        indexOf(node) {
             return this._nodes.indexOf(node);
-        };
-        Node.prototype.find = function (id) {
+        }
+        find(id) {
             if (this._id === id)
                 return this;
             for (var i = 0; i < this._nodes.length; i++) {
-                var n = this._nodes.at(i);
+                let n = this._nodes.at(i);
                 if (n.id === id)
                     return n;
-                var cn = n.find(id);
+                let cn = n.find(id);
                 if (cn)
                     return cn;
             }
             return null;
-        };
-        Node.prototype.findData = function (d) {
+        }
+        findData(d) {
             if (this._data === d)
                 return this;
             for (var i = 0; i < this._nodes.length; i++) {
-                var n = this._nodes.at(i);
+                let n = this._nodes.at(i);
                 if (n.data === d)
                     return n;
-                var cn = n.findData(d);
+                let cn = n.findData(d);
                 if (cn)
                     return cn;
             }
             return null;
-        };
-        Node.prototype.getParentNodes = function () {
+        }
+        getParentNodes() {
             var ret = new Array();
             var temp = this;
             while (temp) {
@@ -473,8 +564,8 @@ var FWSData;
                 temp = temp.parentNode;
             }
             return ret;
-        };
-        Node.prototype.getParentByOtherNode = function (node) {
+        }
+        getParentByOtherNode(node) {
             var p1 = this.getParentNodes();
             var p2 = node.getParentNodes();
             var ret = null;
@@ -490,150 +581,97 @@ var FWSData;
                     break;
             }
             return ret;
-        };
-        Object.defineProperty(Node.prototype, "firstChild", {
-            get: function () {
-                if (this._nodes.length > 0) {
-                    return this._nodes[0];
-                }
-                return null;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Node.prototype, "lastChild", {
-            get: function () {
-                if (this._nodes.length > 0) {
-                    return this._nodes[this._nodes.length - 1];
-                }
-                return null;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Node.prototype, "firstNode", {
-            get: function () {
-                if (this._parentNode)
-                    return this._parentNode.firstChild;
-                return null;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Node.prototype, "prevNode", {
-            get: function () {
-                if (this._parentNode) {
-                    var i = this._parentNode.indexOf(this);
-                    if (i > 0)
-                        return this._parentNode.at(i - 1);
-                }
-                return null;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Node.prototype, "nextNode", {
-            get: function () {
-                if (this._parentNode) {
-                    var i = this._parentNode.indexOf(this);
-                    if (i >= this._parentNode.length)
-                        return null;
-                    if (i < 0)
-                        return null;
-                    return this._parentNode.at[i + 1];
-                }
-                return null;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Node.prototype, "lastNode", {
-            get: function () {
-                if (this._parentNode)
-                    return this._parentNode.lastChild;
-                return null;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Node.prototype, "data", {
-            get: function () {
-                return this._data;
-            },
-            set: function (value) {
-                this._data = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Node.prototype.toString = function () {
+        }
+        get firstChild() {
+            if (this._nodes.length > 0) {
+                return this._nodes[0];
+            }
+            return null;
+        }
+        get lastChild() {
+            if (this._nodes.length > 0) {
+                return this._nodes[this._nodes.length - 1];
+            }
+            return null;
+        }
+        get firstNode() {
+            if (this._parentNode)
+                return this._parentNode.firstChild;
+            return null;
+        }
+        get prevNode() {
+            if (this._parentNode) {
+                var i = this._parentNode.indexOf(this);
+                if (i > 0)
+                    return this._parentNode.at(i - 1);
+            }
+            return null;
+        }
+        get nextNode() {
+            if (this._parentNode) {
+                var i = this._parentNode.indexOf(this);
+                if (i >= this._parentNode.length)
+                    return null;
+                if (i < 0)
+                    return null;
+                return this._parentNode.at[i + 1];
+            }
+            return null;
+        }
+        get lastNode() {
+            if (this._parentNode)
+                return this._parentNode.lastChild;
+            return null;
+        }
+        get data() {
+            return this._data;
+        }
+        set data(value) {
+            this._data = value;
+        }
+        toString() {
             var temp = this._data;
             if (temp || temp === 0 || temp === false) {
                 return "Node " + JSON.stringify(this._data);
             }
             else
                 return "Node {}";
-        };
-        Object.defineProperty(Node.prototype, "length", {
-            get: function () {
-                return this._nodes.length;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Node.prototype, "parentNode", {
-            get: function () {
-                return this._parentNode;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Node.prototype, "id", {
-            get: function () {
-                return this._id;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Node.prototype, "level", {
-            get: function () {
-                var ret = 0;
-                var temp = this;
-                while (temp.parentNode) {
-                    temp = temp.parentNode;
-                    ret++;
-                }
-                return ret;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Node.prototype, "rootNode", {
-            get: function () {
-                var ret = this;
-                while (ret.parentNode) {
-                    ret = ret.parentNode;
-                }
-                return ret;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Node.prototype, "path", {
-            get: function () {
-                var ary = new Array();
-                var n = this;
-                while (n) {
-                    ary.splice(0, 0, n.id);
-                    n = n.parentNode;
-                }
-                return ary.join("/");
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return Node;
-    }());
+        }
+        get length() {
+            return this._nodes.length;
+        }
+        get parentNode() {
+            return this._parentNode;
+        }
+        get id() {
+            return this._id;
+        }
+        get level() {
+            var ret = 0;
+            var temp = this;
+            while (temp.parentNode) {
+                temp = temp.parentNode;
+                ret++;
+            }
+            return ret;
+        }
+        get rootNode() {
+            var ret = this;
+            while (ret.parentNode) {
+                ret = ret.parentNode;
+            }
+            return ret;
+        }
+        get path() {
+            var ary = new Array();
+            var n = this;
+            while (n) {
+                ary.splice(0, 0, n.id);
+                n = n.parentNode;
+            }
+            return ary.join("/");
+        }
+    }
     FWSData.Node = Node;
 })(FWSData || (FWSData = {}));
 //# sourceMappingURL=FWSData.js.map

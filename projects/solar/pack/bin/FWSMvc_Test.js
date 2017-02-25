@@ -1,86 +1,17 @@
-console.group("List");
-var list = new FWSData.List();
-for (var i = 0; i < 10; i++) {
-    list.add(i);
+console.group("DependentObject");
+class User extends FWSData.DependentObject {
+    get id1() { return this.get("id1", 0); }
+    set id1(v) { this.set("id1", v); }
+    get id2() { return this.get("id2", 0); }
+    set id2(v) { this.set("id2", v); }
+    get name() { return this.get("name", ""); }
+    set name(v) { this.set("name", v); }
 }
-console.log(list.length, list + "");
-list.add(99);
-console.log(list.length, list + "");
-list.remove(5);
-console.log(list.length, list + "");
-list.removeAt(3);
-console.log(list.length, list + "");
-list.insert(88, 3);
-console.log(list.length, list + "");
-list.modify(77, 3);
-console.log(list.length, list + "");
-list.clear();
-console.log(list.length, list + "");
-for (var i = 0; i < 5; i++) {
-    list.add(i);
-}
-console.log(list.length, list + "");
-console.log("indexOf", list.indexOf(2));
-console.log("toArray", list.toArray());
-console.groupEnd();
-console.group("Dict");
-var dict = new FWSData.Dict();
-dict.setItem("a", "111");
-dict.setItem("b", "222");
-dict.setItem("c", "333");
-console.log(dict.count, dict.toString());
-dict.deleteKey("b");
-console.log(dict.count, dict.toString());
-dict.setItem("c", "ccccc");
-console.log(dict.count, dict.toString());
-console.log("getItem", dict.getItem("c"));
-console.log("keys", dict.keys);
-console.log("values", dict.values);
-console.log("toObject", dict.toObject());
-console.groupEnd();
-console.group("Queue");
-var queue = new FWSData.Queue();
-queue.add("abc");
-queue.add("def");
-queue.add("ghi");
-console.log(queue.current, queue.length, queue.toString());
-queue.clear();
-console.log(queue.current, queue.length, queue.toString());
-queue.add("jkl");
-queue.add("mno");
-queue.add("pqr");
-console.log(queue.current, queue.length, queue.toString());
-console.log("remove", queue.remove());
-console.log(queue.current, queue.length, queue.toString());
-console.log("toArray", queue.toArray());
-console.groupEnd();
-console.group("Node");
-var microsoft = new FWSData.Node("microsoft");
-var visualstudio = new FWSData.Node("visualstudio");
-var cs = new FWSData.Node("cs");
-var vb = new FWSData.Node("vb");
-var ts = new FWSData.Node("ts");
-var office = new FWSData.Node("office");
-var outlook = new FWSData.Node("outlook");
-var word = new FWSData.Node("word");
-var excel = new FWSData.Node("excel");
-microsoft.data = "microsoft";
-visualstudio.data = "VisualStudio";
-cs.data = "CSharp";
-vb.data = "VisualBasic";
-ts.data = "TypeScript";
-office.data = "Office";
-outlook.data = "Outlook";
-word.data = "Word";
-excel.data = "Excel";
-microsoft.add(visualstudio);
-visualstudio.add(cs);
-visualstudio.add(vb);
-visualstudio.add(ts);
-microsoft.add(office);
-office.add(outlook);
-office.add(word);
-office.add(excel);
-console.log("microsoft", microsoft);
+var user1 = new User();
+var user2 = new User();
+console.log("-- BEGIN --");
+FWSData.bindProperties(user1, user2, FWSData.DataBindMode.TwoWay, { "id2": "id1" });
+console.log("set 1 : 1");
+user1.id1 = 1;
 console.groupEnd();
 //# sourceMappingURL=FWSMvc_Test.js.map
