@@ -3,11 +3,63 @@
  * @Author: thor.liu 
  * @Date: 2017-02-23 12:46:35 
  * @Last Modified by: thor.liu
- * @Last Modified time: 2017-02-26 04:20:04
+ * @Last Modified time: 2017-02-26 13:37:43
  */
 
 module FWSData
 {
+	//----------------------------------------------- 辅助功能
+
+	
+	/**
+	 * 获取对象中, 指定路径的成员 
+	 * @example "myUser.cards.0"
+	 * @export
+	 * @param {*} source 
+	 * @param {string} path 
+	 * @param {*} [defaultValue] 
+	 * @returns {*} 
+	 */
+	export function getValueFromPath(source:any, path:string, defaultValue?:any):any
+	{
+		if(!source) return defaultValue;
+
+		var members:Array<string> = path.split(/\./g);
+
+		var temp:any = source;
+
+		for(var i:number = 0; i < members.length; i++)
+		{
+			var member:string = members[i];
+			temp = getValueFromMember(temp, member, null);
+			if(temp === null || temp === undefined) {
+				break;
+			}
+			else if(i == members.length - 1 && i >= 0)
+			{
+				return temp;
+			}
+		}
+		return defaultValue;
+	}
+
+	/**
+	 * 获取对象中, 指定名称的成员
+	 * @export
+	 * @param {*} source 
+	 * @param {string} member 
+	 * @param {*} [defaultValue] 
+	 * @returns {*} 
+	 */
+	export function getValueFromMember(source:any, member:string, defaultValue?:any):any
+	{
+		if(!source) return defaultValue;
+
+		var ret:any = source[member];
+		if(ret === undefined) ret = defaultValue;
+
+		return ret;
+	}
 
 	//----------------------------------------------- 事件通知
 

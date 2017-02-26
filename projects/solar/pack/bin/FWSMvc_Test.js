@@ -44,4 +44,16 @@ while (!iter.end()) {
 }
 console.groupEnd();
 console.info("** Completed **");
+var testObj = {
+    myUser: {
+        id: 123,
+        name: "liuqiang"
+    },
+    cards: [
+        { id: 1, color: 2, amount: 3 },
+        { id: 4, color: 5, amount: 6 },
+        { id: 7, color: 8, amount: 9 }
+    ]
+};
+console.log(FWSData.getValueFromPath(testObj, "cards.4.id", 0));
 //# sourceMappingURL=FWSMvc_Test.js.map

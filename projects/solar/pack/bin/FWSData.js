@@ -1,5 +1,32 @@
 var FWSData;
 (function (FWSData) {
+    function getValueFromPath(source, path, defaultValue) {
+        if (!source)
+            return defaultValue;
+        var members = path.split(/\./g);
+        var temp = source;
+        for (var i = 0; i < members.length; i++) {
+            var member = members[i];
+            temp = getValueFromMember(temp, member, null);
+            if (temp === null || temp === undefined) {
+                break;
+            }
+            else if (i == members.length - 1 && i >= 0) {
+                return temp;
+            }
+        }
+        return defaultValue;
+    }
+    FWSData.getValueFromPath = getValueFromPath;
+    function getValueFromMember(source, member, defaultValue) {
+        if (!source)
+            return defaultValue;
+        var ret = source[member];
+        if (ret === undefined)
+            ret = defaultValue;
+        return ret;
+    }
+    FWSData.getValueFromMember = getValueFromMember;
     class EventArgs {
         constructor(sender) {
             this._sender = sender;
