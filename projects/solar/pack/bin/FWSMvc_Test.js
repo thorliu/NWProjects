@@ -37,11 +37,9 @@ microsoft.add(office);
 office.add(outlook);
 office.add(word);
 office.add(excel);
-var iter = microsoft.getEnumerator();
-while (!iter.end()) {
-    console.log(iter.getCurrent());
-    iter.moveNext();
-}
+FWSData.foreach(microsoft, function (item) {
+    console.log(item);
+});
 console.groupEnd();
 console.info("** Completed **");
 var testObj = {
@@ -55,5 +53,4 @@ var testObj = {
         { id: 7, color: 8, amount: 9 }
     ]
 };
-console.log(FWSData.getValueFromPath(testObj, "cards.4.id", 0));
 //# sourceMappingURL=FWSMvc_Test.js.map

@@ -3,14 +3,14 @@
  * @Author: thor.liu 
  * @Date: 2017-02-23 12:46:35 
  * @Last Modified by: thor.liu
- * @Last Modified time: 2017-02-26 13:37:43
+ * @Last Modified time: 2017-02-26 15:49:24
  */
 
 module FWSData
 {
 	//----------------------------------------------- 辅助功能
 
-	
+
 	/**
 	 * 获取对象中, 指定路径的成员 
 	 * @example "myUser.cards.0"
@@ -20,22 +20,23 @@ module FWSData
 	 * @param {*} [defaultValue] 
 	 * @returns {*} 
 	 */
-	export function getValueFromPath(source:any, path:string, defaultValue?:any):any
+	export function getValueFromPath(source: any, path: string, defaultValue?: any): any
 	{
-		if(!source) return defaultValue;
+		if (!source) return defaultValue;
 
-		var members:Array<string> = path.split(/\./g);
+		var members: Array<string> = path.split(/\./g);
 
-		var temp:any = source;
+		var temp: any = source;
 
-		for(var i:number = 0; i < members.length; i++)
+		for (var i: number = 0; i < members.length; i++)
 		{
-			var member:string = members[i];
+			var member: string = members[i];
 			temp = getValueFromMember(temp, member, null);
-			if(temp === null || temp === undefined) {
+			if (temp === null || temp === undefined)
+			{
 				break;
 			}
-			else if(i == members.length - 1 && i >= 0)
+			else if (i == members.length - 1 && i >= 0)
 			{
 				return temp;
 			}
@@ -51,12 +52,12 @@ module FWSData
 	 * @param {*} [defaultValue] 
 	 * @returns {*} 
 	 */
-	export function getValueFromMember(source:any, member:string, defaultValue?:any):any
+	export function getValueFromMember(source: any, member: string, defaultValue?: any): any
 	{
-		if(!source) return defaultValue;
+		if (!source) return defaultValue;
 
-		var ret:any = source[member];
-		if(ret === undefined) ret = defaultValue;
+		var ret: any = source[member];
+		if (ret === undefined) ret = defaultValue;
 
 		return ret;
 	}
@@ -385,7 +386,6 @@ module FWSData
 
 	/**
 	 * 数据绑定管理器
-	 * 
 	 * @class DataBindManager
 	 */
 	class DataBindManager
@@ -2232,6 +2232,52 @@ module FWSData
 		public end(): boolean
 		{
 			return !this._temp;
+		}
+	}
+
+	/**
+	 * 比较结果
+	 * @export
+	 * @enum {number}
+	 */
+	export enum CompareResult
+	{
+		/**
+		 * 较小
+		 */
+		LESS = -1,
+		/**
+		 * 相等
+		 */
+		EQUAL = 0,
+		/**
+		 * 较大
+		 */
+		GREATER = 1
+	}
+
+	/**
+	 * 迭代遍历
+	 * @export
+	 * @param {IEnumerable} data 
+	 * @param {Function} handler 
+	 * @param {*} [target] 
+	 * @returns {void} 
+	 */
+	export function foreach(data: IEnumerable, handler: Function, target?: any): void
+	{
+		if (!data) return;
+		if (!handler) return;
+
+		var iter: IEnumerator = data.getEnumerator();
+		if (!iter) return;
+
+		while (!iter.end())
+		{
+			var item: any = iter.getCurrent();
+			if (handler.call(target, item)) break;
+
+			iter.moveNext();
 		}
 	}
 }

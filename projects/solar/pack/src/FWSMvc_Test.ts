@@ -18,6 +18,8 @@ queue.add(123);
 queue.add(456);
 queue.add(789);
 
+
+
 var microsoft: FWSData.Node<string> = new FWSData.Node<string>("microsoft");
 var visualstudio: FWSData.Node<string> = new FWSData.Node<string>("visualstudio");
 var cs: FWSData.Node<string> = new FWSData.Node<string>("cs");
@@ -53,12 +55,16 @@ office.add(excel);
 // var iter:FWSData.IEnumerator = dict.getEnumerator();
 // var iter:FWSData.IEnumerator = list.getEnumerator();
 // var iter:FWSData.IEnumerator = queue.getEnumerator();
-var iter:FWSData.IEnumerator =  microsoft.getEnumerator();
-while(!iter.end())
-{
-	console.log(iter.getCurrent());
-	iter.moveNext();
-}
+// var iter:FWSData.IEnumerator =  microsoft.getEnumerator();
+// while(!iter.end())
+// {
+// 	console.log(iter.getCurrent());
+// 	iter.moveNext();
+// }
+
+FWSData.foreach(microsoft, function(item){
+	console.log(item);
+});
 
 
 console.groupEnd();
@@ -79,4 +85,4 @@ var testObj = {
 
 // console.log(FWSData.getValueFromPath(testObj, "myUser.id"));
 // console.log(FWSData.getValueFromPath(testObj, "cards"));
-console.log(FWSData.getValueFromPath(testObj, "cards.4.id", 0));
+// console.log(FWSData.getValueFromPath(testObj, "cards.4.id", 0));

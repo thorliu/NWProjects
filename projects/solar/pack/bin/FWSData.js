@@ -900,5 +900,27 @@ var FWSData;
         }
     }
     FWSData.NodeEnumrator = NodeEnumrator;
+    var CompareResult;
+    (function (CompareResult) {
+        CompareResult[CompareResult["LESS"] = -1] = "LESS";
+        CompareResult[CompareResult["EQUAL"] = 0] = "EQUAL";
+        CompareResult[CompareResult["GREATER"] = 1] = "GREATER";
+    })(CompareResult = FWSData.CompareResult || (FWSData.CompareResult = {}));
+    function foreach(data, handler, target) {
+        if (!data)
+            return;
+        if (!handler)
+            return;
+        var iter = data.getEnumerator();
+        if (!iter)
+            return;
+        while (!iter.end()) {
+            var item = iter.getCurrent();
+            if (handler.call(target, item))
+                break;
+            iter.moveNext();
+        }
+    }
+    FWSData.foreach = foreach;
 })(FWSData || (FWSData = {}));
 //# sourceMappingURL=FWSData.js.map
