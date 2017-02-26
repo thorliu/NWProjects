@@ -3,7 +3,7 @@
  * @Author: thor.liu 
  * @Date: 2017-01-17 10:36:31 
  * @Last Modified by: thor.liu
- * @Last Modified time: 2017-02-23 22:10:44
+ * @Last Modified time: 2017-02-26 22:26:51
  */
 module FWSMvc 
 {
@@ -971,7 +971,6 @@ module FWSMvc
 		}
 		return FContextManager.instance;
 	}
-
 
 }
 

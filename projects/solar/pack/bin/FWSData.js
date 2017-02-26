@@ -371,6 +371,16 @@ var FWSData;
                 delete this._properties[k];
             }
         }
+        toJSON() {
+            return JSON.stringify(this._properties);
+        }
+        fromJSON(json) {
+            try {
+                this._properties = JSON.parse(json);
+            }
+            catch (err) {
+            }
+        }
     }
     FWSData.DependentProperties = DependentProperties;
     class DependentObject {
@@ -385,6 +395,12 @@ var FWSData;
         }
         clear() {
             this.__DP.clear();
+        }
+        toJSON() {
+            return this.__DP.toJSON();
+        }
+        fromJSON(json) {
+            this.__DP.fromJSON(json);
         }
     }
     FWSData.DependentObject = DependentObject;

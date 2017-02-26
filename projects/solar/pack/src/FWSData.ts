@@ -3,7 +3,7 @@
  * @Author: thor.liu 
  * @Date: 2017-02-23 12:46:35 
  * @Last Modified by: thor.liu
- * @Last Modified time: 2017-02-26 15:49:24
+ * @Last Modified time: 2017-02-26 22:49:30
  */
 
 module FWSData
@@ -909,6 +909,30 @@ module FWSData
 				delete this._properties[k];
 			}
 		}
+
+		/**
+		 * 生成json字串
+		 */
+		public toJSON():string
+		{
+			return JSON.stringify(this._properties);
+		}
+
+		/**
+		 * 从json字串读取内容
+		 * @param {string} json 
+		 * @memberOf DependentProperties
+		 */
+		public fromJSON(json:string):void
+		{
+			try
+			{
+				this._properties = JSON.parse(json);
+			}
+			catch(err)
+			{
+			}
+		}
 	}
 
 	/**
@@ -940,6 +964,7 @@ module FWSData
 		{
 			return this.__DP.get(name, defValue);
 		}
+
 		/**
 		 * 设置属性值
 		 * @param {string} name 
@@ -961,6 +986,25 @@ module FWSData
 			this.__DP.clear();
 		}
 
+		/**
+		 * 生成json字串
+		 * @returns {string} 
+		 * @memberOf DependentObject
+		 */
+		public toJSON():string
+		{
+			return this.__DP.toJSON();
+		}
+
+		/**
+		 * 从json字串读取内容
+		 * @param {string} json 
+		 * @memberOf DependentObject
+		 */
+		public fromJSON(json:string):void
+		{
+			this.__DP.fromJSON(json);
+		}
 
 	}
 
