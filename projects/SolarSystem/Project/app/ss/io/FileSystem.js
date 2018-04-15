@@ -9,13 +9,13 @@ var FileSystem;
             if (FS)
                 FS.readFile(path, "utf8", callback);
             else if (callback)
-                callback(true);
+                callback(null);
         }
         static save(path, data, callback = null) {
             if (FS)
                 FS.writeFile(path, data, "utf8", callback);
             else if (callback)
-                callback(true);
+                callback(null);
         }
     }
     FileSystem.File = File;

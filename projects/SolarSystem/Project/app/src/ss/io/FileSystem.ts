@@ -3,7 +3,7 @@
  * @Author: thor.liu 
  * @Date: 2018-04-15 20:20:07 
  * @Last Modified by: thor.liu
- * @Last Modified time: 2018-04-15 20:41:53
+ * @Last Modified time: 2018-04-15 20:46:36
  */
 
 import NodeHack = require('../utils/NodeHack');
@@ -13,6 +13,19 @@ const PATH = NodeHack.require("path");
 
 module FileSystem
 {
+	/** 加载文件的回调接口 */
+	export interface LoadFileCallback 
+	{
+		(err: Error, data?: string): void
+		
+	}
+
+	/** 保存文件的回调接口 */
+	export interface SaveFileCallback
+	{
+		(err: Error): void
+	}
+
 	export class File
 	{
 		/**
@@ -20,10 +33,10 @@ module FileSystem
 		 * @param path 文件路径
 		 * @param callback 回调方法
 		 */
-		static load(path: string, callback: Function = null): void
+		static load(path: string, callback: LoadFileCallback = null): void
 		{
 			if (FS) FS.readFile(path, "utf8", callback);
-			else if (callback) callback(true);
+			else if (callback) callback(null);
 		}
 
 		/**
@@ -32,10 +45,10 @@ module FileSystem
 		 * @param data 文件内容
 		 * @param callback 回调方法
 		 */
-		static save(path: string, data: string, callback: Function = null): void
+		static save(path: string, data: string, callback: SaveFileCallback = null): void
 		{
 			if (FS) FS.writeFile(path, data, "utf8", callback);
-			else if (callback) callback(true);
+			else if (callback) callback(null);
 		}
 	}
 }
