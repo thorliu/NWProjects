@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "CAQC,GAAK,EAAE,QAAS,EAAE,GAAI,EACtB,MACA,EACC,UAAW,EAAE,wEAAyE",
+"sources": ["../../scss/ss.scss"],
+"names": [],
+"file": "ss.css"
+}
