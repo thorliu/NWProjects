@@ -1,0 +1,33 @@
+<!--看起来是个HTML, 其实是当做XML配置处理的-->
+<html>
+	<head>
+		<script src="res/js/nf_ctrl_group.js"></script>
+	</head>
+	<body>
+		<h1>出场</h1>
+		<div>
+			<label>当前</label><input type="text" class="exportValue" id="nf_current_player_index" value="0"></input>
+			<p><b>说明</b> 设置当前出场的玩家索引号, 注意0表示第1个玩家, 1表示第2个玩家...</p>
+		</div>
+		<!---->
+		<h1>淘汰</h1>
+		<div>
+			<input id="nf_player_state_0" class="exportCheck" type="checkbox"></input><label>0</label>
+		</div>
+		<div>
+			<input id="nf_player_state_1" class="exportCheck" type="checkbox"></input><label>1</label>
+		</div>
+		<div>
+			<input id="nf_player_state_2" class="exportCheck" type="checkbox"></input><label>2</label>
+		</div>
+		<div>
+			<input id="nf_player_state_3" class="exportCheck" type="checkbox"></input><label>3</label>
+		</div>
+		<div>
+			<input id="nf_player_state_4" class="exportCheck" type="checkbox"></input><label>4</label>
+		</div>
+		<ul>
+			<li id="btnSave">确认</li>
+		</ul>
+	</body>
+</html>

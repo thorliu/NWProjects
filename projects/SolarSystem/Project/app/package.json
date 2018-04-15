@@ -1,0 +1,19 @@
+{
+  "name": "smzy.screen.tool",
+  "version": "3.0.0",
+  "main": "main.js",
+  "dependencies": {
+    "commander": "^2.11.0",
+    "electron": "^1.6.11",
+    "jquery": "^3.2.1",
+    "xlsx": "^0.10.8"
+  },
+  "devDependencies": {
+    "asar": "^0.13.0",
+    "electron-packager": "^8.7.2"
+  },
+  "scripts": {
+    "packageDarwin": "electron-packager . 'mj' --platform=darwin --arch=x64 --out=../dist --version=1.6.11 --overwrite",
+    "packageWin": "electron-packager . 'mj' --platform=win32 --arch=x64 --out=./dist --version=1.6.11 --overwrite"
+  }
+}

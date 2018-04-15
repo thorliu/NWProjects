@@ -1,0 +1,16 @@
+<!--看起来是个HTML, 其实是当做XML配置处理的-->
+<html>
+	<head>
+		<script src="res/js/controller_file_selector.js"></script>
+	</head>
+	<body>
+		<h1>选择文件</h1>
+		<div>
+			<label>路径</label><input type="text" class="exportValue" id="filePath" value=""></input><button data-cmd="openFile" data-args="xls,xlsx" data-bind="#filePath">浏览</button>
+			<p></p>
+		</div>
+		<ul>
+			<li id="btnSave">确认</li>
+		</ul>
+	</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html style="font-size:12px;">
+
+	<head>
+		<title>屏幕测试页</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
+		/>
+		<meta name="format-detection" content="telephone=no">
+		<link href="res/css/screen.css" rel="stylesheet" />
+
+		<script src="res/js/jquery.min.js"></script>
+		<script src="res/js/jquery.easing.js"></script>
+		<script src="res/js/utils.js"></script>
+
+		<script src="res/js/offline.js"></script>
+		<!--<script src="../res/js/screen.js"></script>-->
+		<!--<script src="../res/js/screen.teams.js"></script>-->
+
+		<!-- 
+			此文件布署在
+			http://mjsq.smzy.cc/screen-tool/utils/screen.test.html
+		 -->
+
+
+
+		<script>
+			$(document).ready(function ()
+			{
+				var update = function (e)
+				{
+					var w = $("#txtWidth").val();
+					var h = $("#txtHeight").val();
+					var sx = $("#txtScaleX").val();
+					var sy = $("#txtScaleY").val();
+					var s = $("#txtFontSize").val();
+					var bs = $("#txtBox").val();
+
+					var style = "background-color: yellow; position: relative; transform: scale({2}, {3}); width: {0}px; height: {1}px;";
+					style = style.format(w, h, sx, sy);
+					$(".canvas").attr("style", style);
+					$("#canvasContent").css("font-size", s + "px");
+
+					$(e.currentTarget).animate({opacity: 0.5}, 100).animate({opacity: 1}, 100);
+					$("#box").css("width", bs+"px");
+					$("#box").css("height", bs+"px");
+				};
+
+				$("#txtWidth").change(update);
+				$("#txtHeight").change(update);
+				$("#txtScaleX").change(update);
+				$("#txtScaleY").change(update);
+				$("#txtFontSize").change(update);
+				$("#txtBox").change(update);
+			});
+		</script>
+
+		<style>
+		input {
+			font-size: 18px !important;
+			width: 80px;
+			text-align: center;
+			border: none;
+		}
+		p {
+			font-size: 18px !important;
+			line-height: 18px !important;
+		}
+		input:focus
+		{
+			background-color: yellow;
+		}
+		.box {
+			width: 100px;
+			height: 100px;
+			background-color: greenyellow;
+			margin: 10px auto;
+		}
+		</style>
+	</head>
+
+	<body>
+		<div class="container-screen noSelection">
+			<div class="outer">
+				<div class="inner">
+					<div class="canvas" style="background-color: yellow; position: relative;transform: scale(1, 1); width: 1024px; height: 768px;">
+						<div id="canvasContent" style="background-color: blue; position: relative; width: calc(100% - 2px); height: calc(100% - 2px);margin: 1px; font-size: 12px;">
+							<div>
+								<p>width:</p>
+								<input id="txtWidth" type="text" value="1024" maxlength="4" />
+								<p>height:</p>
+								<input id="txtHeight" type="text" value="768" maxlength="4" />
+								<p>scaleX:</p>
+								<input id="txtScaleX" type="text" value="1" maxlength="6" />
+								<p>scaleY:</p>
+								<input id="txtScaleY" type="text" value="1" maxlength="6" />
+								<p>font-size:</p>
+								<input id="txtFontSize" type="text" value="12" maxlength="4" />
+								<p>box:</p>
+								<input id="txtBox" type="text" value="100" maxlength="4" />
+							</div>
+							<div id="box" class="box"></div>
+							屏幕分辨率测试页<br/>English 汉字 0123
+							<br/>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+
+</html>
