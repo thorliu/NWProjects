@@ -3,12 +3,7 @@ const FileSystem = require("./ss/io/FileSystem");
 var Application;
 (function (Application) {
     function startUp() {
-        FileSystem.File.save("/Users/liuqiang/Documents/temp/temp/test.txt", "Hello 中文", function () {
-            debugger;
-        });
-        FileSystem.File.load("/Users/liuqiang/Documents/temp/temp/CMSModel.cs", function () {
-            debugger;
-        });
+        FileSystem.File.copy("/Users/liuqiang/Documents/temp/temp/test", "/Users/liuqiang/Documents/temp/temp/test2");
     }
     Application.startUp = startUp;
 })(Application || (Application = {}));
