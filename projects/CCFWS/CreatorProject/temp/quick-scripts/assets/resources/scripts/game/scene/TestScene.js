@@ -7,7 +7,7 @@ cc._RF.push(module, '13387s2eoBPyZXhDh6V6Ahv', 'TestScene', __filename);
  * @Author: 刘强
  * @Date: 2018-07-31 16:14:10
  * @Last Modified by: 刘强
- * @Last Modified time: 2018-07-31 17:10:49
+ * @Last Modified time: 2018-07-31 17:30:55
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 var _a = cc._decorator, ccclass = _a.ccclass, property = _a.property;
