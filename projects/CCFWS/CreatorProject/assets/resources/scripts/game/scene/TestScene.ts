@@ -3,7 +3,7 @@
  * @Author: 刘强 
  * @Date: 2018-07-31 16:14:10 
  * @Last Modified by: 刘强
- * @Last Modified time: 2018-07-31 17:22:56
+ * @Last Modified time: 2018-07-31 17:30:55
  */
 
 
@@ -30,5 +30,4 @@ export default class TestScene extends FWSComponent.default
             debugger
         });
     }
-
 }

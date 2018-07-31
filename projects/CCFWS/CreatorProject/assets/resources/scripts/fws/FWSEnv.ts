@@ -3,7 +3,7 @@
  * @Author: 刘强 
  * @Date: 2018-07-31 15:20:34 
  * @Last Modified by: 刘强
- * @Last Modified time: 2018-07-31 16:59:27
+ * @Last Modified time: 2018-07-31 17:32:34
  */
 
 module FWSEnv
@@ -24,10 +24,13 @@ module FWSEnv
 	export const DEBUG :boolean = CC_DEBUG;
 
 	/** 是否模拟器环境 */
-	export const SIMULATOR: boolean = true;
+	export const SIMULATOR: boolean = CC_PREVIEW;
 
 	/** 是否编辑器环境 */
 	export const EDITOR:boolean = CC_EDITOR;
+
+	// /** 用户语言 */
+	// export const LANGUAGE:string = cc.sys.language;
 
 	// NOTE: 高级参数
 
