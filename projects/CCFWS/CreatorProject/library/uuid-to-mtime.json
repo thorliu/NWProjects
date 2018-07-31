@@ -354,19 +354,24 @@
     "meta": 1533024755146,
     "relativePath": "resources/scripts/game/scene"
   },
-  "13387b36-7a80-4fc9-95e1-0e1e95e8086f": {
-    "asset": 1533024880596,
-    "meta": 1533024883753,
-    "relativePath": "resources/scripts/game/scene/TestScene.ts"
-  },
-  "bb1757ff-1727-4c95-8424-d66cc260cce8": {
-    "asset": 1533024932082,
-    "meta": 1533024933776,
-    "relativePath": "resources/scripts/fws/FWSEnv.ts"
-  },
   "f79c0a9b-632b-425d-a0be-21b11d5622d9": {
     "asset": 1533024961901,
     "meta": 1533024965081,
     "relativePath": "resources/scripts/fws/utils/X.ts"
+  },
+  "bb1757ff-1727-4c95-8424-d66cc260cce8": {
+    "asset": 1533025725980,
+    "meta": 1533025729443,
+    "relativePath": "resources/scripts/fws/FWSEnv.ts"
+  },
+  "13387b36-7a80-4fc9-95e1-0e1e95e8086f": {
+    "asset": 1533025650895,
+    "meta": 1533025729471,
+    "relativePath": "resources/scripts/game/scene/TestScene.ts"
+  },
+  "6bdf3aab-9556-403e-93c1-412e26550b42": {
+    "asset": 1533025766194,
+    "meta": 1533025768891,
+    "relativePath": "resources/scripts/fws/display/FWSComponent.ts"
   }
 }
