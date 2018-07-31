@@ -334,11 +334,6 @@
     "meta": 1533024737734,
     "relativePath": "resources/scripts/fws/net"
   },
-  "7de0ac6e-dc47-4319-9f51-b8f3e5ea534a": {
-    "asset": 1533023023766,
-    "meta": 1533024739023,
-    "relativePath": "resources/scripts/fws/mvc/FWSMvc.ts"
-  },
   "e4852d14-4a69-449c-b1fd-ddce1b5e4a52": {
     "asset": 1533024737735,
     "meta": 1533024737735,
@@ -359,19 +354,29 @@
     "meta": 1533024965081,
     "relativePath": "resources/scripts/fws/utils/X.ts"
   },
-  "bb1757ff-1727-4c95-8424-d66cc260cce8": {
-    "asset": 1533025725980,
-    "meta": 1533025729443,
-    "relativePath": "resources/scripts/fws/FWSEnv.ts"
-  },
   "13387b36-7a80-4fc9-95e1-0e1e95e8086f": {
     "asset": 1533025650895,
     "meta": 1533025729471,
     "relativePath": "resources/scripts/game/scene/TestScene.ts"
   },
   "6bdf3aab-9556-403e-93c1-412e26550b42": {
-    "asset": 1533025766194,
-    "meta": 1533025768891,
+    "asset": 1533025843667,
+    "meta": 1533026075751,
     "relativePath": "resources/scripts/fws/display/FWSComponent.ts"
+  },
+  "3ef959d5-aff0-4d21-8139-04010e8062f4": {
+    "asset": 1531734464290,
+    "meta": 1533026075751,
+    "relativePath": "resources/scripts/fws/utils/HttpUtils.ts"
+  },
+  "bb1757ff-1727-4c95-8424-d66cc260cce8": {
+    "asset": 1533026355272,
+    "meta": 1533027075755,
+    "relativePath": "resources/scripts/fws/FWSEnv.ts"
+  },
+  "7de0ac6e-dc47-4319-9f51-b8f3e5ea534a": {
+    "asset": 1533027073071,
+    "meta": 1533027075756,
+    "relativePath": "resources/scripts/fws/mvc/FWSMvc.ts"
   }
 }

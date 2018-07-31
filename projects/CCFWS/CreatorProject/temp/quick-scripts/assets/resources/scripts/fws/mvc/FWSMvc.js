@@ -7,10 +7,11 @@ cc._RF.push(module, '7de0axu3EdDGZ9RuPPl6lNK', 'FWSMvc', __filename);
  * @Author: 刘强
  * @Date: 2017-03-01 14:19:48
  * @Last Modified by: 刘强
- * @Last Modified time: 2018-07-31 15:43:43
+ * @Last Modified time: 2018-07-31 16:50:52
  */
 var FWSData = require("../data/FWSData");
 var X = require("../utils/X");
+var FWSEnv = require("../FWSEnv");
 var FWSMvc;
 (function (FWSMvc) {
     FWSMvc.MVC_CONTEXT_TRY_CATCH = true;
@@ -55,9 +56,7 @@ var FWSMvc;
                         mod.onEnterContextMember();
                     }
                     catch (err) {
-                        // console.error("FContext", "onEnterContext", mod, err);
-                        // console.error("MVC", "ERROR", err.stack);
-                        // ErrorReport.send(err);
+                        X.error(err);
                     }
                 }
                 else {
@@ -77,9 +76,7 @@ var FWSMvc;
                         mod.onLeaveContextMember();
                     }
                     catch (err) {
-                        // console.error("FContext", "onLeaveContext", mod, err);
-                        // console.error("MVC", "ERROR", err.stack);
-                        // ErrorReport.send(err);
+                        X.error(err);
                     }
                 }
                 else {
@@ -157,14 +154,14 @@ var FWSMvc;
                         var closeContext = closeList[i];
                         if (closeContext === theParentNode)
                             break;
-                        // if (FWSConfig.Options.MVC_CONTEXT_TRACE) FLog.data("Context", "onLeaveContext", closeContext.path);
+                        if (FWSEnv.DEBUG_CONTEXT_TRACE)
+                            X.log("(Context) onLeaveContext", closeContext.path);
                         if (FWSMvc.MVC_CONTEXT_TRY_CATCH) {
                             try {
                                 closeContext.data.onLeaveContext();
                             }
                             catch (err) {
-                                // console.log("(ERROR)", err);
-                                // ErrorReport.send(err);
+                                X.error(err);
                             }
                         }
                         else {
@@ -181,14 +178,14 @@ var FWSMvc;
                 for (var i = 0; i < openList.length; i++) {
                     var openContext = openList[i];
                     if (theParentNodeIsNull) {
-                        // if (FWSConfig.Options.MVC_CONTEXT_TRACE) FLog.data("Context", "onEnterContext", openContext.path);
+                        if (FWSEnv.DEBUG_CONTEXT_TRACE)
+                            X.log("(Context) onEnterContext", openContext.path);
                         if (FWSMvc.MVC_CONTEXT_TRY_CATCH) {
                             try {
                                 openContext.data.onEnterContext();
                             }
                             catch (err) {
-                                // console.log("(ERROR)", err);
-                                // ErrorReport.send(err);
+                                X.error(err);
                             }
                         }
                         else {
@@ -198,14 +195,14 @@ var FWSMvc;
                     }
                     if (found) {
                         if (openContext != theParentNode || theParentNodeIsNull) {
-                            // if (FWSConfig.Options.MVC_CONTEXT_TRACE) FLog.data("Context", "onEnterContext", openContext.path);
+                            if (FWSEnv.DEBUG_CONTEXT_TRACE)
+                                X.log("(Context) onEnterContext", openContext.path);
                             if (FWSMvc.MVC_CONTEXT_TRY_CATCH) {
                                 try {
                                     openContext.data.onEnterContext();
                                 }
                                 catch (err) {
-                                    // console.log("(ERROR)", err);
-                                    // ErrorReport.send(err);
+                                    X.error(err);
                                 }
                             }
                             else {
@@ -223,12 +220,11 @@ var FWSMvc;
                 this._current = node;
                 if (sh) {
                     this._history.add(node);
-                    X.log("blue", "Context goto %s", node.path);
+                    X.log("blue", "Context goto", node.path);
                 }
                 else {
-                    X.log("blue", "Context goto(no history) %s", node.path);
+                    X.log("blue", "Context goto(no history)", node.path);
                 }
-                // FWSMvc.FLog.data("Context", "goto", node.path);
                 if (this.onContextChanged) {
                     this.onContextChanged(node.id);
                 }
@@ -726,7 +722,8 @@ var FWSMvc;
         FMessageRouter.prototype.send = function (msg) {
             if (msg.sended)
                 return;
-            // console.log("FMessage", "发送", msg.queue, msg);
+            if (FWSEnv.DEBUG_MVC_TRACE)
+                X.log("(FMessage)发送", msg.queue, msg);
             if (this._queues.containKey(msg.queue)) {
                 var queue = this._queues.getItem(msg.queue);
                 queue.add(msg);
@@ -748,30 +745,27 @@ var FWSMvc;
          * @memberOf FMessageRouter
          */
         FMessageRouter.prototype.push = function (msg) {
-            X.log("FMessage", "推送", msg.queue, msg);
+            if (FWSEnv.DEBUG_MVC_TRACE)
+                X.log("(FMessage)推送", msg.queue, msg);
             var mods = this._connections.toArray();
             var counter = 0;
             for (var i = 0; i < mods.length; i++) {
                 var mod = mods[i];
                 try {
-                    var tmpBeginTimer = new Date().getTime();
                     var isHandled = mod.onFMessage(msg);
-                    var tmpEndTimer = new Date().getTime();
-                    var tmpUsedTimer = (tmpBeginTimer - tmpEndTimer) / 1000;
-                    if (tmpUsedTimer >= 1) {
-                        X.log("FMessage::Timer", tmpUsedTimer);
-                    }
                     if (isHandled) {
                         counter++;
                         if (msg.queue && msg.queue.length > 0) {
-                            X.log("FMessage", "处理", mod);
+                            if (FWSEnv.DEBUG_MVC_TRACE)
+                                X.log("(FMessage)处理", mod);
                         }
                     }
                 }
                 catch (err) { }
             }
             if (counter === 0) {
-                // 	console.log("FMessage", "自动完成", msg.queue, msg);
+                if (FWSEnv.DEBUG_MVC_TRACE)
+                    X.log("(FMessage)自动完成", msg.queue, msg);
                 msg.complete();
             }
         };
@@ -782,7 +776,8 @@ var FWSMvc;
          */
         FMessageRouter.prototype.complete = function (msg) {
             if (this._queues.keys.indexOf(msg.queue) >= 0) {
-                X.log("FMessage", "完成", msg.queue, msg);
+                if (FWSEnv.DEBUG_MVC_TRACE)
+                    X.log("(FMessage)完成", msg.queue, msg);
             }
             FWSMvc.Router().update();
         };

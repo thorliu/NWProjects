@@ -3,12 +3,14 @@
  * @Author: 刘强
  * @Date: 2017-03-01 14:19:48 
  * @Last Modified by: 刘强
- * @Last Modified time: 2018-07-31 15:43:43
+ * @Last Modified time: 2018-07-31 16:50:52
  */
 
 
 import FWSData = require('../data/FWSData');
 import X = require('../utils/X');
+import FWSEnv = require('../FWSEnv');
+
 
 module FWSMvc
 {
@@ -93,9 +95,7 @@ module FWSMvc
 					}
 					catch (err)
 					{
-						// console.error("FContext", "onEnterContext", mod, err);
-						// console.error("MVC", "ERROR", err.stack);
-						// ErrorReport.send(err);
+						X.error(err);
 					}
 				}
 				else
@@ -123,9 +123,7 @@ module FWSMvc
 					}
 					catch (err)
 					{
-						// console.error("FContext", "onLeaveContext", mod, err);
-						// console.error("MVC", "ERROR", err.stack);
-						// ErrorReport.send(err);
+						X.error(err);
 					}
 				}
 				else
@@ -220,7 +218,7 @@ module FWSMvc
 
 						if (closeContext === theParentNode) break;
 
-						// if (FWSConfig.Options.MVC_CONTEXT_TRACE) FLog.data("Context", "onLeaveContext", closeContext.path);
+						if (FWSEnv.DEBUG_CONTEXT_TRACE) X.log("(Context) onLeaveContext", closeContext.path);
 						if (MVC_CONTEXT_TRY_CATCH)
 						{
 							try
@@ -229,8 +227,7 @@ module FWSMvc
 							}
 							catch (err)
 							{
-								// console.log("(ERROR)", err);
-								// ErrorReport.send(err);
+								X.error(err);
 							}
 						}
 						else
@@ -252,7 +249,7 @@ module FWSMvc
 					var openContext: FWSData.Node<IContext> = openList[i];
 					if (theParentNodeIsNull)
 					{
-						// if (FWSConfig.Options.MVC_CONTEXT_TRACE) FLog.data("Context", "onEnterContext", openContext.path);
+						if (FWSEnv.DEBUG_CONTEXT_TRACE) X.log("(Context) onEnterContext", openContext.path);
 						if (MVC_CONTEXT_TRY_CATCH)
 						{
 							try
@@ -261,8 +258,7 @@ module FWSMvc
 							}
 							catch (err)
 							{
-								// console.log("(ERROR)", err);
-								// ErrorReport.send(err);
+								X.error(err);
 							}
 						}
 						else
@@ -277,7 +273,7 @@ module FWSMvc
 					{
 						if (openContext != theParentNode || theParentNodeIsNull)
 						{
-							// if (FWSConfig.Options.MVC_CONTEXT_TRACE) FLog.data("Context", "onEnterContext", openContext.path);
+							if (FWSEnv.DEBUG_CONTEXT_TRACE) X.log("(Context) onEnterContext", openContext.path);
 							if (MVC_CONTEXT_TRY_CATCH)
 							{
 								try
@@ -286,8 +282,7 @@ module FWSMvc
 								}
 								catch (err)
 								{
-									// console.log("(ERROR)", err);
-									// ErrorReport.send(err);
+									X.error(err);
 								}
 							}
 							else
@@ -311,14 +306,12 @@ module FWSMvc
 				if (sh) 
 				{
 					this._history.add(node);
-					X.log("blue", "Context goto %s", node.path);
+					X.log("blue", "Context goto", node.path);
 				}
 				else
 				{
-					X.log("blue", "Context goto(no history) %s", node.path);
+					X.log("blue", "Context goto(no history)", node.path);
 				}
-
-				// FWSMvc.FLog.data("Context", "goto", node.path);
 
 				if (this.onContextChanged)
 				{
@@ -958,8 +951,7 @@ module FWSMvc
 		{
 			if (msg.sended) return;
 
-
-			// console.log("FMessage", "发送", msg.queue, msg);
+			if(FWSEnv.DEBUG_MVC_TRACE) X.log("(FMessage)发送", msg.queue, msg);
 
 
 
@@ -990,7 +982,7 @@ module FWSMvc
 		 */
 		private push(msg: FMessage<any>): void
 		{
-			X.log("FMessage", "推送", msg.queue, msg);
+			if(FWSEnv.DEBUG_MVC_TRACE) X.log("(FMessage)推送", msg.queue, msg);
 
 			let mods: Array<IFMessageConnection> = this._connections.toArray();
 			let counter: number = 0;
@@ -999,22 +991,18 @@ module FWSMvc
 				let mod: IFMessageConnection = mods[i];
 				try
 				{
-					var tmpBeginTimer: number = new Date().getTime();
+					
 					let isHandled: boolean = mod.onFMessage(msg);
-					var tmpEndTimer: number = new Date().getTime();
-					var tmpUsedTimer: number = (tmpBeginTimer - tmpEndTimer) / 1000;
+					
 
-					if (tmpUsedTimer >= 1)
-					{
-						X.log("FMessage::Timer", tmpUsedTimer);
-					}
+					
 
 					if (isHandled)
 					{
 						counter++;
 						if (msg.queue && msg.queue.length > 0)
 						{
-							X.log("FMessage", "处理", mod);
+							if(FWSEnv.DEBUG_MVC_TRACE) X.log("(FMessage)处理", mod);
 						}
 					}
 				}
@@ -1023,7 +1011,7 @@ module FWSMvc
 			}
 			if (counter === 0)
 			{
-				// 	console.log("FMessage", "自动完成", msg.queue, msg);
+				if(FWSEnv.DEBUG_MVC_TRACE) X.log("(FMessage)自动完成", msg.queue, msg);
 				msg.complete();
 			}
 		}
@@ -1037,7 +1025,7 @@ module FWSMvc
 		{
 			if(this._queues.keys.indexOf(msg.queue)>=0) 
 			{
-				X.log("FMessage", "完成", msg.queue, msg);
+				if(FWSEnv.DEBUG_MVC_TRACE) X.log("(FMessage)完成", msg.queue, msg);
 			}
 
 			FWSMvc.Router().update();
