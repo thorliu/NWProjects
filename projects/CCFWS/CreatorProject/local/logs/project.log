@@ -1,0 +1,173 @@
+2018-07-31T07:15:32.710Z - normal: Load ~/.CocosCreator/settings.json
+2018-07-31T07:15:32.713Z - normal: checking language setting...
+2018-07-31T07:15:32.714Z - normal: Language: zh
+2018-07-31T07:15:33.769Z - success: protocol editor-framework registered
+2018-07-31T07:15:33.769Z - success: protocol app registered
+2018-07-31T07:15:33.769Z - success: protocol theme registered
+2018-07-31T07:15:33.770Z - success: protocol packages registered
+2018-07-31T07:15:33.770Z - success: protocol unpack registerred
+2018-07-31T07:15:33.770Z - success: protocol disable-commonjs registerred
+2018-07-31T07:15:36.767Z - normal: failed to connect login server due to request timeout
+2018-07-31T07:15:36.769Z - normal: Check project /Users/liuqiang/NWProjects/projects/CCFWS/CreatorProject
+2018-07-31T07:15:36.771Z - normal: Initializing Cocos2d
+2018-07-31T07:15:37.066Z - normal: Initializing Asset Database
+2018-07-31T07:15:37.110Z - success: protocol uuid registerred
+2018-07-31T07:15:37.110Z - success: protocol db registerred
+2018-07-31T07:15:37.110Z - success: protocol thumbnail registerred
+2018-07-31T07:15:37.110Z - normal: Loading editor/builtin packages
+2018-07-31T07:15:37.140Z - success: anysdk loaded
+2018-07-31T07:15:37.279Z - success: assets loaded
+2018-07-31T07:15:37.285Z - success: builder loaded
+2018-07-31T07:15:37.288Z - success: cocos-analytics loaded
+2018-07-31T07:15:37.295Z - success: console loaded
+2018-07-31T07:15:37.330Z - success: fb-instant-games loaded
+2018-07-31T07:15:37.337Z - success: hierarchy loaded
+2018-07-31T07:15:37.342Z - success: inspector loaded
+2018-07-31T07:15:37.344Z - success: keystore loaded
+2018-07-31T07:15:37.354Z - success: node-library loaded
+2018-07-31T07:15:37.357Z - success: package-asset loaded
+2018-07-31T07:15:37.359Z - success: preferences loaded
+2018-07-31T07:15:37.363Z - success: project-exporter loaded
+2018-07-31T07:15:37.385Z - success: project-importer loaded
+2018-07-31T07:15:37.389Z - success: project-settings loaded
+2018-07-31T07:15:37.393Z - success: ui-kit loaded
+2018-07-31T07:15:37.398Z - success: ui-grid loaded
+2018-07-31T07:15:37.404Z - success: scene loaded
+2018-07-31T07:15:37.406Z - success: sprite-editor loaded
+2018-07-31T07:15:37.410Z - success: store loaded
+2018-07-31T07:15:37.417Z - success: timeline loaded
+2018-07-31T07:15:37.417Z - normal: Loading builtin packages
+2018-07-31T07:15:37.422Z - success: asset-db-debugger loaded
+2018-07-31T07:15:37.423Z - success: color-picker loaded
+2018-07-31T07:15:37.427Z - success: package-manager loaded
+2018-07-31T07:15:37.433Z - success: sdkbox loaded
+2018-07-31T07:15:37.441Z - success: tester loaded
+2018-07-31T07:15:37.446Z - success: ui-kit-preview-extra loaded
+2018-07-31T07:15:37.449Z - success: ui-kit-preview loaded
+2018-07-31T07:15:37.453Z - success: ui-tree loaded
+2018-07-31T07:15:38.677Z - normal: Initializing project /Users/liuqiang/NWProjects/projects/CCFWS/CreatorProject
+2018-07-31T07:15:38.678Z - normal: Loading packages
+2018-07-31T07:15:38.682Z - normal: Watching packages
+2018-07-31T07:15:38.693Z - normal: Run Application
+2018-07-31T07:15:39.756Z - success: preview server running at http://localhost:7456
+2018-07-31T07:15:46.165Z - normal: 1.9.1
+2018-07-31T07:16:02.795Z - error: { Error: getaddrinfo ENOTFOUND creator-api.cocos.com creator-api.cocos.com:443
+    at errnoException (dns.js:28:10)
+    at GetAddrInfoReqWrap.onlookup [as oncomplete] (dns.js:73:26)
+  code: 'ENOTFOUND',
+  errno: 'ENOTFOUND',
+  syscall: 'getaddrinfo',
+  hostname: 'creator-api.cocos.com',
+  host: 'creator-api.cocos.com',
+  port: 443 }
+    at /Applications/CocosCreator.app/Contents/Resources/app.asar/share/login/lib/user.js:1:1441
+    at ClientRequest.Https.request.on.e (/Applications/CocosCreator.app/Contents/Resources/app.asar/share/login/lib/network.js:1:873)
+    at emitOne (events.js:96:13)
+    at ClientRequest.emit (events.js:191:7)
+    at TLSSocket.socketErrorListener (_http_client.js:358:9)
+    at emitOne (events.js:96:13)
+    at TLSSocket.emit (events.js:191:7)
+    at connectErrorNT (net.js:1032:8)
+    at _combinedTickCallback (internal/process/next_tick.js:80:11)
+    at process._tickDomainCallback (internal/process/next_tick.js:128:9)
+2018-07-31T07:16:53.358Z - normal: Start building with options : {
+  "androidStudio": true,
+  "apiLevel": "",
+  "appABIs": [],
+  "appKey": "",
+  "appSecret": "",
+  "buildPath": "/Users/liuqiang/NWProjects/projects/CCFWS/CreatorProject/build",
+  "debug": false,
+  "dest": "/Users/liuqiang/NWProjects/projects/CCFWS/CreatorProject/build/wechatgame",
+  "encryptJs": true,
+  "excludeScenes": [],
+  "excludedModules": [
+    "TiledMap",
+    "PageView",
+    "PageViewIndicator",
+    "VideoPlayer",
+    "WebView",
+    "MotionStreak",
+    "Collider",
+    "DragonBones",
+    "Physics",
+    "StudioComponent",
+    "Camera",
+    "Intersection",
+    "Native NetWork"
+  ],
+  "fb-instant-games": {},
+  "includeAnySDK": false,
+  "includeEruda": false,
+  "includeSDKBox": false,
+  "inlineSpriteFrames": false,
+  "inlineSpriteFrames_native": true,
+  "jailbreakPlatform": false,
+  "md5Cache": false,
+  "mergeStartScene": false,
+  "oauthLoginServer": "",
+  "optimizeHotUpdate": false,
+  "orientation": {
+    "landscapeLeft": true,
+    "landscapeRight": true,
+    "portrait": false,
+    "upsideDown": false
+  },
+  "packageName": "org.cocos2d.Test",
+  "platform": "wechatgame",
+  "previewHeight": "720",
+  "previewWidth": "1280",
+  "privateKey": "",
+  "qqplay": {
+    "REMOTE_SERVER_ROOT": "",
+    "orientation": "portrait"
+  },
+  "renderMode": "0",
+  "scenes": [
+    "ba4cca60-3dd6-4b4f-bdd0-da6907f915fb",
+    "bf78bc05-ab23-468b-84f3-8e0bb64010db"
+  ],
+  "sourceMaps": false,
+  "startScene": "ba4cca60-3dd6-4b4f-bdd0-da6907f915fb",
+  "template": "link",
+  "title": "Test",
+  "useDebugKeystore": true,
+  "vsVersion": "auto",
+  "webOrientation": "portrait",
+  "wechatgame": {
+    "REMOTE_SERVER_ROOT": "",
+    "appid": "wx6ac3f5090a6b99c5",
+    "isSubdomain": false,
+    "orientation": "portrait",
+    "subContext": ""
+  },
+  "xxteaKey": "ec462a34-3eb7-45",
+  "zipCompressJs": true,
+  "project": "/Users/liuqiang/NWProjects/projects/CCFWS/CreatorProject",
+  "projectName": "Test",
+  "debugBuildWorker": false
+}
+2018-07-31T07:16:53.362Z - normal: Building /Users/liuqiang/NWProjects/projects/CCFWS/CreatorProject
+2018-07-31T07:16:53.362Z - normal: Destination /Users/liuqiang/NWProjects/projects/CCFWS/CreatorProject/build/wechatgame
+2018-07-31T07:16:53.825Z - normal: Delete /Users/liuqiang/NWProjects/projects/CCFWS/CreatorProject/build/wechatgame/**/*
+2018-07-31T07:17:31.395Z - normal: Compiled project javascript file successfully
+2018-07-31T07:17:31.397Z - normal: Start building assets
+2018-07-31T07:17:31.397Z - normal: Start spawn build-worker
+2018-07-31T07:17:32.111Z - normal: Finish spawn build-worker
+2018-07-31T07:17:32.111Z - normal: Start init build-worker
+2018-07-31T07:17:35.571Z - normal: 1.9.1
+2018-07-31T07:17:35.691Z - normal: Finish init build-worker
+2018-07-31T07:17:35.692Z - normal: Start build-assets in worker
+2018-07-31T07:17:35.824Z - warn: Script attached to "MainScene" in scene "MainScene.fire" is missing or invalid. Detailed information:
+Node path: "MainScene"
+Asset url: "db://assets/resources/scene/MainScene.fire"
+Script UUID: "9efbafbc-50db-4df9-a40a-4f1fc87baee7"
+Class ID: "9efba+8UNtN+aQKTx/Ie67n"
+
+2018-07-31T07:17:35.875Z - normal: Finish build-assets in worker
+2018-07-31T07:17:35.881Z - normal: Finish building assets
+2018-07-31T07:17:35.890Z - normal: Start building raw assets
+2018-07-31T07:17:35.891Z - normal: Finish building raw assets
+2018-07-31T07:17:35.891Z - normal: Start building plugin scripts
+2018-07-31T07:17:35.961Z - normal: Generating main.js from /Applications/CocosCreator.app/Contents/Resources/static/build-templates/shares/main.js
+2018-07-31T07:17:36.107Z - normal: Built to "/Users/liuqiang/NWProjects/projects/CCFWS/CreatorProject/build/wechatgame" successfully
