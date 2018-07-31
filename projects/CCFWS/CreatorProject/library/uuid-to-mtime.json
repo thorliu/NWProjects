@@ -40,8 +40,8 @@
     "relativePath": "prefab"
   },
   "ba4cca60-3dd6-4b4f-bdd0-da6907f915fb": {
-    "asset": 1531908674502,
-    "meta": 1531908674511,
+    "asset": 1533032966518,
+    "meta": 1533032966537,
     "relativePath": "resources/scene/MainScene.fire"
   },
   "033cc917-031a-47eb-8184-984dc1e2a5b1": {
@@ -398,5 +398,35 @@
     "asset": 1533028909883,
     "meta": 1533029598388,
     "relativePath": "resources/scripts/fws/task/FWSTask.ts"
+  },
+  "c8b7e59d-ed5e-4125-acc7-1fad4f17b60e": {
+    "asset": 1533032779869,
+    "meta": 1533032840884,
+    "relativePath": "resources/scripts/game/common"
+  },
+  "df77f98c-7912-4032-9d41-61930417b5cb": {
+    "asset": 1533032800405,
+    "meta": 1533032840886,
+    "relativePath": "resources/scripts/game/controller"
+  },
+  "24091f01-5fdd-4e9f-ba81-883f94947cc3": {
+    "asset": 1533032785734,
+    "meta": 1533032840887,
+    "relativePath": "resources/scripts/game/model"
+  },
+  "30a71474-f1a6-429a-ac95-efd40495275b": {
+    "asset": 1533032804945,
+    "meta": 1533032840889,
+    "relativePath": "resources/scripts/game/prefab"
+  },
+  "5f1cd3f5-4b6d-4df5-ab34-3747c40e64df": {
+    "asset": 1533032792437,
+    "meta": 1533032840890,
+    "relativePath": "resources/scripts/game/view"
+  },
+  "02e1f237-0583-4f70-9768-70e8d2e095ef": {
+    "asset": 1533035984036,
+    "meta": 1533036014249,
+    "relativePath": "resources/scripts/fws/display/FWSNodePool.ts"
   }
 }

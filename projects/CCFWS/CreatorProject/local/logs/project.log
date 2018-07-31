@@ -455,3 +455,9 @@ Class ID: "9efba+8UNtN+aQKTx/Ie67n"
 2018-07-31T09:12:04.555Z - normal: Start building plugin scripts
 2018-07-31T09:12:04.589Z - normal: Generating main.js from /Applications/CocosCreator.app/Contents/Resources/static/build-templates/shares/main.js
 2018-07-31T09:12:04.681Z - normal: Built to "/Users/liuqiang/NWProjects/projects/CCFWS/CreatorProject/build/wechatgame" successfully
+2018-07-31T10:29:19.365Z - warn: Script attached to "MainScene" in scene "MainScene.fire" is missing or invalid. Detailed information:
+Node path: "MainScene"
+Asset url: "db://assets/resources/scene/MainScene.fire"
+Script UUID: "9efbafbc-50db-4df9-a40a-4f1fc87baee7"
+Class ID: "9efba+8UNtN+aQKTx/Ie67n"
+
