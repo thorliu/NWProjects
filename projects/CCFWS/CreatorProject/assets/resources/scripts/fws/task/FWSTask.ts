@@ -3,7 +3,7 @@
  * @Author: 刘强 
  * @Date: 2018-07-16 11:56:39 
  * @Last Modified by: 刘强
- * @Last Modified time: 2018-07-31 17:18:09
+ * @Last Modified time: 2018-07-31 17:21:45
  */
 
 import FWSCommon = require('../core/FWSCommon');
@@ -57,10 +57,10 @@ module FWSTask
 			return this._endTimer - this._beginTimer;
 		}
 
-		public onBegin: FWSCommon.YYCallbackHandler;
-		public onProgress: FWSCommon.YYCallbackHandler;
-		public onCompleted: FWSCommon.YYCallbackHandler;
-		public onError: FWSCommon.YYCallbackHandler;
+		public onBegin: FWSCommon.CallbackHandler;
+		public onProgress: FWSCommon.CallbackHandler;
+		public onCompleted: FWSCommon.CallbackHandler;
+		public onError: FWSCommon.CallbackHandler;
 	}
 
 

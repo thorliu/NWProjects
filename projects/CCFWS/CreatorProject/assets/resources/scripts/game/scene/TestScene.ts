@@ -3,7 +3,7 @@
  * @Author: 刘强 
  * @Date: 2018-07-31 16:14:10 
  * @Last Modified by: 刘强
- * @Last Modified time: 2018-07-31 17:10:49
+ * @Last Modified time: 2018-07-31 17:22:56
  */
 
 
@@ -20,12 +20,12 @@ export default class TestScene extends FWSComponent.default
 
     start()
     {
-        WebClient.get("https://www.baidu.com", {}, this, (res) =>
-        {
+        WebClient.get("https://www.baidu.com", {}, this, 
+        (res) => {
             X.log("success", res);
             debugger
-        }, (res) =>
-        {
+        }, 
+        (res) => {
             X.log("fail", res);
             debugger
         });
