@@ -21,9 +21,11 @@
     "WebView",
     "MotionStreak",
     "Collider",
+    "Graphics",
     "DragonBones",
     "Physics",
     "StudioComponent",
+    "Chipmunk",
     "Camera",
     "Intersection",
     "Native NetWork"

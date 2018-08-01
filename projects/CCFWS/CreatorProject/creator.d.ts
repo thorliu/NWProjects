@@ -9506,8 +9506,22 @@ declare module cc {
 		});
 		``` 
 		*/
-		static load(resources: string|string[]|{uuid?: string, url?: string, type?: string}, completeCallback?: Function): void;
-		static load(resources: string|string[]|{uuid?: string, url?: string, type?: string}, progressCallback: (completedCount: number, totalCount: number, item: any) => void, completeCallback: Function|null): void;		
+		static load(
+			resources: string | string[] | {
+					uuid?: string, 
+					url?: string, 
+					type?: string}, 
+					completeCallback?: Function): void;
+
+		static load(
+			resources: string | string[] | {
+					uuid?: string, 
+					url?: string, 
+					type?: string}, 
+					progressCallback: (completedCount: number, totalCount: number, item: any) => void, 
+					completeCallback: Function|null): void;		
+
+		static load(url:string, type:any, callback:Function):void;
 		/**
 		Load resources from the "resources" folder inside the "assets" folder of your project.<br>
 		<br>

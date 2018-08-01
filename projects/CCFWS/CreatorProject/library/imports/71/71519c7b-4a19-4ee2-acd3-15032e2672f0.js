@@ -7,7 +7,7 @@ cc._RF.push(module, '71519x7ShlO4qzTFQMuJnLw', 'WebClient');
  * @Author: 刘强
  * @Date: 2018-07-16 17:37:04
  * @Last Modified by: 刘强
- * @Last Modified time: 2018-07-31 17:02:11
+ * @Last Modified time: 2018-08-01 14:24:57
  */
 var HttpUtils = require("../utils/HttpUtils");
 var FWSEnv = require("../FWSEnv");
@@ -25,12 +25,14 @@ var WebClient;
             return uri;
         // data.appid = 2;
         // data.token = "abcdefghijklmnopqrstuvwxyz";
-        data.time = new Date().getTime();
+        // data.time = new Date().getTime();
         var ret = uri + "";
+        var keys = Object.keys(data);
+        if (keys.length === 0)
+            return ret;
         if (ret.indexOf("?") < 0) {
             ret += "?";
         }
-        var keys = Object.keys(data);
         for (var i = 0; i < keys.length; i++) {
             var k = keys[i];
             var v = data[k];

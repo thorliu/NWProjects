@@ -45,21 +45,21 @@
                     "children": [
                       "scene"
                     ],
-                    "height": 346,
+                    "height": 487,
                     "type": "panel",
-                    "width": 555
+                    "width": 477
                   },
                   {
                     "active": 0,
                     "children": [
                       "node-library"
                     ],
-                    "height": 346,
+                    "height": 487,
                     "type": "panel",
-                    "width": 206
+                    "width": 284
                   }
                 ],
-                "height": 346,
+                "height": 487,
                 "type": "dock-h",
                 "width": 764
               },
@@ -69,7 +69,7 @@
                   "console",
                   "timeline"
                 ],
-                "height": 407,
+                "height": 266,
                 "type": "panel",
                 "width": 764
               }
@@ -91,17 +91,15 @@
         "type": "dock-h"
       },
       "panels": [
+        "hierarchy",
         "node-library",
         "console",
+        "timeline",
         "inspector",
-        "hierarchy",
         "assets",
-        "scene",
-        "timeline"
+        "scene"
       ]
-    },
-    "window-1533028080403": {},
-    "worker": {}
+    }
   },
   "panels": {
     "project-settings": {

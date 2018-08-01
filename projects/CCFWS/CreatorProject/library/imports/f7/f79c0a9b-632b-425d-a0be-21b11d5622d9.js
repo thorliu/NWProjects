@@ -7,7 +7,7 @@ cc._RF.push(module, 'f79c0qbYytCXaC+IbEdViLZ', 'X');
  * @Author: 刘强
  * @Date: 2018-07-31 15:40:50
  * @Last Modified by: 刘强
- * @Last Modified time: 2018-07-31 16:16:01
+ * @Last Modified time: 2018-08-01 11:07:49
  */
 var FWSEnv = require("../FWSEnv");
 var X;
@@ -187,6 +187,24 @@ var X;
         console.trace.apply(null, args);
     }
     X.trace = trace;
+    /** 输出节点树形结构 */
+    function treeNodes(target, collapsed) {
+        if (collapsed === void 0) { collapsed = true; }
+        if (!FWSEnv.DEBUG_ADVANCED)
+            return;
+        if (!target)
+            target = cc.director.getScene();
+        if (!target)
+            return;
+        //收起状态
+        groupCollapsed(target);
+        for (var i = 0; i < target.childrenCount; i++) {
+            var child = target.children[i];
+            treeNodes(child);
+        }
+        groupEnd();
+    }
+    X.treeNodes = treeNodes;
 })(X || (X = {}));
 window["X"] = X;
 module.exports = X;
