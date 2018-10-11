@@ -3,7 +3,7 @@
  * @Author: 刘强 
  * @Date: 2018-10-11 14:03:03 
  * @Last Modified by: 刘强
- * @Last Modified time: 2018-10-11 17:10:02
+ * @Last Modified time: 2018-10-11 18:49:28
  */
 
 module TECSCore
@@ -11,6 +11,21 @@ module TECSCore
 	//NOTE: 常量定义
 
 	//NOTE: 枚举定义
+
+	/** 单位显示状态 */
+	export enum UnitDisplayStates
+	{
+		/** 无 */
+		None,
+		/** 站立 */
+		Stand,
+		/** 移动 */
+		Move,
+		/** 攻击 */
+		Attack,
+		/** 死亡 */
+		Dead
+	}
 
 	/** 单位组件标识 */
 	export enum UnitComponentKeys
@@ -117,6 +132,23 @@ module TECSCore
 		name?: string,
 		/** 玩家成员 */
 		players: TPlayerInfo[]
+	}
+
+	/** 单位过滤选项 */
+	export type TUnitFilter = {
+		/** 必须满足的静态特征 */
+		mustStaticAttributes?: TUnitStaticAttributes,
+		/** 必须满足的动态特征 */
+		mustDyanmicAttributes?: TUnitDynamicAttributes,
+		/** 必须满足的关系 */
+		mustRelationship?: TForceRelationship,
+
+		/** 排除的静态特征 */
+		excludeStaticAttributes?: TUnitStaticAttributes,
+		/** 排除的动态特征 */
+		excludeDynamicAttributes?: TUnitDynamicAttributes,
+		/** 排除的关系 */
+		excludeRelationship?: TForceRelationship
 	}
 
 

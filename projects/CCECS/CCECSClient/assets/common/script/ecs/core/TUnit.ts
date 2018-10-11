@@ -3,7 +3,7 @@
  * @Author: 刘强 
  * @Date: 2018-10-11 14:05:39 
  * @Last Modified by: 刘强
- * @Last Modified time: 2018-10-11 17:25:32
+ * @Last Modified time: 2018-10-11 17:49:21
  */
 
 import TECSCore = require('./TECSCore');
@@ -16,8 +16,7 @@ class TUnit
     /** 动态特征 */
     public dynamicAttributes: TECSCore.TUnitDynamicAttributes = TECSCore.TUnitDynamicAttributes.None;
 
-    /** 是否活着 */
-    public alive: boolean = true;
+    
 
     //NOTE: ----
 
