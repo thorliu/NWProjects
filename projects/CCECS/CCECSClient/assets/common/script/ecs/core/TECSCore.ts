@@ -3,7 +3,7 @@
  * @Author: 刘强 
  * @Date: 2018-10-11 14:03:03 
  * @Last Modified by: 刘强
- * @Last Modified time: 2018-10-11 16:01:19
+ * @Last Modified time: 2018-10-11 17:10:02
  */
 
 module TECSCore
@@ -11,6 +11,25 @@ module TECSCore
 	//NOTE: 常量定义
 
 	//NOTE: 枚举定义
+
+	/** 单位组件标识 */
+	export enum UnitComponentKeys
+	{
+		/** 实体 */
+		TUnitEntity,
+		/** 生命 */
+		TUnitHp,
+		/** 能量 */
+		TUnitMp,
+		/** 移动 */
+		TUnitMover,
+		/** 主动 */
+		TUnitWeapon,
+		/** 被动 */
+		TUnitAbility,
+		/** 行为 */
+		TUnitBehavior
+	}
 
 	/** 势力类型 */
 	export enum TForceTypes
@@ -107,15 +126,15 @@ module TECSCore
 	export interface IUnitComponent
 	{
 		/** 唯一标识 */
-		key:string,
+		key: string,
 		/** 所属单位 */
-		unit:any,
+		unit: any,
 		/** tick逻辑 */
-		onTick(d:number):void;
+		onTick(d: number): void;
 		/** 建立绑定时 */
-		onBind():void;
+		onBind(): void;
 		/** 解除绑定时 */
-		onUnbind():void;
+		onUnbind(): void;
 	}
 }
 

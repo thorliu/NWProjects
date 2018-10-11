@@ -3,13 +3,24 @@
  * @Author: 刘强 
  * @Date: 2018-10-11 14:05:39 
  * @Last Modified by: 刘强
- * @Last Modified time: 2018-10-11 16:38:10
+ * @Last Modified time: 2018-10-11 17:25:32
  */
 
 import TECSCore = require('./TECSCore');
 
 class TUnit
 {
+    /** 静态特征 */
+    public staticAttributes: TECSCore.TUnitStaticAttributes = TECSCore.TUnitStaticAttributes.None;
+
+    /** 动态特征 */
+    public dynamicAttributes: TECSCore.TUnitDynamicAttributes = TECSCore.TUnitDynamicAttributes.None;
+
+    /** 是否活着 */
+    public alive: boolean = true;
+
+    //NOTE: ----
+
     /** 配置ID */
     private _id: string;
 
@@ -76,6 +87,9 @@ class TUnit
             c.unit = undefined;
         }
     }
+
+    /** 获取所有组件 */
+    public get components(): { [key: string]: TECSCore.IUnitComponent } { return this._components; }
 
     /** 获取配置id */
     public get id(): string { return this._id; }
