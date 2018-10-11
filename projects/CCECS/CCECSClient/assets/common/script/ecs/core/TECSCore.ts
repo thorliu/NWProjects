@@ -3,11 +3,13 @@
  * @Author: 刘强 
  * @Date: 2018-10-11 14:03:03 
  * @Last Modified by: 刘强
- * @Last Modified time: 2018-10-11 14:29:50
+ * @Last Modified time: 2018-10-11 14:52:25
  */
 
 module TECSCore
 {
+	//NOTE: 常量定义
+
 	//NOTE: 枚举定义
 
 	/** 势力类型 */
@@ -40,7 +42,39 @@ module TECSCore
 		Friendly
 	}
 
-	//NOTE: 常量定义
+	/** 单位静态特征 */
+	export enum TUnitStaticAttributes
+	{
+		/** 无 */
+		None = 0,
+		/** 地面 */
+		Ground = 1 << 0,
+		/** 空中 */
+		Air = 1 << 1,
+		/** 水面 */
+		Water = 1 << 2,
+		/** 机械 */
+		Machine = 1 << 2,
+		/** 生物 */
+		Biology = 1 << 3,
+		/** 物品 */
+		Goods = 1 << 4,
+		/** 投射物 */
+		Projectile = 1 << 5
+	}
+
+	/** 单位动态特征 */
+	export enum TUnitDynamicAttributes
+	{
+		/** 无 */
+		None = 0,
+		/** 活的 */
+		Alive = 1 << 0,
+		/** 死的 */
+		Dead = 1 << 1,
+		/** 无敌的 */
+		Invincible = 1 << 2
+	}
 
 	//NOTE: 类型定义
 
