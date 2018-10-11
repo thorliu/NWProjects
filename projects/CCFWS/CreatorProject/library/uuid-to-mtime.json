@@ -42,57 +42,47 @@
   "ba4cca60-3dd6-4b4f-bdd0-da6907f915fb": {
     "asset": 1533032966518,
     "meta": 1533110381367,
-    "relativePath": "resources/anim/scene/LoadingScene.fire"
-  },
-  "033cc917-031a-47eb-8184-984dc1e2a5b1": {
-    "asset": 1531884086963,
-    "meta": 1531295162407,
-    "relativePath": "resources"
+    "relativePath": "common/scene/LoadingScene.fire"
   },
   "02656987-7716-47be-a85d-5a62418e2e33": {
     "asset": 1533110366545,
     "meta": 1531295193919,
-    "relativePath": "resources/anim/prefab"
+    "relativePath": "common/prefab"
   },
   "b7c77d71-ffa1-4f63-b697-8bb0d16db100": {
     "asset": 1531295208848,
     "meta": 1531295208850,
-    "relativePath": "resources/anim/audio"
+    "relativePath": "common/audio"
   },
   "54e24635-24ba-4469-ab4e-f41c9835ff47": {
     "asset": 1533021362870,
     "meta": 1531295214305,
-    "relativePath": "resources/anim/font"
+    "relativePath": "common/font"
   },
   "83496eea-827b-4429-8ca2-684109819658": {
-    "asset": 1533021383673,
+    "asset": 1533112229134,
     "meta": 1531295272949,
-    "relativePath": "resources/anim/texture"
-  },
-  "4e6575a1-34a4-4979-a302-d9897d114e2d": {
-    "asset": 1533103927733,
-    "meta": 1531295306218,
-    "relativePath": "resources/anim/spine"
+    "relativePath": "common/texture"
   },
   "0cec4630-d28a-41fb-b948-c083f88b586c": {
     "asset": 1533110381361,
     "meta": 1531295312230,
-    "relativePath": "resources/anim/scene"
+    "relativePath": "common/scene"
   },
   "889430cd-aa46-40b9-8447-f25b02d0bfc4": {
-    "asset": 1531295477720,
+    "asset": 1533111005701,
     "meta": 1531295477720,
-    "relativePath": "resources/anim"
+    "relativePath": "common"
   },
   "bf78bc05-ab23-468b-84f3-8e0bb64010db": {
-    "asset": 1533110384671,
-    "meta": 1533110384676,
-    "relativePath": "resources/anim/scene/TestScene.fire"
+    "asset": 1533121626983,
+    "meta": 1533121626991,
+    "relativePath": "common/scene/TestScene.fire"
   },
   "744a7a1e-c0c3-435b-8c15-e11c839f14f6": {
-    "asset": 1533024737737,
+    "asset": 1533120246615,
     "meta": 1531884085241,
-    "relativePath": "resources/anim/scripts"
+    "relativePath": "common/scripts"
   },
   "71561142-4c83-4933-afca-cb7a17f67053": {
     "asset": 1532940502000,
@@ -282,151 +272,221 @@
   "07d32aa8-c30d-434b-8c4d-fefbcf59a2cf": {
     "asset": 1533029598084,
     "meta": 1533024737731,
-    "relativePath": "resources/anim/scripts/fws"
+    "relativePath": "common/scripts/fws"
   },
   "ac3053a4-7ea3-4769-a565-99c8a349cb9b": {
     "asset": 1533029598083,
     "meta": 1533024737731,
-    "relativePath": "resources/anim/scripts/fws/core"
+    "relativePath": "common/scripts/fws/core"
   },
   "e54c36d9-6a95-4b50-b088-b0c1533722f5": {
     "asset": 1533024737732,
     "meta": 1533024737732,
-    "relativePath": "resources/anim/scripts/fws/data"
+    "relativePath": "common/scripts/fws/data"
   },
   "6c829ef5-872a-432e-87e0-6eb26529ee82": {
     "asset": 1533103915359,
     "meta": 1533024737733,
-    "relativePath": "resources/anim/scripts/fws/display"
+    "relativePath": "common/scripts/fws/display"
   },
   "89ca39f0-4668-47f6-ae84-700d1893f4d9": {
     "asset": 1533022800313,
     "meta": 1533024738807,
-    "relativePath": "resources/anim/scripts/fws/data/FWSData.ts"
+    "relativePath": "common/scripts/fws/data/FWSData.ts"
   },
   "eadf4e8b-c5f0-424b-be0e-422f22963548": {
     "asset": 1533024737734,
     "meta": 1533024737733,
-    "relativePath": "resources/anim/scripts/fws/mvc"
+    "relativePath": "common/scripts/fws/mvc"
   },
   "95f078e2-b21f-494e-a067-526e74419eaf": {
     "asset": 1533027895651,
     "meta": 1533024737734,
-    "relativePath": "resources/anim/scripts/fws/net"
+    "relativePath": "common/scripts/fws/net"
   },
   "e4852d14-4a69-449c-b1fd-ddce1b5e4a52": {
     "asset": 1533026075488,
     "meta": 1533024737735,
-    "relativePath": "resources/anim/scripts/fws/utils"
+    "relativePath": "common/scripts/fws/utils"
   },
   "cd88eba8-ac53-4cec-ae2e-82f3c970a74c": {
     "asset": 1533032840890,
     "meta": 1533024737738,
-    "relativePath": "resources/anim/scripts/game"
+    "relativePath": "common/scripts/game"
   },
   "7ff77ea9-1578-4a18-980f-efdf9db5e7d9": {
     "asset": 1533024776931,
     "meta": 1533024755146,
-    "relativePath": "resources/anim/scripts/game/scene"
+    "relativePath": "common/scripts/game/scene"
   },
   "6bdf3aab-9556-403e-93c1-412e26550b42": {
     "asset": 1533025843667,
     "meta": 1533026075751,
-    "relativePath": "resources/anim/scripts/fws/display/FWSComponent.ts"
+    "relativePath": "common/scripts/fws/display/FWSComponent.ts"
   },
   "3ef959d5-aff0-4d21-8139-04010e8062f4": {
     "asset": 1531734464290,
     "meta": 1533026075751,
-    "relativePath": "resources/anim/scripts/fws/utils/HttpUtils.ts"
+    "relativePath": "common/scripts/fws/utils/HttpUtils.ts"
   },
   "7de0ac6e-dc47-4319-9f51-b8f3e5ea534a": {
     "asset": 1533027073071,
     "meta": 1533027075756,
-    "relativePath": "resources/anim/scripts/fws/mvc/FWSMvc.ts"
+    "relativePath": "common/scripts/fws/mvc/FWSMvc.ts"
   },
   "bb1757ff-1727-4c95-8424-d66cc260cce8": {
     "asset": 1533029554578,
     "meta": 1533029598262,
-    "relativePath": "resources/anim/scripts/fws/FWSEnv.ts"
+    "relativePath": "common/scripts/fws/FWSEnv.ts"
   },
   "ec58303b-5517-4743-8d1f-2dc186bfca0c": {
     "asset": 1533029598085,
     "meta": 1533029598084,
-    "relativePath": "resources/anim/scripts/fws/task"
+    "relativePath": "common/scripts/fws/task"
   },
   "3b9b1be8-088b-4b6d-94c1-694a7ad4e125": {
     "asset": 1533028899905,
     "meta": 1533029598383,
-    "relativePath": "resources/anim/scripts/fws/core/FWSCommon.ts"
+    "relativePath": "common/scripts/fws/core/FWSCommon.ts"
   },
   "8ebd7408-f5b1-42ea-8231-4e397571c8ec": {
     "asset": 1533028909883,
     "meta": 1533029598388,
-    "relativePath": "resources/anim/scripts/fws/task/FWSTask.ts"
+    "relativePath": "common/scripts/fws/task/FWSTask.ts"
   },
   "c8b7e59d-ed5e-4125-acc7-1fad4f17b60e": {
     "asset": 1533032779869,
     "meta": 1533032840884,
-    "relativePath": "resources/anim/scripts/game/common"
+    "relativePath": "common/scripts/game/common"
   },
   "df77f98c-7912-4032-9d41-61930417b5cb": {
     "asset": 1533032800405,
     "meta": 1533032840886,
-    "relativePath": "resources/anim/scripts/game/controller"
+    "relativePath": "common/scripts/game/controller"
   },
   "24091f01-5fdd-4e9f-ba81-883f94947cc3": {
     "asset": 1533032785734,
     "meta": 1533032840887,
-    "relativePath": "resources/anim/scripts/game/model"
+    "relativePath": "common/scripts/game/model"
   },
   "30a71474-f1a6-429a-ac95-efd40495275b": {
     "asset": 1533032804945,
     "meta": 1533032840889,
-    "relativePath": "resources/anim/scripts/game/prefab"
+    "relativePath": "common/scripts/game/prefab"
   },
   "5f1cd3f5-4b6d-4df5-ab34-3747c40e64df": {
     "asset": 1533032792437,
     "meta": 1533032840890,
-    "relativePath": "resources/anim/scripts/game/view"
+    "relativePath": "common/scripts/game/view"
   },
   "02e1f237-0583-4f70-9768-70e8d2e095ef": {
     "asset": 1533035984036,
     "meta": 1533036014249,
-    "relativePath": "resources/anim/scripts/fws/display/FWSNodePool.ts"
-  },
-  "4fa8191e-fd52-40e5-98e2-157d74e8a86c": {
-    "asset": 1533092597355,
-    "meta": 1533092614306,
-    "relativePath": "resources/anim/scripts/fws/display/UILayers.ts"
+    "relativePath": "common/scripts/fws/display/FWSNodePool.ts"
   },
   "f79c0a9b-632b-425d-a0be-21b11d5622d9": {
     "asset": 1533092883737,
     "meta": 1533094867608,
-    "relativePath": "resources/anim/scripts/fws/utils/X.ts"
+    "relativePath": "common/scripts/fws/utils/X.ts"
   },
   "26704949-be0e-407b-9296-45013ad8108b": {
     "asset": 1533103915359,
     "meta": 1533103915359,
-    "relativePath": "resources/anim/scripts/fws/display/factory"
+    "relativePath": "common/scripts/fws/display/factory"
   },
   "d50ec02c-3128-46d8-bc53-11c343d73f0c": {
     "asset": 1533103329078,
     "meta": 1533103915539,
-    "relativePath": "resources/anim/scripts/fws/display/factory/FWSDisplayFactoryCore.ts"
+    "relativePath": "common/scripts/fws/display/factory/FWSDisplayFactoryCore.ts"
   },
   "71519c7b-4a19-4ee2-acd3-15032e2672f0": {
     "asset": 1533104704791,
     "meta": 1533104707430,
-    "relativePath": "resources/anim/scripts/fws/net/WebClient.ts"
-  },
-  "13387b36-7a80-4fc9-95e1-0e1e95e8086f": {
-    "asset": 1533107725873,
-    "meta": 1533110290304,
-    "relativePath": "resources/anim/scripts/game/scene/TestScene.ts"
+    "relativePath": "common/scripts/fws/net/WebClient.ts"
   },
   "ecc1e38b-43b7-4559-aaab-ec7aaf5a73f6": {
     "asset": 1533110409988,
     "meta": 1533110409989,
-    "relativePath": "resources/anim/main"
+    "relativePath": "common/main"
+  },
+  "0a95b226-8b6f-4ac9-aec6-a01e0920dd3d": {
+    "asset": 1533111048543,
+    "meta": 1533112380070,
+    "relativePath": "main"
+  },
+  "d766d699-fd13-4d76-a25a-07301347e6bf": {
+    "asset": 1533112229134,
+    "meta": 1533112221492,
+    "relativePath": "main/texture"
+  },
+  "81e282c7-c56e-4182-8c7c-e0ee1e05fbc1": {
+    "asset": 1533111024222,
+    "meta": 1533111024222,
+    "relativePath": "main/scripts"
+  },
+  "88df6cda-d48f-4435-8fa8-b391b79175c0": {
+    "asset": 1533111031853,
+    "meta": 1533111031853,
+    "relativePath": "main/scene"
+  },
+  "ec58e480-13a7-4a32-9141-a285dd1fd55d": {
+    "asset": 1533111038173,
+    "meta": 1533111038174,
+    "relativePath": "main/prefab"
+  },
+  "a3990375-a4f9-416a-b7fd-8218f236f148": {
+    "asset": 1533111046652,
+    "meta": 1533111046653,
+    "relativePath": "main/audio"
+  },
+  "e41ad230-562c-4730-b36f-70a8d4294462": {
+    "asset": 1533094481792,
+    "meta": 1533111113833,
+    "relativePath": "common/texture/beimi_1.png"
+  },
+  "29150457-1095-4c7b-b1af-50c0381998a7": {
+    "asset": 1533110068194,
+    "meta": 1533111113862,
+    "relativePath": "main/texture/beimi_big.png"
+  },
+  "4fa8191e-fd52-40e5-98e2-157d74e8a86c": {
+    "asset": 1533111364898,
+    "meta": 1533111374150,
+    "relativePath": "common/scripts/fws/display/UILayers.ts"
+  },
+  "8a7f0b39-ab31-4e57-a4c9-dade8d2be18a": {
+    "asset": 1533094481792,
+    "meta": 1533111485253,
+    "relativePath": "main/texture/beimi_2.png"
+  },
+  "c2d560da-fe3e-4763-89fa-c58bc56cc453": {
+    "asset": 1533094481792,
+    "meta": 1533111562040,
+    "relativePath": "main/texture/beimi_3.png"
+  },
+  "40b7ba6b-84a8-4474-bc1b-721479740657": {
+    "asset": 1533120664757,
+    "meta": 1533120245762,
+    "relativePath": "common/scripts/pb"
+  },
+  "8650c5b7-5894-421e-8cf1-ee328e9a56be": {
+    "asset": 1533120261446,
+    "meta": 1533120261679,
+    "relativePath": "common/scripts/pb/proto.d.ts"
+  },
+  "a8f9a44c-0498-4618-a26e-c79c085fef59": {
+    "asset": 1533120664755,
+    "meta": 1533120674886,
+    "relativePath": "common/scripts/pb/protobuf.js"
+  },
+  "66991b3c-cc9a-4cb0-8082-39e4c0e13320": {
+    "asset": 1533120763917,
+    "meta": 1533121512652,
+    "relativePath": "common/scripts/pb/proto.js"
+  },
+  "13387b36-7a80-4fc9-95e1-0e1e95e8086f": {
+    "asset": 1533121705099,
+    "meta": 1533121708582,
+    "relativePath": "common/scripts/game/scene/TestScene.ts"
   }
 }

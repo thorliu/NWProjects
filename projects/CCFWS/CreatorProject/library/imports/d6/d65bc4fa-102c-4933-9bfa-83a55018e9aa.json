@@ -1,0 +1,22 @@
+{
+  "__type__": "cc.SpriteFrame",
+  "content": {
+    "name": "beimi_1",
+    "texture": "e41ad230-562c-4730-b36f-70a8d4294462",
+    "atlas": "",
+    "rect": [
+      0,
+      0,
+      1024,
+      1191
+    ],
+    "offset": [
+      0,
+      0
+    ],
+    "originalSize": [
+      1024,
+      1191
+    ]
+  }
+}

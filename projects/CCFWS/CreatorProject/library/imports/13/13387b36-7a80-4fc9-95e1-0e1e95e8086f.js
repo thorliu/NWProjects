@@ -1,25 +1,38 @@
 "use strict";
 cc._RF.push(module, '13387s2eoBPyZXhDh6V6Ahv', 'TestScene');
-// resources/scripts/game/scene/TestScene.ts
+// common/scripts/game/scene/TestScene.ts
 
 /*
  * 测试场景
  * @Author: 刘强
  * @Date: 2018-07-31 16:14:10
  * @Last Modified by: 刘强
- * @Last Modified time: 2018-08-01 15:15:23
+ * @Last Modified time: 2018-08-01 19:08:24
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 var _a = cc._decorator, ccclass = _a.ccclass, property = _a.property;
 var FWSComponent = require("../../fws/display/FWSComponent");
-var UILayers = require("../../fws/display/UILayers");
+var proto = require("../../pb/proto");
+// import UILayers = require('../../fws/display/UILayers');
 var TestScene = /** @class */ (function (_super) {
     __extends(TestScene, _super);
     function TestScene() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
-    TestScene.prototype.start = function () {
-        this.node.addChild(UILayers.ui);
+    TestScene.prototype.onEnable = function () {
+        _super.prototype.onEnable.call(this);
+        //NOTE: PB
+        debugger;
+        var pb_obj = proto.TestMsgA.create({
+            A: "Hello",
+            B: 2,
+            C: 2,
+            D: true
+        });
+        var pb_encode = proto.TestMsgA.encode(pb_obj).finish();
+        var pb_decode = proto.TestMsgA.decode(pb_encode);
+        debugger;
+        // this.node.addChild(UILayers.ui);
         //NOTE: HTTP请求 
         // WebClient.get("https://www.baidu.com", {}, this, 
         // (res) => {

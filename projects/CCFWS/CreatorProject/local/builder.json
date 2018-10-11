@@ -1,10 +1,10 @@
 {
-  "androidStudio": true,
+  "actualPlatform": "Wechat Game",
   "apiLevel": "",
   "appABIs": [],
   "buildPath": "./build",
   "debug": false,
-  "includeEruda": false,
+  "embedWebDebugger": false,
   "keystoreAlias": "",
   "keystoreAliasPassword": "",
   "keystorePassword": "",
@@ -12,7 +12,7 @@
   "platform": "wechatgame",
   "previewHeight": "720",
   "previewWidth": "1280",
-  "sourceMaps": true,
+  "sourceMaps": false,
   "template": "link",
   "useDebugKeystore": true,
   "vsVersion": "auto"

@@ -14,18 +14,12 @@
   "design-resolution-height": 640,
   "design-resolution-width": 960,
   "excluded-modules": [
-    "TiledMap",
-    "PageView",
-    "PageViewIndicator",
-    "VideoPlayer",
-    "WebView",
     "MotionStreak",
     "Collider",
     "Graphics",
     "DragonBones",
     "Physics",
     "StudioComponent",
-    "Chipmunk",
     "Camera",
     "Intersection",
     "Native NetWork"
@@ -41,6 +35,5 @@
     "width": 960
   },
   "use-customize-simulator": false,
-  "use-project-simulator-setting": false,
-  "start-scene": "current"
+  "use-project-simulator-setting": false
 }

@@ -81,13 +81,15 @@
         }
 
         var onStart = function () {
+            cc.loader.downloader._subpackages = settings.subpackages;
+
+            if (false) {
+                BK.Script.loadlib();
+            }
+
             cc.view.resizeWithBrowserSize(true);
 
             if (!true && !false) {
-                // UC browser on many android devices have performance issue with retina display
-                if (cc.sys.os !== cc.sys.OS_ANDROID || cc.sys.browserType !== cc.sys.BROWSER_TYPE_UC) {
-                    cc.view.enableRetina(true);
-                }
                 if (cc.sys.isBrowser) {
                     setLoadingDisplay();
                 }
@@ -108,7 +110,7 @@
                 }
 
                 // Limit downloading max concurrent task to 2,
-                // more tasks simultaneously may cause performance draw back on some android system / brwosers.
+                // more tasks simultaneously may cause performance draw back on some android system / browsers.
                 // You can adjust the number based on your own test result, you have to set it before any loading process to take effect.
                 if (cc.sys.isBrowser && cc.sys.os === cc.sys.OS_ANDROID) {
                     cc.macro.DOWNLOAD_MAX_CONCURRENT = 2;
@@ -150,11 +152,7 @@
         // jsList
         var jsList = settings.jsList;
 
-        if (false) {
-            BK.Script.loadlib();
-        }
-        else
-        {
+        if (!false) {
             var bundledScript = settings.debug ? 'src/project.dev.js' : 'src/project.js';
             if (jsList) {
                 jsList = jsList.map(function (x) {
@@ -204,6 +202,7 @@
 
     if (true) {
         require(window._CCSettings.debug ? 'cocos2d-js.js' : 'cocos2d-js-min.js');
+        require('./libs/weapp-adapter/engine/index.js');
         var prevPipe = cc.loader.md5Pipe || cc.loader.assetLoader;
         cc.loader.insertPipeAfter(prevPipe, wxDownloader);
         boot();
@@ -228,7 +227,9 @@
         var engineLoaded = function () {
             document.body.removeChild(cocos2d);
             cocos2d.removeEventListener('load', engineLoaded, false);
-            window.eruda && eruda.init() && eruda.get('console').config.set('displayUnenumerable', false);
+            if (typeof VConsole !== 'undefined') {
+                window.vConsole = new VConsole();
+            }
             boot();
         };
         cocos2d.addEventListener('load', engineLoaded, false);

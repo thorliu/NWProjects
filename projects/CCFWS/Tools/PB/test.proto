@@ -1,0 +1,19 @@
+enum TestEnum {
+	A = 1;
+	B = 100; 
+	C = 101;
+}
+
+message TestMsgA {
+	required string A = 1;
+	required int32 B = 2;
+	required double C = 3;
+	required bool D = 4;
+	optional uint32 E = 5;
+}
+
+message TestMsgB {
+	required int32 id = 1;
+	optional TestMsgA msg = 2;
+	repeated int32 nums = 3;
+}
