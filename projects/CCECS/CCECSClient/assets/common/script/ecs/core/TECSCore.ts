@@ -3,7 +3,7 @@
  * @Author: 刘强 
  * @Date: 2018-10-11 14:03:03 
  * @Last Modified by: 刘强
- * @Last Modified time: 2018-10-11 14:52:25
+ * @Last Modified time: 2018-10-11 16:01:19
  */
 
 module TECSCore
@@ -103,10 +103,19 @@ module TECSCore
 
 	//NOTE: 接口定义
 
-	/** 统一的tick接口 */
-	export interface ITicker
+	/** 单位接口 */
+	export interface IUnitComponent
 	{
-		onEcsTicker(d: number): void
+		/** 唯一标识 */
+		key:string,
+		/** 所属单位 */
+		unit:any,
+		/** tick逻辑 */
+		onTick(d:number):void;
+		/** 建立绑定时 */
+		onBind():void;
+		/** 解除绑定时 */
+		onUnbind():void;
 	}
 }
 
