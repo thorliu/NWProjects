@@ -2,7 +2,7 @@
  * @Author: 刘强 
  * @Date: 2018-10-12 13:20:20 
  * @Last Modified by: 刘强
- * @Last Modified time: 2018-10-12 13:38:12
+ * @Last Modified time: 2018-10-12 13:52:34
  */
 
 import TConfigCore = require('./TConfigCore');
@@ -41,6 +41,7 @@ module TConfigManager
 	/** 所有武器配置 */
 	export const weapons: { [key: string]: TConfigCore.TWeaponConfigData } = {
 		"weapon_tank_0": {
+			findTargetFilter: {},
 			effects: ["effect_damage_tank_default"]
 		}
 	};
@@ -48,6 +49,7 @@ module TConfigManager
 	/** 所有效果配置 */
 	export const effects: { [key: string]: TConfigCore.TEffectConfigData } = {
 		"effect_damage_tank_default": {
+			effectTargetFilter: {},
 			amounts: [1]
 		}
 	};
