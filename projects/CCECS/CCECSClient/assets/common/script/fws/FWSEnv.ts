@@ -3,7 +3,7 @@
  * @Author: 刘强 
  * @Date: 2018-07-31 15:20:34 
  * @Last Modified by: 刘强
- * @Last Modified time: 2018-10-12 10:14:50
+ * @Last Modified time: 2018-10-12 11:07:54
  */
 
 module FWSEnv
@@ -11,7 +11,7 @@ module FWSEnv
 	// NOTE: 基础参数
 
 	/** 版本号 */
-	export const APP_VER: string = "1.0.10";
+	export const APP_VER: string = "0.1.0";
 	export const TEST_VER: string = "";
 	/** 是否使用生产环境 */
 	export const PROD: boolean = false;	//CC_BUILD;// && !CC_DEBUG;
@@ -26,7 +26,7 @@ module FWSEnv
 		"http://10.1.5.232:8081"; 
 
 	/** 远程资源地址 */ 
-	export var RES_BASE_URL: string = PROD ?
+	export var RES_BASE_URL: string = PROD ? 
 		//正式环境(坦克也是这个地址，别动)
 		"https://ssllcdn.rivergame.net/tank/" + APP_VER :
 		//"https://www.blah.com/"+APP_VER :	

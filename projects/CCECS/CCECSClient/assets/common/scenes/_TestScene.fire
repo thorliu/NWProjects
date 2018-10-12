@@ -63,7 +63,7 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 5
+        "__id__": 6
       }
     ],
     "_prefab": null,
@@ -105,7 +105,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Label",
+    "_name": "Sprite",
     "_objFlags": 0,
     "_parent": {
       "__id__": 2
@@ -116,10 +116,13 @@
     "_components": [
       {
         "__id__": 4
+      },
+      {
+        "__id__": 5
       }
     ],
     "_prefab": null,
-    "_id": "9aeQq0HkZKcY2QaII33ClA",
+    "_id": "59rJ0okFxFTbIT+zkue4FM",
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
@@ -136,8 +139,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 118,
-      "height": 70
+      "width": 32,
+      "height": 32
     },
     "_rotationX": 0,
     "_rotationY": 0,
@@ -156,28 +159,47 @@
     "groupIndex": 0
   },
   {
-    "__type__": "cc.Label",
+    "__type__": "cc.Sprite",
     "_name": "",
     "_objFlags": 0,
     "node": {
       "__id__": 3
     },
     "_enabled": true,
-    "_useOriginalSize": false,
-    "_actualFontSize": 50,
-    "_fontSize": 50,
-    "_lineHeight": 70,
-    "_enableWrapText": true,
-    "_N$file": {
-      "__uuid__": "907b8e06-b32f-4e25-acdc-73e30cd247cd"
+    "_spriteFrame": {
+      "__uuid__": "f1375dcb-f577-4b8f-8990-3d143ab9f84c"
     },
-    "_isSystemFontUsed": false,
-    "_spacingX": 0,
-    "_N$string": "Label",
-    "_N$horizontalAlign": 1,
-    "_N$verticalAlign": 1,
-    "_N$fontFamily": "Arial",
-    "_N$overflow": 0
+    "_type": 0,
+    "_sizeMode": 2,
+    "_fillType": 0,
+    "_fillCenter": {
+      "__type__": "cc.Vec2",
+      "x": 0,
+      "y": 0
+    },
+    "_fillStart": 0,
+    "_fillRange": 0,
+    "_isTrimmedMode": false,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
+    "_atlas": {
+      "__uuid__": "c63b3ddb-ac7b-43f6-8ad5-671b2627f437"
+    }
+  },
+  {
+    "__type__": "cf69dBzATNLR5mc3F/gMcAq",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 3
+    },
+    "_enabled": true,
+    "texture": "texture/main",
+    "frame": "big_explosion_{0}",
+    "firstFrame": 1,
+    "lastFrame": 5,
+    "loopCount": 0,
+    "fps": 15
   },
   {
     "__type__": "cc.Canvas",

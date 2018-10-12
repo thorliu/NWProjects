@@ -2,8 +2,11 @@
  * @Author: 刘强 
  * @Date: 2018-10-11 21:19:01 
  * @Last Modified by: 刘强
- * @Last Modified time: 2018-10-12 09:54:55
+ * @Last Modified time: 2018-10-12 11:17:34
  */
+
+import FWSTool = require('../../fws/utils/FWSTool');
+import FWSAssertCaches = require('../../fws/display/factory/FWSAssertCaches');
 
 
 module TDisplayCore
@@ -28,6 +31,11 @@ module TDisplayCore
 
 		//------
 
+		public finishCallback:Function;
+		public finishCallbackTarget:any;
+
+		//------
+
 		/** 图片 */
 		protected sprite: cc.Sprite;
 		/** 上次更新时间 */
@@ -38,9 +46,6 @@ module TDisplayCore
 		protected loopCounter: number = 0;
 
 		//------
-
-		
-
 
 		/** 构造 */
 		constructor(
@@ -74,6 +79,11 @@ module TDisplayCore
 		/** 完成时 */
 		protected finish(): void
 		{
+			this.sprite.node.removeFromParent();
+			if(this.finishCallback)
+			{
+				this.finishCallback.call(this.finishCallbackTarget, this.sprite);
+			}
 		}
 
 		/** 更新到下一帧 */
@@ -101,6 +111,10 @@ module TDisplayCore
 			}
 
 			console.log(this.currentFrame);
+			var frameName:string = FWSTool.Str.format(this.frame, this.currentFrame);
+			var spriteFrame:cc.SpriteFrame = FWSAssertCaches.getSpriteFrame(frameName, this.texture);
+			this.sprite.spriteFrame = spriteFrame;
+
 		}
 
 		/** 开始 */
