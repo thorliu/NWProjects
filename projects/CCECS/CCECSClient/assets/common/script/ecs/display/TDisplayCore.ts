@@ -2,7 +2,7 @@
  * @Author: 刘强 
  * @Date: 2018-10-11 21:19:01 
  * @Last Modified by: 刘强
- * @Last Modified time: 2018-10-12 11:17:34
+ * @Last Modified time: 2018-10-12 11:28:16
  */
 
 import FWSTool = require('../../fws/utils/FWSTool');
@@ -31,8 +31,8 @@ module TDisplayCore
 
 		//------
 
-		public finishCallback:Function;
-		public finishCallbackTarget:any;
+		public finishCallback: Function;
+		public finishCallbackTarget: any;
 
 		//------
 
@@ -80,7 +80,7 @@ module TDisplayCore
 		protected finish(): void
 		{
 			this.sprite.node.removeFromParent();
-			if(this.finishCallback)
+			if (this.finishCallback)
 			{
 				this.finishCallback.call(this.finishCallbackTarget, this.sprite);
 			}
@@ -110,11 +110,14 @@ module TDisplayCore
 				this.currentFrame = this.firstFrame;
 			}
 
-			console.log(this.currentFrame);
-			var frameName:string = FWSTool.Str.format(this.frame, this.currentFrame);
-			var spriteFrame:cc.SpriteFrame = FWSAssertCaches.getSpriteFrame(frameName, this.texture);
-			this.sprite.spriteFrame = spriteFrame;
+			this.updateFrame();
+		}
 
+		protected updateFrame(): void
+		{
+			var frameName: string = FWSTool.Str.format(this.frame, this.currentFrame);
+			var spriteFrame: cc.SpriteFrame = FWSAssertCaches.getSpriteFrame(frameName, this.texture);
+			this.sprite.spriteFrame = spriteFrame;
 		}
 
 		/** 开始 */

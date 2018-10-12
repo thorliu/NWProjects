@@ -2,7 +2,7 @@
  * @Author: 刘强 
  * @Date: 2018-10-11 20:49:24 
  * @Last Modified by: 刘强
- * @Last Modified time: 2018-10-12 10:55:54
+ * @Last Modified time: 2018-10-12 11:27:20
  */
 
 const { ccclass, property } = cc._decorator;
@@ -39,6 +39,7 @@ export default class TDisplayAnimate extends cc.Component
 
 	protected anim:TDisplayCore.TFrameAnimateDelegate;
 	protected sprite:cc.Sprite;
+
 
 	public onLoad():void
 	{
