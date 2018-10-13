@@ -3,7 +3,7 @@
  * @Author: 刘强 
  * @Date: 2018-09-09 16:04:08 
  * @Last Modified by: 刘强
- * @Last Modified time: 2018-10-12 11:03:54
+ * @Last Modified time: 2018-10-13 09:53:32
  */
 
 const { ccclass, property } = cc._decorator;
@@ -68,7 +68,8 @@ export default class LoadingComponent extends cc.Component
 		FWSAssertCaches.SpriteAtlasCaches.get("texture/main").getTexture().setAliasTexParameters();
 
 		
-		var sceneName: string = "_TestScene";
+		// var sceneName: string = "_TestScene";
+		var sceneName: string = "GameScene";
 
 		cc.director.preloadScene(sceneName, function ()
 		{
