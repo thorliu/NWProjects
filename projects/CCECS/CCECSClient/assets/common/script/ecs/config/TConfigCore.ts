@@ -2,7 +2,7 @@
  * @Author: 刘强 
  * @Date: 2018-10-11 18:20:11 
  * @Last Modified by: 刘强
- * @Last Modified time: 2018-10-12 14:01:34
+ * @Last Modified time: 2018-10-13 13:30:58
  */
 
 import TECSCore = require('../core/TECSCore');
@@ -43,14 +43,20 @@ module TConfigCore
 
 	/** 单位基础配置 (Unit_#) */
 	export type TUnitConfigData = {
+		/** 单位特征 */
+		attributes?: TECSCore.TUnitStaticAttributes,
 		/** 生命值 */
 		hp?: number,
 		/** 能量值 */
 		mp?: number,
 		/** 预制体 */
 		prefab?: string,
+		/** 速度 */
+		speed?: number,
 		/** 武器/主动能力 */
 		weapons?: string[] //id;id;id
+		/** 被动能力 */
+		abilities?: string[]
 	};
 
 	/** 关卡模式 */

@@ -2,17 +2,23 @@
  * @Author: 刘强 
  * @Date: 2018-10-12 13:44:46 
  * @Last Modified by: 刘强
- * @Last Modified time: 2018-10-13 09:50:59
+ * @Last Modified time: 2018-10-13 13:46:41
  */
 
 const { ccclass, property } = cc._decorator;
+import TGameFactory = require('../config/TGameFactory');
+import TUnit = require('../core/TUnit');
+import TGame = require('../core/TGame');
+import TDisplayFacade = require('../core/TDisplayFacade');
+
+
 
 @ccclass
 export default class TStageDisplayComponent extends cc.Component
 {
 	/** 容器 */
 	@property(cc.Node)
-	public container:cc.Node = null;
+	public container: cc.Node = null;
 
 	/** 背景 */
 	@property(cc.Node)
@@ -37,4 +43,15 @@ export default class TStageDisplayComponent extends cc.Component
 	/** 投射物 */
 	@property(cc.Node)
 	public projectile: cc.Node = null;
+
+	//测试代码
+	public onEnable(): void
+	{
+		TDisplayFacade.stageDisplayComponent = this;
+
+		var id: string = "unit_tank_0";
+		var unit: TUnit = TGameFactory.createUnit(id, TGame.getInstance().stage.forces[0].players[0]);
+
+		TGame.getInstance().stage.add(unit);
+	}
 }

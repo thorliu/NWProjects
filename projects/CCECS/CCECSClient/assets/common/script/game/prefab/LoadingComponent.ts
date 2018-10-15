@@ -3,7 +3,7 @@
  * @Author: 刘强 
  * @Date: 2018-09-09 16:04:08 
  * @Last Modified by: 刘强
- * @Last Modified time: 2018-10-13 09:53:32
+ * @Last Modified time: 2018-10-13 11:39:10
  */
 
 const { ccclass, property } = cc._decorator;
@@ -102,6 +102,9 @@ export default class LoadingComponent extends cc.Component
 		var items: any[] = [
 			{ type: cc.SpriteAtlas, key: "texture/main" },
 			{ type: cc.BitmapFont, key: "font/BMFDebug" },
+
+			//prefabs
+			{ type: cc.Prefab, key: "prefab/game/PrefabTank0"}
 		];
 
 		for (var i: number = 0; i < items.length; i++)

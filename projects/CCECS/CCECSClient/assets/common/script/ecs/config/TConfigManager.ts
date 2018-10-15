@@ -2,7 +2,7 @@
  * @Author: 刘强 
  * @Date: 2018-10-12 13:20:20 
  * @Last Modified by: 刘强
- * @Last Modified time: 2018-10-12 13:52:34
+ * @Last Modified time: 2018-10-13 11:39:06
  */
 
 import TConfigCore = require('./TConfigCore');
@@ -32,8 +32,9 @@ module TConfigManager
 	/** 所有单位配置 */
 	export const units: { [key: string]: TConfigCore.TUnitConfigData } = {
 		"unit_tank_0": {
+			attributes: TECSCore.TUnitStaticAttributes.Ground | TECSCore.TUnitStaticAttributes.Machine,
 			hp: 1,
-			prefab: "PrefabTank0",
+			prefab: "prefab/game/PrefabTank0",
 			weapons: ["weapon_tank_0"]
 		}
 	};

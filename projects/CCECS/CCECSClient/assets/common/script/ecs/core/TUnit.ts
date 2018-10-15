@@ -3,7 +3,7 @@
  * @Author: 刘强 
  * @Date: 2018-10-11 14:05:39 
  * @Last Modified by: 刘强
- * @Last Modified time: 2018-10-11 17:49:21
+ * @Last Modified time: 2018-10-13 13:26:01
  */
 
 import TECSCore = require('./TECSCore');
@@ -31,6 +31,9 @@ class TUnit
 
     /** 已绑定的组件 */
     private _components: { [key: string]: TECSCore.IUnitComponent };
+
+    /** 显示对象节点 */
+    public node:cc.Node = null;
 
     /**
      * 构造
