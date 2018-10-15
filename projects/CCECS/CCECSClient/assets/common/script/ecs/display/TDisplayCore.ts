@@ -2,7 +2,7 @@
  * @Author: 刘强 
  * @Date: 2018-10-11 21:19:01 
  * @Last Modified by: 刘强
- * @Last Modified time: 2018-10-12 11:28:16
+ * @Last Modified time: 2018-10-15 14:41:07
  */
 
 import FWSTool = require('../../fws/utils/FWSTool');
@@ -28,6 +28,7 @@ module TDisplayCore
 		public texture: string = "";
 		/** 帧名 */
 		public frame: string = "";
+
 
 		//------
 
@@ -55,7 +56,7 @@ module TDisplayCore
 			firstFrame: number,
 			lastFrame: number,
 			loopCount: number,
-			fps: number
+			fps: number,
 		)
 		{
 			this.sprite = s;

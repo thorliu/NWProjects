@@ -3,7 +3,7 @@
  * @Author: 刘强 
  * @Date: 2018-10-11 14:03:03 
  * @Last Modified by: 刘强
- * @Last Modified time: 2018-10-11 18:49:28
+ * @Last Modified time: 2018-10-15 13:58:43
  */
 
 module TECSCore
@@ -11,6 +11,17 @@ module TECSCore
 	//NOTE: 常量定义
 
 	//NOTE: 枚举定义
+
+	/** 移动方式 */
+	export enum UnitMoverType
+	{
+		/** 无 */
+		None,
+		/** 步行 */
+		Walk,
+		/** 飞行 */
+		Fly
+	}
 
 	/** 单位显示状态 */
 	export enum UnitDisplayStates

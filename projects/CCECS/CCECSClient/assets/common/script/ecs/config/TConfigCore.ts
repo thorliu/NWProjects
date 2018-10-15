@@ -2,7 +2,7 @@
  * @Author: 刘强 
  * @Date: 2018-10-11 18:20:11 
  * @Last Modified by: 刘强
- * @Last Modified time: 2018-10-13 13:30:58
+ * @Last Modified time: 2018-10-15 13:59:39
  */
 
 import TECSCore = require('../core/TECSCore');
@@ -53,6 +53,8 @@ module TConfigCore
 		prefab?: string,
 		/** 速度 */
 		speed?: number,
+		/** 移动方式 */
+		move?: TECSCore.UnitMoverType
 		/** 武器/主动能力 */
 		weapons?: string[] //id;id;id
 		/** 被动能力 */

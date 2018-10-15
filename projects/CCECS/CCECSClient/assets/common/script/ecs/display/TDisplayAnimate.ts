@@ -1,8 +1,9 @@
 /*
+ * 简单动画组件
  * @Author: 刘强 
  * @Date: 2018-10-11 20:49:24 
  * @Last Modified by: 刘强
- * @Last Modified time: 2018-10-12 11:27:20
+ * @Last Modified time: 2018-10-15 14:36:13
  */
 
 const { ccclass, property } = cc._decorator;

@@ -3,7 +3,7 @@
  * @Author: 刘强 
  * @Date: 2018-10-11 19:03:30 
  * @Last Modified by: 刘强
- * @Last Modified time: 2018-10-15 13:28:37
+ * @Last Modified time: 2018-10-15 13:46:59
  */
 
 import TECSCore = require('../core/TECSCore');
@@ -125,9 +125,10 @@ class TUnitMover extends TUnitComponentAbstract
 	public onTick(d: number): void
 	{
 		if (!this.entity) return;
+		
+		// console.log(this.entity.direct, this.entity.pos, this.delegate);
 
 		//TODO: 实现逻辑
-		// console.log(this.entity.direct, this.entity.pos, this.delegate);
 	}
 }
 

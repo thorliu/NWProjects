@@ -3,7 +3,7 @@
  * @Author: 刘强 
  * @Date: 2018-09-09 16:04:08 
  * @Last Modified by: 刘强
- * @Last Modified time: 2018-10-15 11:48:11
+ * @Last Modified time: 2018-10-15 13:41:17
  */
 
 const { ccclass, property } = cc._decorator;
@@ -37,10 +37,7 @@ export default class LoadingComponent extends cc.Component
 	/** 开始 */
 	public onEnable(): void
 	{
-		if (this.lblVersion)
-		{
-			this.lblVersion.string = "VER " + FWSEnv.APP_VER;
-		}
+		if (this.lblVersion) this.lblVersion.string = "VER " + FWSEnv.APP_VER;
 
 		this.taskList.begin();
 	}
