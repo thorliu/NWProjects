@@ -3,7 +3,7 @@
  * @Author: 刘强 
  * @Date: 2018-10-11 14:05:39 
  * @Last Modified by: 刘强
- * @Last Modified time: 2018-10-13 13:26:01
+ * @Last Modified time: 2018-10-15 13:27:01
  */
 
 import TECSCore = require('./TECSCore');
@@ -62,6 +62,30 @@ class TUnit
         }
     }
 
+    public onBind():void
+    {
+        for (var k in this._components)
+        {
+            var c: TECSCore.IUnitComponent = this._components[k];
+            if (c)
+            {
+                c.onBind();
+            }
+        }
+    }
+
+    public onUnbind():void
+    {
+        for (var k in this._components)
+        {
+            var c: TECSCore.IUnitComponent = this._components[k];
+            if (c)
+            {
+                c.onUnbind();
+            }
+        }
+    }
+
     /** 获取指定的组件 */
     public getComponent(name: string): TECSCore.IUnitComponent
     {
@@ -74,7 +98,7 @@ class TUnit
         if (this._components[component.key]) return;
         this._components[component.key] = component;
         component.unit = this;
-        component.onBind();
+        
     }
 
     /** 移除组件 */
@@ -85,7 +109,6 @@ class TUnit
         if (c)
         {
             this._components[key] = undefined;
-            c.onUnbind();
             c.unit = undefined;
         }
     }

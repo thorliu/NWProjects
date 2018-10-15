@@ -3,11 +3,14 @@
  * @Author: 刘强 
  * @Date: 2018-10-11 19:03:30 
  * @Last Modified by: 刘强
- * @Last Modified time: 2018-10-11 19:14:21
+ * @Last Modified time: 2018-10-15 13:28:37
  */
 
 import TECSCore = require('../core/TECSCore');
 import TUnitComponentAbstract = require('../core/TUnitComponentAbstract');
+import TUnitEntity = require('./TUnitEntity');
+import TUnitDelegateComponent = require('../core/TUnitDelegateComponent');
+
 
 class TUnitMover extends TUnitComponentAbstract
 {
@@ -101,8 +104,30 @@ class TUnitMover extends TUnitComponentAbstract
 		return "TUnitMover";
 	}
 
+
+	//----
+
+	protected entity: TUnitEntity;
+	protected delegate: TUnitDelegateComponent.default;
+
+	public onBind(): void
+	{
+		this.entity = this.unit.getComponent("TUnitEntity") as TUnitEntity;
+		this.delegate = this.unit.getComponent("TUnitDelegateComponent") as TUnitDelegateComponent.default;
+	}
+
+	public onUnbind(): void
+	{
+		this.entity = null;
+		this.delegate = null;
+	}
+
 	public onTick(d: number): void
 	{
+		if (!this.entity) return;
+
+		//TODO: 实现逻辑
+		// console.log(this.entity.direct, this.entity.pos, this.delegate);
 	}
 }
 

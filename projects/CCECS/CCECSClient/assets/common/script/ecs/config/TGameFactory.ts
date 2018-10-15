@@ -2,7 +2,7 @@
  * @Author: 刘强 
  * @Date: 2018-10-12 13:19:08 
  * @Last Modified by: 刘强
- * @Last Modified time: 2018-10-13 13:47:12
+ * @Last Modified time: 2018-10-15 11:52:42
  */
 
 import TECSCore = require('../core/TECSCore');
@@ -19,6 +19,7 @@ import TUnitMover = require('../components/TUnitMover');
 import TUnitWeapon = require('../components/TUnitWeapon');
 import TUnitAbility = require('../components/TUnitAbility');
 import TStage = require('../core/TStage');
+import TUnitEntity = require('../components/TUnitEntity');
 
 
 
@@ -152,6 +153,8 @@ module TGameFactory
 		//创建单位
 		var unit: TUnit = new TUnit(id, nextGuid, owner);
 		unit.staticAttributes = cfg.attributes;
+
+		unit.add(new TUnitEntity());
 
 		createHP(unit, cfg);
 		createMP(unit, cfg);

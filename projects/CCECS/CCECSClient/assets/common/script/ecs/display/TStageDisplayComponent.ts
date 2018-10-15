@@ -2,7 +2,7 @@
  * @Author: 刘强 
  * @Date: 2018-10-12 13:44:46 
  * @Last Modified by: 刘强
- * @Last Modified time: 2018-10-13 13:46:41
+ * @Last Modified time: 2018-10-15 10:00:45
  */
 
 const { ccclass, property } = cc._decorator;
@@ -53,5 +53,7 @@ export default class TStageDisplayComponent extends cc.Component
 		var unit: TUnit = TGameFactory.createUnit(id, TGame.getInstance().stage.forces[0].players[0]);
 
 		TGame.getInstance().stage.add(unit);
+
+		window["TEST_UNIT"] = unit;
 	}
 }

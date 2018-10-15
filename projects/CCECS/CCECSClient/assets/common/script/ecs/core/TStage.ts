@@ -2,7 +2,7 @@
  * @Author: 刘强 
  * @Date: 2018-10-11 17:28:20 
  * @Last Modified by: 刘强
- * @Last Modified time: 2018-10-13 13:56:53
+ * @Last Modified time: 2018-10-15 13:28:02
  */
 
 import TECSCore = require('./TECSCore');
@@ -66,6 +66,8 @@ class TStage
 				TDisplayFacade.stageDisplayComponent.ground.addChild(unit.node);
 			}
 		}
+
+		unit.onBind();
 	}
 
 	/** 移除单位 */
@@ -74,6 +76,11 @@ class TStage
 		var i: number = this.units.indexOf(unit);
 		if (i >= 0)
 		{
+			var unit:TUnit = this.units[i];
+			if(unit)
+			{
+				unit.onUnbind();
+			}
 			this.units.splice(i, 1);
 		}
 

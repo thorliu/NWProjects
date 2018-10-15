@@ -3,7 +3,7 @@
  * @Author: 刘强 
  * @Date: 2018-09-09 16:04:08 
  * @Last Modified by: 刘强
- * @Last Modified time: 2018-10-13 11:39:10
+ * @Last Modified time: 2018-10-15 11:48:11
  */
 
 const { ccclass, property } = cc._decorator;
@@ -11,6 +11,8 @@ import FWSTask = require('../../fws/task/FWSTask');
 import LocalAssertLoader = require('../../fws/display/factory/LocalAssertLoader');
 import FWSAssertCaches = require('../../fws/display/factory/FWSAssertCaches');
 import FWSEnv = require('../../fws/FWSEnv');
+import TGame = require('../../ecs/core/TGame');
+
 
 @ccclass
 export default class LoadingComponent extends cc.Component
@@ -67,7 +69,7 @@ export default class LoadingComponent extends cc.Component
 	{
 		FWSAssertCaches.SpriteAtlasCaches.get("texture/main").getTexture().setAliasTexParameters();
 
-		
+		TGame.getInstance();
 		// var sceneName: string = "_TestScene";
 		var sceneName: string = "GameScene";
 
