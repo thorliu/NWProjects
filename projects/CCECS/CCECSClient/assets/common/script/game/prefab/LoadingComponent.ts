@@ -3,7 +3,7 @@
  * @Author: 刘强 
  * @Date: 2018-09-09 16:04:08 
  * @Last Modified by: 刘强
- * @Last Modified time: 2018-10-15 13:41:17
+ * @Last Modified time: 2018-10-15 15:17:25
  */
 
 const { ccclass, property } = cc._decorator;
@@ -54,6 +54,7 @@ export default class LoadingComponent extends cc.Component
 	/** 失败 */
 	protected onTaskError(tasklist: FWSTask.TaskList, task: FWSTask.Task): void
 	{
+		console.error("onTaskError", task);
 		task.reset();
 		setTimeout(() =>
 		{
@@ -103,7 +104,7 @@ export default class LoadingComponent extends cc.Component
 			{ type: cc.BitmapFont, key: "font/BMFDebug" },
 
 			//prefabs
-			{ type: cc.Prefab, key: "prefab/game/PrefabTank0"}
+			{ type: cc.Prefab, key: "prefab/game/PrefabTank0" }
 		];
 
 		for (var i: number = 0; i < items.length; i++)
@@ -113,5 +114,5 @@ export default class LoadingComponent extends cc.Component
 		}
 	}
 
-	
+
 }

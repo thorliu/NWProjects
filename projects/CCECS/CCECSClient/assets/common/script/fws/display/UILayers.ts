@@ -3,7 +3,7 @@
  * @Author: 刘强 
  * @Date: 2018-08-01 10:49:03 
  * @Last Modified by: 刘强
- * @Last Modified time: 2018-09-29 19:42:55
+ * @Last Modified time: 2018-10-15 15:15:37
  */
 
 
@@ -160,6 +160,7 @@ module UILayers
 
 	export function removeSelf():void
 	{
+		if(_nodes) _nodes.ui.destroy();
 		_nodes = null;
 	}
 
