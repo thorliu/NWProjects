@@ -3,13 +3,12 @@
  * @Author: 刘强 
  * @Date: 2018-09-07 18:40:21 
  * @Last Modified by: 刘强
- * @Last Modified time: 2018-10-12 11:09:41
+ * @Last Modified time: 2018-10-17 14:19:48
  */
 
 const { ccclass, property } = cc._decorator;
 import FWS2DUtils = require('../utils/FWS2DUtils');
-//FIXME
-// import FWSJoy = require('../ecs/core/FWSJoy');
+import TJoy = require('../../ecs/core/TJoy');
 
 
 
@@ -19,27 +18,28 @@ export default class FWSJoyComponent extends cc.Component
     //#region 参数
 
     /** 按钮名称 */
-    protected ButtonNames: string[] = ["A"];
+    protected ButtonNames: string[] = ["A", "B", "C", "D"];
 
     /** 按钮直径 */
-    protected ButtonRadius: number = 400 / 2;
+    protected ButtonRadius: number = 100 / 2;
 
     /** 摇杆范围 */
-    protected ThumbRangeRadius: number = 250 / 2;
+    protected ThumbRangeRadius: number = 150 / 2;
 
     /** 是否支持45度角 */
-    protected SupportAngle45: boolean = false;
+    protected SupportAngle45: boolean = true;
 
     /** 是否支持任意斜角 */
-    protected SupportAngleAny: boolean = false;
+    protected SupportAngleAny: boolean = true;
 
     /** 调试模式 */
     protected DebugMode: boolean = CC_DEBUG;
 
     /** 是否支持移动呼出轮盘 */
-    protected AlterableActiveMode:boolean = false;
+    protected AlterableActiveMode: boolean = true;
 
-    protected NeutralOffset:number = 16;
+    /** 屏蔽区域 */
+    protected NeutralOffset: number = 0;
 
     //#endregion
 
@@ -62,17 +62,6 @@ export default class FWSJoyComponent extends cc.Component
     @property(cc.Sprite)
     public buttons: cc.Sprite[] = [];
 
-    @property(cc.Node)
-    public stateNodeN: cc.Node = null;
-
-    @property(cc.Node)
-    public stateNodeE: cc.Node = null;
-
-    @property(cc.Node)
-    public stateNodeS: cc.Node = null;
-
-    @property(cc.Node)
-    public stateNodeW: cc.Node = null;
 
 
     /** 调试信息 */
@@ -119,9 +108,9 @@ export default class FWSJoyComponent extends cc.Component
     {
         this.removeEvents();
 
-        //FIXME
-        // FWSJoy.getInstance().currentAngle = null;
-        // FWSJoy.getInstance().pressedButtons = {};
+        TJoy.direct = null;
+        TJoy.buttons = {};
+
     }
 
     //#endregion
@@ -133,8 +122,8 @@ export default class FWSJoyComponent extends cc.Component
     protected releaseOpacity: number = 160;
     protected pressedOpacity: number = 255;
 
-    protected releaseThumbOpacity:number = 32;
-    protected pressedThumbOpacity:number = 64;
+    protected releaseThumbOpacity: number = 255;
+    protected pressedThumbOpacity: number = 255;
 
     /** 设置按钮显示状态 */
     protected setButtonDisplayState(name: string): void
@@ -160,13 +149,9 @@ export default class FWSJoyComponent extends cc.Component
     /** 设置摇杆显示状态 */
     protected setThumbDisplayState(): void
     {
-        this.stateNodeE.active = this.currentAngle===0;
-        this.stateNodeN.active = this.currentAngle===90;
-        this.stateNodeW.active = this.currentAngle===180;
-        this.stateNodeS.active = this.currentAngle===270;
-
-        if(CC_BUILD) {
-            if(this.leftThumbNode.node) this.leftThumbNode.node.active=false;
+        if (CC_BUILD)
+        {
+            if (this.leftThumbNode.node) this.leftThumbNode.node.active = false;
             return;
         }
 
@@ -180,15 +165,17 @@ export default class FWSJoyComponent extends cc.Component
         else
         {
             this.leftThumbNode.node.opacity = this.pressedThumbOpacity;
-            // var thumbPos: cc.Vec2 = this.leftNode.convertToWorldSpaceAR(cc.Vec2.ZERO);
-            // var dist: number = FWS2DUtils.distance(thumbPos, this.thumbPressedPosition);
-            // dist = Math.min(dist, this.ThumbRangeRadius);
-            // thumbPos = FWS2DUtils.position(thumbPos, this.currentAngle, dist);
-            // thumbPos = this.leftThumbNode.node.parent.convertToNodeSpaceAR(thumbPos);
+            var thumbPos: cc.Vec2 = this.leftNode.convertToWorldSpaceAR(cc.Vec2.ZERO);
+            var dist: number = FWS2DUtils.distance(thumbPos, this.thumbPressedPosition);
+            dist = Math.min(dist, this.ThumbRangeRadius);
+            thumbPos = FWS2DUtils.position(thumbPos, this.currentAngle, dist);
+            thumbPos = this.leftThumbNode.node.parent.convertToNodeSpaceAR(thumbPos);
 
-            // this.leftThumbNode.node.setPosition(thumbPos);
-            var thumbPos = this.leftThumbNode.node.parent.convertToNodeSpaceAR(this.currentPos);
             this.leftThumbNode.node.setPosition(thumbPos);
+
+            
+            // var thumbPos = this.leftThumbNode.node.parent.convertToNodeSpaceAR(this.currentPos);
+            // this.leftThumbNode.node.setPosition(thumbPos);
         }
     }
 
@@ -208,7 +195,7 @@ export default class FWSJoyComponent extends cc.Component
     /** 被按住的按钮 (NAME = ID) */
     protected pressedButtons: any = {};
 
-    protected currentPos:cc.Vec2 = null;
+    protected currentPos: cc.Vec2 = null;
 
     /** 设置按住按钮的状态 */
     protected setPressedButtonState(name: string, id: number, pressed: boolean): void
@@ -217,22 +204,19 @@ export default class FWSJoyComponent extends cc.Component
 
         if (pressed)
         {
-
-            this.trace("+", name);
+            // this.trace("+", name);
             this.pressedButtons[name] = id;
             this.setButtonDisplayState(name);
 
-            //FIXME
-            // FWSJoy.getInstance().pressedButtons[name] = true;
+            TJoy.buttons[name] = new Date().getTime();
         }
         else
         {
-            this.trace("-", name);
+            // this.trace("-", name);
             this.pressedButtons[name] = undefined;
             this.setButtonDisplayState(name);
 
-            //FIXME
-            // FWSJoy.getInstance().pressedButtons[name] = false;
+            TJoy.buttons[name] = undefined;
         }
     }
 
@@ -244,9 +228,8 @@ export default class FWSJoyComponent extends cc.Component
         {
             this.currentAngle = null;
             this.setThumbDisplayState();
-            //FIXME
-            // FWSJoy.getInstance().currentAngle = null;
-            // FWSJoy.getInstance().releaseAngleTimer = new Date().getTime();
+
+            TJoy.direct = null;
             return;
         }
 
@@ -291,7 +274,7 @@ export default class FWSJoyComponent extends cc.Component
 
         var tempPos: cc.Vec2 = new cc.Vec2(this.thumbPressedPosition.x, this.thumbPressedPosition.y);
 
-        
+
 
         //---
 
@@ -323,13 +306,12 @@ export default class FWSJoyComponent extends cc.Component
 
 
 
-        if(Math.abs(thumbPos.x-tempPos.x)>this.NeutralOffset || Math.abs(thumbPos.y-tempPos.y)>this.NeutralOffset) {
+        if (Math.abs(thumbPos.x - tempPos.x) > this.NeutralOffset || Math.abs(thumbPos.y - tempPos.y) > this.NeutralOffset)
+        {
             this.currentAngle = angle;
-        } else {
-            if(this.currentAngle != null) {
-                //FIXME
-                // FWSJoy.getInstance().releaseAngleTimer = new Date().getTime();
-            }
+        } 
+        else
+        {
             this.currentAngle = null;
         }
 
@@ -337,20 +319,13 @@ export default class FWSJoyComponent extends cc.Component
 
 
         //事件
-        //FIXME
-        // FWSJoy.getInstance().currentAngle = this.currentAngle;
-
-        this.trace(Math.floor(angle));
-
-        // this.debug.node.setPosition(this.node.convertToNodeSpaceAR(thumbPos));
+        TJoy.direct = this.currentAngle;
     }
 
     /** 尝试改变按钮状态 */
     protected tryPressedButtonState(pressed: boolean, touchId: number, touchPos: cc.Vec2): void
     {
         if (this.buttons.length !== this.ButtonNames.length) return;
-
-        // if (this.debug) this.debug.node.setPosition(this.node.convertToNodeSpaceAR(touchPos));
 
         //方向操作
         if (!pressed)
@@ -362,7 +337,7 @@ export default class FWSJoyComponent extends cc.Component
                 this.thumbId = undefined;
                 this.thumbPressed = false;
                 this.updateThumbState(touchId, touchPos);
-                this.trace("-", touchId);
+                // this.trace("-", touchId);
 
                 this.leftNode.setPosition(this.defaultThumbPos);
             }
@@ -433,10 +408,10 @@ export default class FWSJoyComponent extends cc.Component
         this.node.on(cc.Node.EventType.TOUCH_CANCEL, this.onTouchCancel, this);
 
         // if (this.DebugMode)
-        {
+        // {
             cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
             cc.systemEvent.on(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp, this);
-        }
+        // }
     }
 
     /** 移除事件 */
@@ -448,10 +423,10 @@ export default class FWSJoyComponent extends cc.Component
         this.node.off(cc.Node.EventType.TOUCH_CANCEL, this.onTouchCancel);
 
         // if (this.DebugMode)
-        {
+        // {
             cc.systemEvent.off(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
             cc.systemEvent.off(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp, this);
-        }
+        // }
     }
 
     /** 按下 */
@@ -515,7 +490,6 @@ export default class FWSJoyComponent extends cc.Component
     /** 有键按下时 */
     protected onKeyDown(e: KeyboardEvent): void
     {
-        this.trace(e.keyCode);
         switch (e.keyCode)
         {
             //方向
@@ -644,6 +618,7 @@ export default class FWSJoyComponent extends cc.Component
             var thumbPos: cc.Vec2 = this.leftNode.convertToWorldSpaceAR(cc.Vec2.ZERO);
             this.thumbPressedPosition = FWS2DUtils.position(thumbPos, angle, this.ThumbRangeRadius * 2);
 
+            if(this.leftThumbNode) this.leftThumbNode.node.setPosition(this.thumbPressedPosition.x, this.thumbPressedPosition.y);
         }
 
         this.leftThumbPressedPos = this.thumbPressedPosition;
@@ -652,20 +627,4 @@ export default class FWSJoyComponent extends cc.Component
 
     //#endregion
 
-    //#region 调试
-    protected logs: any[] = [];
-    protected log(...args: any[]): void
-    {
-        // if (this.logs.length > 10) this.logs.splice(0, 1);
-        // this.logs.push(args.join(" "));
-
-        // if (this.debug) this.debug.string = this.logs.join("\n");
-    }
-
-    protected trace(...args: any[]): void
-    {
-        // if (this.debug) this.debug.string = args.join(" ");
-    }
-    //#endregion
 }
- 
