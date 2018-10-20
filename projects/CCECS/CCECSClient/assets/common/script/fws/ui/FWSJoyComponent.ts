@@ -3,7 +3,7 @@
  * @Author: 刘强 
  * @Date: 2018-09-07 18:40:21 
  * @Last Modified by: 刘强
- * @Last Modified time: 2018-10-17 14:19:48
+ * @Last Modified time: 2018-10-21 01:57:59
  */
 
 const { ccclass, property } = cc._decorator;
@@ -498,6 +498,7 @@ export default class FWSJoyComponent extends cc.Component
                 {
                     this.keyboardPressed[e.keyCode] = true;
                     this.updateThumbByKeyboard();
+                    this.leftNode.setPosition(this.defaultThumbPos);
                 }
                 break;
 

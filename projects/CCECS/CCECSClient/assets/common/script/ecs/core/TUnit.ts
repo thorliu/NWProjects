@@ -3,7 +3,7 @@
  * @Author: 刘强 
  * @Date: 2018-10-11 14:05:39 
  * @Last Modified by: 刘强
- * @Last Modified time: 2018-10-15 13:27:01
+ * @Last Modified time: 2018-10-21 01:45:08
  */
 
 import TECSCore = require('./TECSCore');
@@ -87,9 +87,17 @@ class TUnit
     }
 
     /** 获取指定的组件 */
-    public getComponent(name: string): TECSCore.IUnitComponent
+    public getComponent(name: string | TECSCore.UnitComponentKeys): TECSCore.IUnitComponent
     {
-        return this._components[name];
+        if(typeof(name)==="string")
+        {
+            return this._components[name];
+        }
+        else
+        {
+            return this._components[TECSCore.UnitComponentKeys[name]];
+        }
+        
     }
 
     /** 添加组件 */

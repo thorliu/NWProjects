@@ -3,7 +3,7 @@
  * @Author: 刘强 
  * @Date: 2018-10-11 19:03:30 
  * @Last Modified by: 刘强
- * @Last Modified time: 2018-10-15 13:46:59
+ * @Last Modified time: 2018-10-21 01:53:13
  */
 
 import TECSCore = require('../core/TECSCore');
@@ -14,6 +14,9 @@ import TUnitDelegateComponent = require('../core/TUnitDelegateComponent');
 
 class TUnitMover extends TUnitComponentAbstract
 {
+	/** 是否正在跑 */
+	public running:boolean;
+
 	/** 起始速度 */
 	protected _speedStart: number;
 	/** 获取或设置起始速度 */
@@ -125,10 +128,10 @@ class TUnitMover extends TUnitComponentAbstract
 	public onTick(d: number): void
 	{
 		if (!this.entity) return;
-		
-		// console.log(this.entity.direct, this.entity.pos, this.delegate);
 
 		//TODO: 实现逻辑
+
+		console.log(this.entity.direct, this.entity.pos, this.delegate);
 	}
 }
 

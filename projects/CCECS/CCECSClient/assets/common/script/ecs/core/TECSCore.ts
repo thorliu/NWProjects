@@ -3,7 +3,7 @@
  * @Author: 刘强 
  * @Date: 2018-10-11 14:03:03 
  * @Last Modified by: 刘强
- * @Last Modified time: 2018-10-15 13:58:43
+ * @Last Modified time: 2018-10-20 21:56:02
  */
 
 module TECSCore
@@ -121,6 +121,17 @@ module TECSCore
 		Invincible = 1 << 2
 	}
 
+	/** 行为类型 */
+	export enum TUnitBehaviorType
+	{
+		/** 无行为 */
+		None,
+		/** 玩家摇杆控制 */
+		Joy,
+		/** AI控制 */
+		AI
+	}
+
 	//NOTE: 类型定义
 
 	/** 玩家信息 */
@@ -163,6 +174,8 @@ module TECSCore
 	}
 
 
+
+
 	//NOTE: 接口定义
 
 	/** 单位接口 */
@@ -178,6 +191,12 @@ module TECSCore
 		onBind(): void;
 		/** 解除绑定时 */
 		onUnbind(): void;
+	}
+
+	/** 单位行为接口 */
+	export interface IUnitBehavior
+	{
+		onTick(d:number, behavior:IUnitComponent):void
 	}
 }
 
