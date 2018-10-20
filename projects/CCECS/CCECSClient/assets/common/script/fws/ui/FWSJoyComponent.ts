@@ -246,7 +246,7 @@ export default class FWSJoyComponent extends cc.Component
 
         var offsetDist: number = 20;
         var thisMoved: boolean = false;
-        if (this.AlterableActiveMode && (distX > offsetDist || distY > offsetDist))
+        if (this.AlterableActiveMode) // && (distX > offsetDist || distY > offsetDist))
         {
             thisMoved = true;
         }
@@ -443,8 +443,6 @@ export default class FWSJoyComponent extends cc.Component
     {
         var touchId: number = event.touch.__instanceId;
         var touchPos: cc.Vec2 = event.touch.getLocation();
-
-        //TODO: 取一下当前中心点和触摸点位置，设一个距离的
 
         this.updateThumbState(touchId, touchPos);
 
