@@ -2,7 +2,7 @@
  * @Author: 刘强 
  * @Date: 2018-10-21 01:38:47 
  * @Last Modified by: 刘强
- * @Last Modified time: 2018-10-21 01:52:39
+ * @Last Modified time: 2018-10-21 17:42:56
  */
 
 import TECSCore = require('../../core/TECSCore');
@@ -24,9 +24,12 @@ class TJoyBehavior implements TECSCore.IUnitBehavior
 	public onTick(d: number, behavior: TECSCore.IUnitComponent): void
 	{
 		var unit: TUnit = behavior.unit;
-		var entity: TUnitEntity = unit.getComponent(TECSCore.UnitComponentKeys.TUnitBehavior) as TUnitEntity;
+		var entity: TUnitEntity = unit.getComponent(TECSCore.UnitComponentKeys.TUnitEntity) as TUnitEntity;
 		var mover: TUnitMover = unit.getComponent(TECSCore.UnitComponentKeys.TUnitMover) as TUnitMover;
 		var weapon: TUnitWeapon = unit.getComponent(TECSCore.UnitComponentKeys.TUnitWeapon) as TUnitWeapon;
+
+
+		// console.log(entity, mover);
 
 		//更新移动和转向状态
 		if (TJoy.direct === null || TJoy.direct === undefined)

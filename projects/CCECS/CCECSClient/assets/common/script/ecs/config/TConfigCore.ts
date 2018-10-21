@@ -2,7 +2,7 @@
  * @Author: 刘强 
  * @Date: 2018-10-11 18:20:11 
  * @Last Modified by: 刘强
- * @Last Modified time: 2018-10-21 13:25:34
+ * @Last Modified time: 2018-10-21 17:34:11
  */
 
 import TECSCore = require('../core/TECSCore');
@@ -73,7 +73,9 @@ module TConfigCore
 		/** 武器/主动能力 */
 		weapons?: string[] //id;id;id
 		/** 被动能力 */
-		abilities?: string[]
+		abilities?: string[],
+		/** 行为 */
+		behavior?: TECSCore.TUnitBehaviorType
 	};
 
 	/** 关卡模式 */

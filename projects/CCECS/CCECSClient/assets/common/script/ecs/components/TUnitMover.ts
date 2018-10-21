@@ -3,103 +3,51 @@
  * @Author: 刘强 
  * @Date: 2018-10-11 19:03:30 
  * @Last Modified by: 刘强
- * @Last Modified time: 2018-10-21 01:53:13
+ * @Last Modified time: 2018-10-21 17:43:10
  */
 
 import TECSCore = require('../core/TECSCore');
 import TUnitComponentAbstract = require('../core/TUnitComponentAbstract');
 import TUnitEntity = require('./TUnitEntity');
 import TUnitDelegateComponent = require('../core/TUnitDelegateComponent');
+import FWS2DUtils = require('../../fws/utils/FWS2DUtils');
+import FWSTool = require('../../fws/utils/FWSTool');
 
 
 class TUnitMover extends TUnitComponentAbstract
 {
 	/** 是否正在跑 */
-	public running:boolean;
-
+	public running: boolean;
 	/** 起始速度 */
-	protected _speedStart: number;
-	/** 获取或设置起始速度 */
-	public get speedStart(): number
-	{
-		return this._speedStart;
-	}
-	public set speedStart(v: number)
-	{
-		this._speedStart = v;
-	}
-
+	protected speedStart;
 	/** 当前速度 */
-	protected _speedCurrent: number;
-	/** 获取或设置当前速度 */
-	public get speedCurrent(): number
-	{
-		return this._speedCurrent;
-	}
-	public set speedCurrent(v: number)
-	{
-		this._speedCurrent = v;
-	}
-
-
+	public speedCurrent;
 	/** 最快速度 */
-	protected _speedMax: number;
-	/** 获取或设置最快速度上限 */
-	public get speedMax(): number
-	{
-		return this._speedMax;
-	}
-	public set speedMax(v: number)
-	{
-		this._speedMax = v;
-	}
+	public speedMax: number;
+	/** 加速度(百分比) */
+	public accelerate: number;
+	/** 减速度(百分比) */
+	public decelerate: number;
+	/** 转身速度(百分比) */
+	public turn: number;
 
-	/** 加速度 */
-	protected _accelerate: number;
-	/** 获取或设置加速性能 */
-	public get accelerate(): number
-	{
-		return this._accelerate;
-	}
-	public set accelerate(v: number)
-	{
-		this._accelerate = v;
-	}
 
-	/** 减速度 */
-	protected _decelerate: number;
-	/** 获取或设置减速性能 */
-	public get decelerate(): number
-	{
-		return this._decelerate;
-	}
-	public set decelerate(v: number)
-	{
-		this._decelerate = v;
-	}
-
-	/** 转身速度 */
-	protected _turn: number;
-	/** 获取或设置转身速度 */
-	public get turn(): number
-	{
-		return this._turn;
-	}
-	public set turn(v: number)
-	{
-		this._turn = v;
-	}
-
+	protected prevRunning: boolean;
+	protected prevTimer: number;
 
 	/** 初始化 */
 	protected onInit(): void
 	{
-		this._accelerate = 1;
-		this._decelerate = 1;
-		this._speedMax = 5;
-		this._speedCurrent = 0;
-		this._speedStart = 1;
-		this._turn = 1;
+
+		this.accelerate = 1;
+		this.decelerate = 1;
+		this.speedMax = 5;
+		this.speedCurrent = 0;
+		this.speedStart = 1;
+		this.turn = 1;
+
+		this.prevRunning = false;
+		this.running = false;
 	}
 
 	protected getKey(): string
@@ -128,11 +76,87 @@ class TUnitMover extends TUnitComponentAbstract
 	public onTick(d: number): void
 	{
 		if (!this.entity) return;
-
-		//TODO: 实现逻辑
-
-		console.log(this.entity.direct, this.entity.pos, this.delegate);
+		this.tickMove();
 	}
+
+	//NOTE: ---
+
+	protected tickMove(): void
+	{
+		var now: number = TECSCore.getTimer();
+		if (this.prevTimer === null || this.prevTimer === undefined)
+		{
+			this.prevTimer = now;
+			this.handle();
+		}
+		else
+		{
+			var times: number = Math.floor((now - this.prevTimer) / TECSCore.FPS_GAME_INTERVAL);
+			for (var i: number = 0; i < times; i++)
+			{
+				this.handle();
+				this.prevTimer += TECSCore.FPS_GAME_INTERVAL;
+			}
+		}
+	}
+
+	protected handle(): void
+	{
+		//NOTE: 速度变化
+		var newSpeed: number = this.speedCurrent;
+
+		if (this.running)
+		{
+			if (!this.prevRunning)
+			{
+				//初始速度
+				newSpeed = this.speedStart;
+			}
+			else
+			{
+				//加速
+				newSpeed += this.speedMax * this.accelerate;
+				newSpeed = Math.min(newSpeed, this.speedMax);
+			}
+		}
+		else
+		{
+			//减速
+			newSpeed -= this.speedMax * this.decelerate;
+			newSpeed = Math.max(newSpeed, 0);
+		}
+
+		this.prevRunning = this.running;
+
+		this.speedCurrent = newSpeed;
+
+
+		//角度变化
+
+
+		//位置变化
+		var newPos: cc.Vec2 = FWS2DUtils.position(this.entity.pos, this.entity.direct, this.speedCurrent);
+
+		//TODO: 碰撞判定
+
+
+		// console.log(FWSTool.Str.format("ex={0},ey={1},d={2},nx={3},ny={4}",
+		// 	this.entity.pos.x,
+		// 	this.entity.pos.y,
+		// 	this.entity.direct,
+		// 	newPos.x,
+		// 	newPos.y,
+		// 	this.speedCurrent));
+
+
+		//更新位置
+		this.entity.pos.x = newPos.x;
+		this.entity.pos.y = newPos.y;
+
+
+	}
+
+
 }
 
 export = TUnitMover;

@@ -3,7 +3,7 @@
  * @Author: 刘强 
  * @Date: 2018-10-13 10:00:21 
  * @Last Modified by: 刘强
- * @Last Modified time: 2018-10-15 13:46:27
+ * @Last Modified time: 2018-10-21 17:15:39
  */
 
 import TECSCore = require('./TECSCore');
@@ -47,7 +47,7 @@ module TGame
 			setInterval(() =>
 			{
 				getInstance().onTick(new Date().getTime());
-			}, 1000 / 60);
+			}, TECSCore.FPS_GAME_INTERVAL);
 			
 		}
 		return instance;

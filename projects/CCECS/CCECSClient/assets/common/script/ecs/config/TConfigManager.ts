@@ -2,7 +2,7 @@
  * @Author: 刘强 
  * @Date: 2018-10-12 13:20:20 
  * @Last Modified by: 刘强
- * @Last Modified time: 2018-10-21 15:00:06
+ * @Last Modified time: 2018-10-21 17:43:37
  */
 
 import TConfigCore = require('./TConfigCore');
@@ -23,8 +23,9 @@ module TConfigManager
 				TECSCore.TUnitStaticAttributes.Hero,
 			hp: 1,
 			mp: 1,
-			speed: 1,
+			speed: 10,
 			prefab: "prefab/game/hero/PrefabHero1",
+			behavior: TECSCore.TUnitBehaviorType.Joy,
 			weapons: []
 		}
 	};

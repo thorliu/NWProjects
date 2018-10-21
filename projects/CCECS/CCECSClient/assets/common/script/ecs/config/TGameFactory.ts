@@ -2,7 +2,7 @@
  * @Author: 刘强 
  * @Date: 2018-10-12 13:19:08 
  * @Last Modified by: 刘强
- * @Last Modified time: 2018-10-15 11:52:42
+ * @Last Modified time: 2018-10-21 17:47:29
  */
 
 import TECSCore = require('../core/TECSCore');
@@ -20,6 +20,7 @@ import TUnitWeapon = require('../components/TUnitWeapon');
 import TUnitAbility = require('../components/TUnitAbility');
 import TStage = require('../core/TStage');
 import TUnitEntity = require('../components/TUnitEntity');
+import TUnitBehavior = require('../components/TUnitBehavior');
 
 
 
@@ -78,6 +79,12 @@ module TGameFactory
 		{
 			var mover: TUnitMover = new TUnitMover();
 			mover.speedMax = cfg.speed;
+			
+			mover.speedCurrent = mover.speedMax;
+			mover.accelerate = 1;
+			mover.decelerate = 1;
+			mover.turn = 1;
+
 			unit.add(mover);
 
 			return mover;
@@ -96,6 +103,8 @@ module TGameFactory
 			for (var i: number = 0; i < cfg.weapons.length; i++)
 			{
 				var weaponConfigId: string = cfg.weapons[i];
+
+				//TODO:
 			}
 
 			return weapon;
@@ -113,12 +122,27 @@ module TGameFactory
 			for(var i:number = 0; i < cfg.abilities.length; i++)
 			{
 				var abilityId:string = cfg.abilities[i];
-			}
 
+				//TODO: ...
+			}
 
 			return ability;
 		}
 
+		return null;
+	}
+
+	/** 创建行为组件 */
+	export function createBehavior(unit:TUnit, cfg:TConfigCore.TUnitConfigData):TUnitBehavior
+	{
+		if(cfg && !FWSTool.Obj.isEmpty(cfg.behavior))
+		{
+			var behavior:TUnitBehavior = new TUnitBehavior();
+			behavior.type = cfg.behavior;
+			unit.add(behavior);
+
+			return behavior;
+		}
 		return null;
 	}
 
@@ -161,6 +185,7 @@ module TGameFactory
 		createMover(unit, cfg);
 		createWeapon(unit, cfg);
 		createAbility(unit, cfg);
+		createBehavior(unit, cfg);
 
 		createUnitNode(unit, cfg);
 		

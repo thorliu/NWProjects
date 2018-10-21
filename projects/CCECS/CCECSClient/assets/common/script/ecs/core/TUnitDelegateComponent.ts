@@ -2,7 +2,7 @@
  * @Author: 刘强 
  * @Date: 2018-10-12 11:25:33 
  * @Last Modified by: 刘强
- * @Last Modified time: 2018-10-13 13:40:38
+ * @Last Modified time: 2018-10-21 15:11:35
  */
 
 
@@ -64,4 +64,6 @@ export default class TUnitDelegateComponent extends cc.Component implements TECS
 	public update(d:number):void
 	{
 	}
+
+
 }
