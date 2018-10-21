@@ -2,7 +2,7 @@
  * @Author: 刘强 
  * @Date: 2018-10-11 18:20:11 
  * @Last Modified by: 刘强
- * @Last Modified time: 2018-10-15 13:59:39
+ * @Last Modified time: 2018-10-21 13:25:34
  */
 
 import TECSCore = require('../core/TECSCore');
@@ -24,8 +24,23 @@ module TConfigCore
 		loop: number
 	};
 
+	/** 效果类型 */
+	export enum TEffectType
+	{
+		/** 修改生命值 [数值单位类型(0数值,1百分比),数值]  */
+		HP,
+		/** 修改魔法值 [数值单位类型(0数值,1百分比),数值] */
+		MP,
+		/** 锁定移动能力 [时长秒数] */
+		LOCK_MOVE,
+		/** 锁定攻击能力 [时长秒数] */
+		LOCK_ATTACK
+	}
+
 	/** 效果配置 (Effect_#) */
 	export type TEffectConfigData = {
+		/** 效果类型 */
+		type: TEffectType,
 		/** 相关数值 */
 		amounts: any[],
 		/** 效果作用目标过滤 */

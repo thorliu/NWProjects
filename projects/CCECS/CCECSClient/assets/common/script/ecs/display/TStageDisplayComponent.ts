@@ -2,7 +2,7 @@
  * @Author: 刘强 
  * @Date: 2018-10-12 13:44:46 
  * @Last Modified by: 刘强
- * @Last Modified time: 2018-10-15 10:00:45
+ * @Last Modified time: 2018-10-21 14:47:18
  */
 
 const { ccclass, property } = cc._decorator;
@@ -49,7 +49,7 @@ export default class TStageDisplayComponent extends cc.Component
 	{
 		TDisplayFacade.stageDisplayComponent = this;
 
-		var id: string = "unit_tank_0";
+		var id: string = "hero_1";
 		var unit: TUnit = TGameFactory.createUnit(id, TGame.getInstance().stage.forces[0].players[0]);
 
 		TGame.getInstance().stage.add(unit);

@@ -4,44 +4,31 @@
     <dict>
         <key>frames</key>
         <dict>
-            <key>circle.png</key>
+            <key>ball.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{110,2},{106,106}}</string>
+                <string>{{2,2},{86,86}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{0,0},{106,106}}</string>
+                <string>{{0,0},{86,86}}</string>
                 <key>sourceSize</key>
-                <string>{106,106}</string>
+                <string>{86,86}</string>
             </dict>
-            <key>rect.png</key>
+            <key>shadow.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{218,2},{100,100}}</string>
+                <string>{{2,90},{84,64}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{0,0},{100,100}}</string>
+                <string>{{0,0},{84,64}}</string>
                 <key>sourceSize</key>
-                <string>{100,100}</string>
-            </dict>
-            <key>round.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{2,2},{106,106}}</string>
-                <key>offset</key>
-                <string>{0,0}</string>
-                <key>rotated</key>
-                <false/>
-                <key>sourceColorRect</key>
-                <string>{{0,0},{106,106}}</string>
-                <key>sourceSize</key>
-                <string>{106,106}</string>
+                <string>{84,64}</string>
             </dict>
         </dict>
         <key>metadata</key>
@@ -49,13 +36,13 @@
             <key>format</key>
             <integer>2</integer>
             <key>realTextureFileName</key>
-            <string>main.png</string>
+            <string>heroes.png</string>
             <key>size</key>
-            <string>{320,110}</string>
+            <string>{90,156}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:08299fff1592e8df6ea795fa3618b5ec:1/1$</string>
+            <string>$TexturePacker:SmartUpdate:5ff1f499de7ff43f34564f9da816f8ad:1/1$</string>
             <key>textureFileName</key>
-            <string>main.png</string>
+            <string>heroes.png</string>
         </dict>
     </dict>
 </plist>

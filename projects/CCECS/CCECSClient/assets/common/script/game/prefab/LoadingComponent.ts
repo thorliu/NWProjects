@@ -3,7 +3,7 @@
  * @Author: 刘强 
  * @Date: 2018-09-09 16:04:08 
  * @Last Modified by: 刘强
- * @Last Modified time: 2018-10-15 15:17:25
+ * @Last Modified time: 2018-10-21 14:59:25
  */
 
 const { ccclass, property } = cc._decorator;
@@ -12,6 +12,7 @@ import LocalAssertLoader = require('../../fws/display/factory/LocalAssertLoader'
 import FWSAssertCaches = require('../../fws/display/factory/FWSAssertCaches');
 import FWSEnv = require('../../fws/FWSEnv');
 import TGame = require('../../ecs/core/TGame');
+
 
 
 @ccclass
@@ -65,7 +66,7 @@ export default class LoadingComponent extends cc.Component
 	/** 完成 */
 	protected onTaskCompleted(tasklist: FWSTask.TaskList, task: FWSTask.Task): void
 	{
-		FWSAssertCaches.SpriteAtlasCaches.get("texture/main").getTexture().setAliasTexParameters();
+		// FWSAssertCaches.SpriteAtlasCaches.get("texture/main").getTexture().setAliasTexParameters();
 
 		TGame.getInstance();
 		// var sceneName: string = "_TestScene";
@@ -104,7 +105,7 @@ export default class LoadingComponent extends cc.Component
 			{ type: cc.BitmapFont, key: "font/BMFDebug" },
 
 			//prefabs
-			{ type: cc.Prefab, key: "prefab/game/PrefabTank0" }
+			{ type: cc.Prefab, key: "prefab/game/hero/PrefabHero1" }
 		];
 
 		for (var i: number = 0; i < items.length; i++)

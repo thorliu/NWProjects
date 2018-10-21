@@ -3,7 +3,7 @@
  * @Author: 刘强 
  * @Date: 2018-10-11 14:03:03 
  * @Last Modified by: 刘强
- * @Last Modified time: 2018-10-20 21:56:02
+ * @Last Modified time: 2018-10-21 13:12:38
  */
 
 module TECSCore
@@ -99,13 +99,21 @@ module TECSCore
 		/** 水面 */
 		Water = 1 << 2,
 		/** 机械 */
-		Machine = 1 << 2,
+		Machine = 1 << 3,
 		/** 生物 */
-		Biology = 1 << 3,
+		Biology = 1 << 4,
 		/** 物品 */
-		Goods = 1 << 4,
+		Goods = 1 << 5,
 		/** 投射物 */
-		Projectile = 1 << 5
+		Projectile = 1 << 6,
+		/** 英雄 */
+		Hero = 1 << 7,
+		/** 宠物 */
+		Pet = 1 << 8,
+		/** 怪物 */
+		Monster = 1 << 9,
+		/** 幽能 */
+		Psionic = 1 << 10
 	}
 
 	/** 单位动态特征 */
@@ -196,7 +204,7 @@ module TECSCore
 	/** 单位行为接口 */
 	export interface IUnitBehavior
 	{
-		onTick(d:number, behavior:IUnitComponent):void
+		onTick(d: number, behavior: IUnitComponent): void
 	}
 }
 
