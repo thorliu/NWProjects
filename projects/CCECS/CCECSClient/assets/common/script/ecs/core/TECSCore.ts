@@ -3,7 +3,7 @@
  * @Author: 刘强 
  * @Date: 2018-10-11 14:03:03 
  * @Last Modified by: 刘强
- * @Last Modified time: 2018-10-21 17:15:21
+ * @Last Modified time: 2018-10-21 18:00:11
  */
 
 module TECSCore
@@ -210,9 +210,9 @@ module TECSCore
 	//NOTE: 核心功能
 
 	/** 游戏逻辑FPS */
-	export const FPS_GAME:number = 50;
+	export const FPS_GAME:number = 60;
 	/** 游戏逻辑FPS间隔 */
-	export const FPS_GAME_INTERVAL:number = 1000 / 50;
+	export const FPS_GAME_INTERVAL:number = 1000 / FPS_GAME;
 
 	/** 获取当前游戏时间 */
 	export function getTimer():number

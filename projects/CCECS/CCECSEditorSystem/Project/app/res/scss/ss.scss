@@ -1,0 +1,35 @@
+/*
+ * SolarSystem 基础样式定义
+ * @Author: thor.liu 
+ * @Date: 2018-04-15 19:56:47 
+ * @Last Modified by: thor.liu
+ * @Last Modified time: 2018-04-15 20:15:44
+ */
+
+//NOTE: 颜色定义
+
+$color_control_light_light: #ffffff;
+$color_control_light: #f4f4f4;
+$color_control_default: #eeeeee;
+$color_control_dark: #cccccc;
+$color_control_dark_dark: #999999;
+
+$color_control_text: #333333;
+$color_control_text_gray: #666666;
+
+$color_window_background: #ffffff;
+$color_window_frontground: #000000;
+
+//NOTE: 常量定义
+
+//NOTE: 基础定义
+
+html { font-size: 12px; }
+html,body { width: 100%; height: 100%; position: relative; background-color: $color_window_background; color: $color_window_frontground; }
+* { padding: 0rem; margin: 0rem; }
+body.ss
+{
+	font-family: Verdana, Geneva, Tahoma, sans-serif，PingFangSC-Regular, "Microsoft YaHei";
+
+	// .test { color: $color_control_text; background-color: $color_control_default; border: solid 1px $color_control_dark; }
+}

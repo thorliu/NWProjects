@@ -1,0 +1,1 @@
+asar pack . ../../Release/app/app.asar

@@ -2,7 +2,7 @@
  * @Author: 刘强 
  * @Date: 2018-10-11 18:20:11 
  * @Last Modified by: 刘强
- * @Last Modified time: 2018-10-21 17:34:11
+ * @Last Modified time: 2018-10-22 10:00:14
  */
 
 import TECSCore = require('../core/TECSCore');
@@ -78,11 +78,52 @@ module TConfigCore
 		behavior?: TECSCore.TUnitBehaviorType
 	};
 
+	//NOTE: -------------------------------
+
 	/** 关卡模式 */
 	export enum TStageMode
 	{
 		/** 无 */
 		None
+	}
+
+	/** 地形瓷砖 */
+	export type TTerrainTile = {
+		/** 拼接边缘 */
+		splicing: boolean,
+		/** 资源前缀 */
+		name: string,
+		/** 层级索引 */
+		index?: number,
+		/** 备注 */
+		note?: string
+	}
+
+	/** 地形集类型 */
+	export enum TTerrainType
+	{
+		/** 家/室内 */
+		Home,
+		/** 地下城 */
+		Dungeons,
+		/** 丛林 */
+		Jungle,
+		/** 村庄 */
+		Village,
+		/** 城镇 */
+		Town,
+		/** 地穴 */
+		Caves
+	}
+
+	/** 地形集配置 */
+	export type TTerrain = {
+		/** 纹理标识 */
+		texture: string,
+		/** 层级数量 */
+		layers: number,
+		/** 地形瓷砖 */
+		terrains: TTerrainTile[]
 	}
 
 	/** 关卡地型 */
@@ -98,8 +139,12 @@ module TConfigCore
 	/** 关卡位置标记类型 */
 	export enum TStageLocationType
 	{
+		/** 点 */
 		Point,
-		Region
+		/** 区域 */
+		Region,
+		/** 圆 */
+		Circle
 	}
 	/** 关卡位置标记数据 */
 	export type TStageLocation = {

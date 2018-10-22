@@ -2,7 +2,7 @@
  * @Author: 刘强 
  * @Date: 2018-10-12 13:20:20 
  * @Last Modified by: 刘强
- * @Last Modified time: 2018-10-21 17:43:37
+ * @Last Modified time: 2018-10-21 22:31:45
  */
 
 import TConfigCore = require('./TConfigCore');
@@ -10,10 +10,18 @@ import TECSCore = require('../core/TECSCore');
 
 module TConfigManager
 {
+	//NOTE: 地形
+
+	
+
+	//NOTE: 动画
+
 	/** 动画配置 */
 	export const animates: { [key: string]: TConfigCore.TFrameAnimateConfigData } = {
 
 	};
+
+	//NOTE: 单位
 
 	/** 所有单位配置 */
 	export const units: { [key: string]: TConfigCore.TUnitConfigData } = {
