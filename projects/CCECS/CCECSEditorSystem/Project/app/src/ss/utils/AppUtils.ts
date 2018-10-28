@@ -3,12 +3,12 @@
  * @Author: thor.liu 
  * @Date: 2018-04-16 11:18:46 
  * @Last Modified by: 刘强
- * @Last Modified time: 2018-10-22 11:12:02
+ * @Last Modified time: 2018-10-28 20:48:52
  */
 
 import NodeHack = require('./NodeHack');
 
-const ELECTRON = NodeHack.require("electron");
+const ELECTRON = require("electron");
 const APP = ELECTRON.remote.app;
 
 

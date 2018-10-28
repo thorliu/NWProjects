@@ -3,13 +3,12 @@
  * @Author: thor.liu 
  * @Date: 2018-04-15 20:20:07 
  * @Last Modified by: 刘强
- * @Last Modified time: 2018-10-22 11:11:19
+ * @Last Modified time: 2018-10-28 21:00:19
  */
 
-import NodeHack = require('../utils/NodeHack');
-const FS = NodeHack.require("fs");
-const PATH = NodeHack.require("path");
-const ELECTRON = NodeHack.require("electron");
+const FS = require("fs");
+const PATH = require("path");
+const ELECTRON = require("electron");
 const APP = ELECTRON.remote.app;
 const DIALOG = ELECTRON.remote.dialog;
 const MENU = ELECTRON.remote.Menu;
@@ -81,6 +80,23 @@ module FileSystem
 			return null;
 		}
 
+		/** 加载JSON文件 */
+		static loadJson(path:string):any
+		{
+			var ret:any = null;
+
+			try
+			{
+				var j:string = this.loadNow(path);
+				ret = JSON.parse(j);
+			}
+			catch(err)
+			{
+			}
+
+			return ret;
+		}
+
 		/**
 		 * 立即保存文件(同步操作)
 		 * @param path 
@@ -91,6 +107,17 @@ module FileSystem
 			try
 			{
 				FS.writeFile(path, data, "utf8");
+			}
+			catch(err)
+			{
+			}
+		}
+
+		/** 保存JSON */
+		static saveJson(path:string, data:any):void
+		{
+			try{
+				this.saveNow(path, JSON.stringify(data));
 			}
 			catch(err)
 			{

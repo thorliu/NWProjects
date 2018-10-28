@@ -1,8 +1,7 @@
 "use strict";
-const NodeHack = require("../utils/NodeHack");
-const FS = NodeHack.require("fs");
-const PATH = NodeHack.require("path");
-const ELECTRON = NodeHack.require("electron");
+const FS = require("fs");
+const PATH = require("path");
+const ELECTRON = require("electron");
 const APP = ELECTRON.remote.app;
 const DIALOG = ELECTRON.remote.dialog;
 const MENU = ELECTRON.remote.Menu;
@@ -30,9 +29,26 @@ var FileSystem;
             }
             return null;
         }
+        static loadJson(path) {
+            var ret = null;
+            try {
+                var j = this.loadNow(path);
+                ret = JSON.parse(j);
+            }
+            catch (err) {
+            }
+            return ret;
+        }
         static saveNow(path, data) {
             try {
                 FS.writeFile(path, data, "utf8");
+            }
+            catch (err) {
+            }
+        }
+        static saveJson(path, data) {
+            try {
+                this.saveNow(path, JSON.stringify(data));
             }
             catch (err) {
             }
@@ -207,5 +223,6 @@ var FileSystem;
     }
     FileSystem.Path = Path;
 })(FileSystem || (FileSystem = {}));
+window["FileSystem"] = FileSystem;
 module.exports = FileSystem;
 //# sourceMappingURL=FileSystem.js.map

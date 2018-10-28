@@ -3,7 +3,7 @@
  * @Author: thor.liu 
  * @Date: 2018-04-18 15:52:47 
  * @Last Modified by: 刘强
- * @Last Modified time: 2018-10-22 10:56:19
+ * @Last Modified time: 2018-10-28 22:55:09
  */
 
 const electron = require('electron');
@@ -12,8 +12,12 @@ const { Menu } = electron;
 const { BrowserWindow } = electron;
 const { ipcMain } = electron;
 
-// const MVC = require('./src/ss/mvc/MVC');
 
+const ECSEditor = require('./ss/ecseditor/ECSEditor');
+const APIList = require('./ss/ecseditor/api/APIList');
+
+APIList.init();
+ECSEditor.getInstance().run();
 
 let win;
 function createWindow()

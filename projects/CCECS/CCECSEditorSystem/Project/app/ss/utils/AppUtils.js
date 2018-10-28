@@ -1,6 +1,5 @@
 "use strict";
-const NodeHack = require("./NodeHack");
-const ELECTRON = NodeHack.require("electron");
+const ELECTRON = require("electron");
 const APP = ELECTRON.remote.app;
 var AppUtils;
 (function (AppUtils) {
@@ -38,5 +37,6 @@ var AppUtils;
     }
     AppUtils.clearRecentDocument = clearRecentDocument;
 })(AppUtils || (AppUtils = {}));
+window["AppUtils"] = AppUtils;
 module.exports = AppUtils;
 //# sourceMappingURL=AppUtils.js.map

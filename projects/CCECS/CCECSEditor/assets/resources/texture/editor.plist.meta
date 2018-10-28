@@ -3,11 +3,33 @@
   "uuid": "9029c23b-ed65-4676-8bb5-8a276e4174a4",
   "rawTextureUuid": "3814cf1e-bd0e-4cc8-8543-21c1d3e8f654",
   "size": {
-    "width": 104,
+    "width": 170,
     "height": 104
   },
   "type": "Texture Packer",
   "subMetas": {
+    "ico_save.png": {
+      "ver": "1.0.3",
+      "uuid": "f71d5f4c-b952-4955-847d-b79e938eed94",
+      "rawTextureUuid": "3814cf1e-bd0e-4cc8-8543-21c1d3e8f654",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 104,
+      "trimY": 2,
+      "width": 64,
+      "height": 64,
+      "rawWidth": 64,
+      "rawHeight": 64,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "spriteType": "normal",
+      "subMetas": {}
+    },
     "rect.png": {
       "ver": "1.0.3",
       "uuid": "2d697c1b-d6f4-49cc-81ef-0331128ad8ed",
@@ -23,10 +45,10 @@
       "height": 100,
       "rawWidth": 100,
       "rawHeight": 100,
-      "borderTop": 0,
-      "borderBottom": 0,
-      "borderLeft": 0,
-      "borderRight": 0,
+      "borderTop": 1,
+      "borderBottom": 1,
+      "borderLeft": 1,
+      "borderRight": 1,
       "spriteType": "normal",
       "subMetas": {}
     }
