@@ -3,6 +3,7 @@ const { app } = require('electron');
 const FS = require("fs");
 const PATH = require("path");
 const express = require("express");
+var bodyParser = require("body-parser");
 const webServices = express();
 const mime = require("mime");
 mime.define({
@@ -93,7 +94,7 @@ var ECSEditor;
         }
         initAPIs() {
             var self = this;
-            webServices.get("*", (req, res, next) => {
+            var handler = (req, res, next) => {
                 try {
                     res.header("Access-Control-Allow-Origin", "*");
                     res.header("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With");
@@ -116,7 +117,10 @@ var ECSEditor;
                     res.statusCode = 500;
                     res.send('<p>' + err.message + '</p><p>' + err.stack.replace("\n", "<br/>") + '</p>');
                 }
-            });
+            };
+            webServices.use(bodyParser.urlencoded({ extended: false }));
+            webServices.get("*", handler);
+            webServices.post("*", handler);
             this.server = webServices.listen(this.port);
         }
     }

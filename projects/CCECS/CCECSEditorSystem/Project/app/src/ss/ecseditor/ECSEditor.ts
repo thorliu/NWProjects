@@ -2,7 +2,7 @@
  * @Author: 刘强 
  * @Date: 2018-10-28 19:12:13 
  * @Last Modified by: 刘强
- * @Last Modified time: 2018-10-28 23:26:13
+ * @Last Modified time: 2018-10-28 23:52:25
  */
 
 
@@ -10,6 +10,7 @@ const { app } = require('electron');
 const FS = require("fs");
 const PATH = require("path");
 const express = require("express");
+var bodyParser = require("body-parser");
 const webServices = express();
 const mime = require("mime");
 
@@ -163,7 +164,8 @@ module ECSEditor
 		protected initAPIs(): void
 		{
 			var self: ECSEditorClass = this;
-			webServices.get("*", (req: any, res: any, next: any): void =>
+
+			var handler: Function = (req: any, res: any, next: any): void =>
 			{
 				try
 				{
@@ -199,7 +201,11 @@ module ECSEditor
 					res.statusCode = 500;
 					res.send('<p>' + err.message + '</p><p>' + err.stack.replace("\n", "<br/>") + '</p>');
 				}
-			});
+			};
+
+			webServices.use(bodyParser.urlencoded({ extended: false }));
+			webServices.get("*", handler);
+			webServices.post("*", handler);
 			this.server = webServices.listen(this.port);
 		}
 	}

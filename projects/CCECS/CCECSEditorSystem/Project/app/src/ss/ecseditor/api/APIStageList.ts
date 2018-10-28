@@ -2,7 +2,7 @@
  * @Author: 刘强 
  * @Date: 2018-10-28 21:42:25 
  * @Last Modified by: 刘强
- * @Last Modified time: 2018-10-28 23:34:26
+ * @Last Modified time: 2018-10-28 23:37:22
  */
 
 import ECSEditorTypes = require('../ECSEditorTypes');
@@ -33,7 +33,7 @@ export class APIStageList extends ECSEditor.ECSEditorServiceAbstract
 
 		var data: any[] = [];
 		var ret: ECSEditorTypes.HttpResponseData = {
-			code: ECSEditorTypes.HttpRetCodes.ParamsError,
+			code: ECSEditorTypes.HttpRetCodes.PARAM_ERROR,
 			data: data
 		};
 
@@ -57,7 +57,7 @@ export class APIStageList extends ECSEditor.ECSEditorServiceAbstract
 			}
 			catch (err)
 			{
-				ret.code = ECSEditorTypes.HttpRetCodes.Unknow;
+				ret.code = ECSEditorTypes.HttpRetCodes.UNKNOW_ERROR;
 			}
 		}
 
