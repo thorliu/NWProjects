@@ -2,8 +2,8 @@
  * 瓷砖拼接工具类
  * @Author: 刘强 
  * @Date: 2018-09-25 18:32:55 
- * @Last Modified by: minanyang
- * @Last Modified time: 2018-09-27 17:24:28
+ * @Last Modified by: 刘强
+ * @Last Modified time: 2018-10-30 16:54:11
  */
 
 
@@ -382,62 +382,62 @@ export = TileUtils;
 
 
 //TEST
-if (!CC_EDITOR && !CC_BUILD)
-{
-	var r: number = 5;
-	var c: number = 5;
-	var puzzle: TileUtils.TerrainTilePuzzle = new TileUtils.TerrainTilePuzzle(r, c);
+// if (!CC_EDITOR && !CC_BUILD)
+// {
+// 	var r: number = 5;
+// 	var c: number = 5;
+// 	var puzzle: TileUtils.TerrainTilePuzzle = new TileUtils.TerrainTilePuzzle(r, c);
 
-	puzzle.setSolidTile(2, 2, 1);
-	puzzle.setSolidTile(1, 1, 1);
-	puzzle.setSolidTile(3, 3, 1);
-	puzzle.setSolidTile(4, 4, 1);
-	var ret: number[][] = puzzle.getTiles();
+// 	puzzle.setSolidTile(2, 2, 1);
+// 	puzzle.setSolidTile(1, 1, 1);
+// 	puzzle.setSolidTile(3, 3, 1);
+// 	puzzle.setSolidTile(4, 4, 1);
+// 	var ret: number[][] = puzzle.getTiles();
 
 
-	var ox: string = " ";
-	var oy: string = "\n";
-	var o: string[] = [];
-	for (var y: number = 0; y < r; y++)
-	{
-		for (var i: number = 0; i < 4; i++)
-		{
-			var os: string[] = [];
-			for (var x: number = 0; x < c; x++)
-			{
-				var index: number = puzzle.getIndex(x, y);
-				var ret_cells: number[] = ret[index];
+// 	var ox: string = " ";
+// 	var oy: string = "\n";
+// 	var o: string[] = [];
+// 	for (var y: number = 0; y < r; y++)
+// 	{
+// 		for (var i: number = 0; i < 4; i++)
+// 		{
+// 			var os: string[] = [];
+// 			for (var x: number = 0; x < c; x++)
+// 			{
+// 				var index: number = puzzle.getIndex(x, y);
+// 				var ret_cells: number[] = ret[index];
 
-				switch (i)
-				{
-					case 0:
-						os.push(TileUtils.getTileText(ret_cells[0], 0));
-						os.push(TileUtils.getTileText(ret_cells[1], 0));
-						break;
+// 				switch (i)
+// 				{
+// 					case 0:
+// 						os.push(TileUtils.getTileText(ret_cells[0], 0));
+// 						os.push(TileUtils.getTileText(ret_cells[1], 0));
+// 						break;
 
-					case 1:
-						os.push(TileUtils.getTileText(ret_cells[0], 1));
-						os.push(TileUtils.getTileText(ret_cells[1], 1));
-						break;
+// 					case 1:
+// 						os.push(TileUtils.getTileText(ret_cells[0], 1));
+// 						os.push(TileUtils.getTileText(ret_cells[1], 1));
+// 						break;
 
-					case 2:
-						os.push(TileUtils.getTileText(ret_cells[2], 0));
-						os.push(TileUtils.getTileText(ret_cells[3], 0));
-						break;
+// 					case 2:
+// 						os.push(TileUtils.getTileText(ret_cells[2], 0));
+// 						os.push(TileUtils.getTileText(ret_cells[3], 0));
+// 						break;
 
-					case 3:
-						os.push(TileUtils.getTileText(ret_cells[2], 1));
-						os.push(TileUtils.getTileText(ret_cells[3], 1));
-						break;
-				}
+// 					case 3:
+// 						os.push(TileUtils.getTileText(ret_cells[2], 1));
+// 						os.push(TileUtils.getTileText(ret_cells[3], 1));
+// 						break;
+// 				}
 
-			}
-			o.push(os.join(ox));
-		}
-	}
+// 			}
+// 			o.push(os.join(ox));
+// 		}
+// 	}
 
-	var od: string = o.join(oy);
+// 	var od: string = o.join(oy);
 
-	console.log(od);
+// 	console.log(od);
 
-}
+// }

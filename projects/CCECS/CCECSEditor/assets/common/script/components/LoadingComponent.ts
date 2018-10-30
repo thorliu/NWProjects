@@ -3,7 +3,7 @@
  * @Author: 刘强 
  * @Date: 2018-10-22 10:29:18 
  * @Last Modified by: 刘强
- * @Last Modified time: 2018-10-27 15:20:15
+ * @Last Modified time: 2018-10-30 16:54:32
  */
 
 
@@ -64,12 +64,9 @@ export default class LoadingComponent extends cc.Component
 		// FWSAssertCaches.SpriteAtlasCaches.get("texture/main").getTexture().setAliasTexParameters();
 
 		// var sceneName: string = "_TestScene";
-		var sceneName: string = "StageScene";
+		var sceneName: string = "MainScene";
+		cc.director.loadScene(sceneName);
 
-		cc.director.preloadScene(sceneName, function ()
-		{
-			cc.director.loadScene(sceneName);
-		});
 	}
 
 
@@ -98,7 +95,7 @@ export default class LoadingComponent extends cc.Component
 		var items: any[] = [
 			{ type: cc.SpriteAtlas, key: "texture/editor" },
 			{ type: cc.BitmapFont, key: "font/BMFEditor" },
-			
+
 		];
 
 		for (var i: number = 0; i < items.length; i++)
